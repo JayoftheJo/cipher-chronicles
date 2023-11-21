@@ -2,9 +2,10 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
+import Commands.*;
+import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,7 +27,6 @@ import javafx.scene.AccessibleRole;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class AdventureGameView.
@@ -131,15 +131,15 @@ public class AdventureGameView {
         topButtons.setSpacing(10);
         topButtons.setAlignment(Pos.CENTER);
 
-        inputTextField = new TextField();
-        inputTextField.setFont(new Font("Arial", 16));
-        inputTextField.setFocusTraversable(true);
-
-        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
-        inputTextField.setAccessibleRoleDescription("Text Entry Box");
-        inputTextField.setAccessibleText("Enter commands in this box.");
-        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
-        addTextHandlingEvent(); //attach an event to this input field
+//        inputTextField = new TextField();
+//        inputTextField.setFont(new Font("Arial", 16));
+//        inputTextField.setFocusTraversable(true);
+//
+//        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
+//        inputTextField.setAccessibleRoleDescription("Text Entry Box");
+//        inputTextField.setAccessibleText("Enter commands in this box.");
+//        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
+//        addTextHandlingEvent(); //attach an event to this input field
 
         //labels for inventory and room items
         Label objLabel =  new Label("Objects in Room");
@@ -157,21 +157,21 @@ public class AdventureGameView {
         gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
         gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
-        Label commandLabel = new Label("What would you like to do?");
-        commandLabel.setStyle("-fx-text-fill: white;");
-        commandLabel.setFont(new Font("Arial", 16));
+//        Label commandLabel = new Label("What would you like to do?");
+//        commandLabel.setStyle("-fx-text-fill: white;");
+//        commandLabel.setFont(new Font("Arial", 16));
 
         updateScene(""); //method displays an image and whatever text is supplied
         updateItems(); //update items shows inventory and objects in rooms
 
         // adding the text area and submit button to a VBox
-        VBox textEntry = new VBox();
-        textEntry.setStyle("-fx-background-color: #000000;");
-        textEntry.setPadding(new Insets(20, 20, 20, 20));
-        textEntry.getChildren().addAll(commandLabel, inputTextField);
-        textEntry.setSpacing(10);
-        textEntry.setAlignment(Pos.CENTER);
-        gridPane.add( textEntry, 0, 2, 3, 1 );
+//        VBox textEntry = new VBox();
+//        textEntry.setStyle("-fx-background-color: #000000;");
+//        textEntry.setPadding(new Insets(20, 20, 20, 20));
+//        textEntry.getChildren().addAll(commandLabel, inputTextField);
+//        textEntry.setSpacing(10);
+//        textEntry.setAlignment(Pos.CENTER);
+//        gridPane.add( textEntry, 0, 2, 3, 1 );
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -180,8 +180,45 @@ public class AdventureGameView {
         this.stage.setResizable(false);
         this.stage.show();
 
+        setEventFilter();
     }
 
+    /**
+     * Set an event filter listening for key presses for the scene.
+     */
+    private void setEventFilter() {
+        Scene scene = stage.getScene();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                CommandCenter commandCenter = new CommandCenter();
+                MoveUpCommand moveUp = new MoveUpCommand(model);
+                MoveDownCommand moveDown = new MoveDownCommand(model);
+                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
+                MoveRightCommand moveRight = new MoveRightCommand(model);
+                NothingCommand doNothing = new NothingCommand();
+                InspectCommand inspect = new InspectCommand(roomDescLabel, model);
+
+                switch (event.getCode()) {
+                    case W -> commandCenter.setCommand(moveUp);
+                    case S -> commandCenter.setCommand(moveDown);
+                    case A -> commandCenter.setCommand(moveLeft);
+                    case D -> commandCenter.setCommand(moveRight);
+                    case E -> commandCenter.setCommand(inspect);
+                    default -> commandCenter.setCommand(doNothing);
+                }
+
+                commandCenter.execute();
+
+                // Render the new room if the player has moved.
+                if (commandCenter.getCommand() instanceof MovementCommand) {
+                    updateScene("");
+                    updateItems();
+                }
+            }
+        });
+    }
 
     /**
      * makeButtonAccessible
@@ -231,24 +268,43 @@ public class AdventureGameView {
      * of the scene onto any other node in the scene 
      * graph by invoking requestFocus method.
      */
-    private void addTextHandlingEvent() {
-        EventHandler<KeyEvent> eventHandler = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-
-                if (event.getCode().equals(KeyCode.ENTER)){
-                    String input = inputTextField.getText().strip();
-                    submitEvent(input);
-                    inputTextField.clear();
-                }
-                else if (event.getCode().equals(KeyCode.TAB)) {
-                    gridPane.requestFocus();
-                }
-            }
-        };
-
-        inputTextField.setOnKeyPressed(eventHandler);
-    }
+//    private void addTextHandlingEvent() {
+//
+//        EventHandler<KeyEvent> eventHandler = new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//
+//                CommandCenter commandCenter = new CommandCenter();
+//                MoveUpCommand moveUp = new MoveUpCommand(model);
+//                MoveDownCommand moveDown = new MoveDownCommand(model);
+//                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
+//                MoveRightCommand moveRight = new MoveRightCommand(model);
+//
+//                switch (event.getCode()){
+//                    case W:
+//                        commandCenter.setCommand(moveUp);
+//                        break;
+//                    case S:
+//                        commandCenter.setCommand(moveDown);
+//                        break;
+//                    case A:
+//                        commandCenter.setCommand(moveLeft);
+//                        break;
+//                    case D:
+//                        commandCenter.setCommand(moveRight);
+//                        break;
+//                }
+//
+//                commandCenter.execute();
+//
+//                updateScene("");
+//                updateItems();
+//            }
+//
+//        };
+//
+//        inputTextField.setOnKeyPressed(eventHandler);
+//    }
 
 
     /**
