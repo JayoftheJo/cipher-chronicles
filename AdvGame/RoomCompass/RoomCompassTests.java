@@ -1,7 +1,9 @@
+package RoomCompass;
+
 import AdventureModel.AdventureGame;
 import AdventureModel.Passage;
 import AdventureModel.PassageTable;
-import AdventureModel.RoomCompass;
+import RoomCompass.RoomCompass;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

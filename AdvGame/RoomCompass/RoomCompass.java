@@ -1,5 +1,8 @@
 package RoomCompass;
 
+import AdventureModel.AdventureGame;
+import AdventureModel.Passage;
+
 import java.util.*;
 
 public class RoomCompass {
