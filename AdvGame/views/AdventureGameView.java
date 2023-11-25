@@ -3,8 +3,6 @@ package views;
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,8 +23,8 @@ import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class AdventureGameView.
@@ -62,7 +60,7 @@ public class AdventureGameView {
      * @param model the current AdventureGame model
      * @param stage the stage on which graphics are rendered
      */
-    public AdventureGameView(AdventureGame model, Stage stage) {
+    public AdventureGameView(AdventureGame model, Stage stage) throws IOException {
         this.model = model;
         this.stage = stage;
         intiUI();
@@ -174,7 +172,7 @@ public class AdventureGameView {
         gridPane.add( textEntry, 0, 2, 3, 1 );
 
         // Render everything
-        var scene = new Scene( gridPane ,  1000, 800);
+        var scene = new Scene(gridPane,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
@@ -257,8 +255,7 @@ public class AdventureGameView {
      *
      * @param text the command that needs to be processed
      */
-    private void submitEvent(String text) {
-
+    private void submitEvent(String text){
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
@@ -287,7 +284,12 @@ public class AdventureGameView {
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
-                Platform.exit();
+                try {
+                    create_BossView();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                //Platform.exit();
             });
             pause.play();
 
@@ -348,6 +350,10 @@ public class AdventureGameView {
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
     }
 
+    private void create_BossView() throws IOException {
+        BossView boss_view = new BossView(this.model, this.stage);
+        this.gridPane.requestFocus();
+    }
     /**
      * formatText
      * __________________________
