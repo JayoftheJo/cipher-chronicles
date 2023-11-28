@@ -116,15 +116,6 @@ public class BossView extends AdventureGameView{
         }
         else {
             removeByCell(1, 1);
-
-            VBox roomPane = new VBox(roomImageView, roomDescLabel);
-            roomPane.setPadding(new Insets(10));
-            roomPane.setAlignment(Pos.TOP_CENTER);
-            roomPane.setStyle("-fx-background-color: #000000;");
-
-            this.gridPane.add(roomPane, 1, 1);
-            stage.sizeToScene();
-
             boss_helpToggle = false;
         }
     }
