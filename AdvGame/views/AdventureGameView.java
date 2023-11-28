@@ -2,6 +2,7 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
+import RoomCompass.Compass;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
+import RoomCompass.RoomCompass;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class AdventureGameView {
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
+    Compass compass;
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
@@ -65,6 +68,8 @@ public class AdventureGameView {
     public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
+        RoomCompass roomCompass = new RoomCompass(model);
+        this.compass = new Compass(roomCompass);
         intiUI();
     }
 
@@ -172,6 +177,8 @@ public class AdventureGameView {
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 0, 2, 3, 1 );
+
+        CompassView compassView = new CompassView(compass);
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -343,6 +350,8 @@ public class AdventureGameView {
 
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
+        compass.update();
+
 
         //finally, articulate the description
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
