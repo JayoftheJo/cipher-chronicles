@@ -56,7 +56,6 @@ Curtain1
 You are passing through a curtain!
 -----
 FORCED    7/BIRD
-FORCED    11
 
 7
 Curtain2
