@@ -56,7 +56,6 @@ Curtain1
 You are passing through a curtain!
 -----
 FORCED    7/BIRD
-FORCED    9
 
 7
 Curtain2
@@ -81,4 +80,3 @@ Victory
 You have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!
 -----
 FORCED     0
-

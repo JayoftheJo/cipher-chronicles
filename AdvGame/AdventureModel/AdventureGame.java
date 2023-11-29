@@ -83,7 +83,6 @@ public class AdventureGame implements Serializable {
             i++;
         }
         return commandArray;
-
     }
 
     /**
