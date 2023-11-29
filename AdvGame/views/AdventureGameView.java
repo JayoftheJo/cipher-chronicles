@@ -2,6 +2,7 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
+import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
@@ -16,7 +17,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
-import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -184,47 +184,144 @@ public class AdventureGameView {
     }
 
     /**
-     * Set an event filter listening for key presses for the scene.
+     * Add an event filter to the scene to listen for any inputted key presses.
+     * <p>
+     * If the attempted action was a move, do either of three things:
+     * 1. If the route is available and unblocked, execute a transition and update the scene.
+     * 2. If the route is available but blocked, tell the player which key item they need to proceed.
+     * 3. If the route is unavailable, inform the player that they may not go this way.
      */
     private void setEventFilter() {
-        Scene scene = stage.getScene();
 
+        Scene scene = stage.getScene();
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                stopArticulation();
                 CommandCenter commandCenter = new CommandCenter();
-                MoveUpCommand moveUp = new MoveUpCommand(model);
-                MoveDownCommand moveDown = new MoveDownCommand(model);
-                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
-                MoveRightCommand moveRight = new MoveRightCommand(model);
-                NothingCommand doNothing = new NothingCommand();
-                InspectCommand inspect = new InspectCommand(roomDescLabel, model);
 
+                // Assign the center a command based on which key was pressed.
                 switch (event.getCode()) {
-                    case W -> commandCenter.setCommand(moveUp);
-                    case S -> commandCenter.setCommand(moveDown);
-                    case A -> commandCenter.setCommand(moveLeft);
-                    case D -> commandCenter.setCommand(moveRight);
-                    case E -> commandCenter.setCommand(inspect);
-                    default -> commandCenter.setCommand(doNothing);
+                    case W -> commandCenter.setCommand(new MoveUpCommand(model));
+                    case S -> commandCenter.setCommand(new MoveDownCommand(model));
+                    case A -> commandCenter.setCommand(new MoveLeftCommand(model));
+                    case D -> commandCenter.setCommand(new MoveRightCommand(model));
+                    case E -> commandCenter.setCommand(new InspectCommand(roomDescLabel, model));
+                    default -> commandCenter.setCommand(new NothingCommand());
                 }
 
-                commandCenter.execute();
-
-                // Render the new room if the player has moved.
+                // If the command was a movement command:
                 if (commandCenter.getCommand() instanceof MovementCommand) {
-                    updateScene("");
-                    updateItems();
+
+                    // Keep track of the previous and current room after a move.
+                    int previousRoom = model.player.getCurrentRoom().getRoomNumber();
+                    commandCenter.execute();
+                    int currentRoom = model.player.getCurrentRoom().getRoomNumber();
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                    pause.setOnFinished(e -> {
+                        updateScene("");
+                        updateItems();
+                    });
+
+                    // If the room has changed:
+                    if (previousRoom != currentRoom) {
+                        executeTransition();
+                        pause.play();
+                    }
+
+                    // Otherwise:
+                    else {
+                        String direction = getMovementDirection(event); // Get the direction of the attempted move.
+                        boolean routeAvailable = model.player.getCurrentRoom().getMotionTable().optionExists(direction);
+
+                        // If the route to a room is available but blocked:
+                        if (routeAvailable) {
+                            Passage targetedPassage = getTargetedPassage(direction);
+                            assert targetedPassage != null; // Should always be true for a route is available.
+                            roomDescLabel.setText("You will need " + targetedPassage.getKeyName() + " to enter here!");
+                        }
+
+                        // If the route does not exist:
+                        else { roomDescLabel.setText("You cannot go this way!"); }
+                    }
                 }
+
+                // Otherwise, execute the command as is.
+                else { commandCenter.execute(); }
             }
         });
+    }
+
+    /**
+     * Given a direction, return the passage corresponding to that direction.
+     *
+     * @param direction the direction of the desired passage.
+     * @return the passage correlating to the given direction.
+     */
+    private Passage getTargetedPassage(String direction) {
+        for (Passage passage: model.player.getCurrentRoom().getMotionTable().passageTable) {
+            if (passage.getDirection().equalsIgnoreCase(direction)) { return passage; }
+        }
+        return null;
+    }
+
+    /**
+     * Given a key event corresponding to a move, return the String direction of said move.
+     *
+     * @param event a key press event associated with a movement command.
+     * @return the String direction of the attempted move.
+     */
+    private String getMovementDirection(KeyEvent event) {
+        switch (event.getCode()) {
+            case W -> { return "UP"; }
+            case A -> { return "LEFT"; }
+            case S -> { return "DOWN"; }
+            case D -> { return "RIGHT"; }
+            default -> { return ""; }
+        }
+    }
+
+    /**
+     * Change the room image to a black image and play a footstep SFX to indicate a room transition.
+     */
+    private void executeTransition() {
+        String roomImage = model.getDirectoryName() + "/room-images/transition.png";
+        Image transitionImage = new Image(roomImage);
+        roomImageView = new ImageView(transitionImage);
+        roomImageView.setPreserveRatio(true);
+        roomImageView.setFitWidth(400);
+        roomImageView.setFitHeight(400);
+
+        roomDescLabel.setText("You are moving into a new room.");
+        roomDescLabel.setPrefWidth(500);
+        roomDescLabel.setPrefHeight(500);
+        roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
+        roomDescLabel.setWrapText(true);
+        VBox roomPane = new VBox(roomImageView,roomDescLabel);
+        roomPane.setPadding(new Insets(10));
+        roomPane.setAlignment(Pos.TOP_CENTER);
+        roomPane.setStyle("-fx-background-color: #000000;");
+
+        objectsInRoom.getChildren().clear();
+        objectsInInventory.getChildren().clear();
+
+        String musicFile = model.getDirectoryName() + "/sounds/transition.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        mediaPlaying = true;
+
+        gridPane.add(roomPane, 1, 1);
+        stage.sizeToScene();
     }
 
     /**
      * makeButtonAccessible
      * __________________________
      * For information about ARIA standards, see
-     * https://www.w3.org/WAI/standards-guidelines/aria/
+     * <a href="https://www.w3.org/WAI/standards-guidelines/aria/"></a>
      *
      * @param inputButton the button to add screenreader hooks to
      * @param name ARIA name
