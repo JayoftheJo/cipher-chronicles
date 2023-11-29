@@ -3,6 +3,11 @@ package views;
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import Commands.*;
+import Commands.MovementCommands.*;
+
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,8 +28,10 @@ import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+
 
 /**
  * Class AdventureGameView.
@@ -36,7 +43,8 @@ import java.util.ArrayList;
  * ZOOM LINK: <a href="https://utoronto-my.sharepoint.com/:v:/r/personal/dale_mejia_mail_utoronto_ca/Documents/a2doc.mp4?csf=1&web=1&e=z9dafu&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19">...</a>
  * PASSWORD: N/A
  */
-public class AdventureGameView {
+public class
+AdventureGameView {
 
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
@@ -53,6 +61,10 @@ public class AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
+    private boolean healthToggle = false; //to know if health bar is on or off
+    private HealthBarView healthBar; // to access the health bar
+
+
     /**
      * Adventure Game View Constructor
      * __________________________
@@ -60,7 +72,7 @@ public class AdventureGameView {
      * @param model the current AdventureGame model
      * @param stage the stage on which graphics are rendered
      */
-    public AdventureGameView(AdventureGame model, Stage stage) throws IOException {
+    public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
         intiUI();
@@ -169,16 +181,61 @@ public class AdventureGameView {
         textEntry.getChildren().addAll(commandLabel, inputTextField);
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
-        gridPane.add( textEntry, 0, 2, 3, 1 );
+        gridPane.add( textEntry, 1, 2, 2, 1 );
+
+        // event for hiding or opening the health bar
+        addHealthBarEvent();
 
         // Render everything
-        var scene = new Scene(gridPane,  1000, 800);
+        var scene = new Scene( gridPane ,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.show();
 
+        setEventFilter();
+
+
+
     }
+
+    /**
+     * Set an event filter listening for key presses for the scene.
+     */
+    private void setEventFilter() {
+        Scene scene = stage.getScene();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                CommandCenter commandCenter = new CommandCenter();
+                MoveUpCommand moveUp = new MoveUpCommand(model);
+                MoveDownCommand moveDown = new MoveDownCommand(model);
+                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
+                MoveRightCommand moveRight = new MoveRightCommand(model);
+                NothingCommand doNothing = new NothingCommand();
+                InspectCommand inspect = new InspectCommand(roomDescLabel, model);
+
+                switch (event.getCode()) {
+                    case W -> commandCenter.setCommand(moveUp);
+                    case S -> commandCenter.setCommand(moveDown);
+                    case A -> commandCenter.setCommand(moveLeft);
+                    case D -> commandCenter.setCommand(moveRight);
+                    case E -> commandCenter.setCommand(inspect);
+                    default -> commandCenter.setCommand(doNothing);
+                }
+
+                commandCenter.execute();
+
+                // Render the new room if the player has moved.
+                if (commandCenter.getCommand() instanceof MovementCommand) {
+                    updateScene("");
+                    updateItems();
+                }
+            }
+        });
+    }
+
 
 
     /**
@@ -255,7 +312,8 @@ public class AdventureGameView {
      *
      * @param text the command that needs to be processed
      */
-    private void submitEvent(String text){
+    private void submitEvent(String text) {
+
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
@@ -284,12 +342,7 @@ public class AdventureGameView {
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
-                try {
-                    create_BossView();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                //Platform.exit();
+                Platform.exit();
             });
             pause.play();
 
@@ -303,6 +356,7 @@ public class AdventureGameView {
             pause.play();
         }
     }
+
 
 
     /**
@@ -350,10 +404,6 @@ public class AdventureGameView {
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
     }
 
-    private void create_BossView() throws IOException {
-        BossView boss_view = new BossView(this.model, this.stage);
-        this.gridPane.requestFocus();
-    }
     /**
      * formatText
      * __________________________
@@ -537,6 +587,44 @@ public class AdventureGameView {
     }
 
     /**
+     * Responds to a 'H' click by showing the or closing the player's healthBar
+     */
+    public void addHealthBarEvent(){
+
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event){
+                if (event.getCode().equals(KeyCode.H)){
+                    showHealthBar();
+                }
+            }
+        };
+
+        // Make the gridpane wait for it
+        this.gridPane.setOnKeyPressed(keyBindClick);
+
+    }
+
+    private void showHealthBar(){
+        // if health bar is off
+        if (!healthToggle) {
+
+            // turn it on, make and show it
+            healthToggle = true;
+            removeByCell(2, 0);
+            healthBar = (new HealthBarView(this.model.getPlayer()));
+            gridPane.add(healthBar.getHealthBar(), 0, 2, 1, 1);
+        }
+        // else
+        else{
+            //turn it off and close it
+            healthToggle = false;
+            removeByCell(2, 0);
+        }
+    }
+
+    /**
      * This method handles the event related to the
      * save button.
      */
@@ -589,4 +677,5 @@ public class AdventureGameView {
             mediaPlaying = false;
         }
     }
+
 }
