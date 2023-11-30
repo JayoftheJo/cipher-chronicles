@@ -51,6 +51,8 @@ public class AdventureGameView {
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
+    CommandCenter commandCenter;
+    boolean inputEnabled;
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
@@ -65,6 +67,8 @@ public class AdventureGameView {
     public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
+        this.commandCenter = new CommandCenter();
+        this.inputEnabled = true;
         intiUI();
     }
 
@@ -185,74 +189,94 @@ public class AdventureGameView {
 
     /**
      * Add an event filter to the scene to listen for any inputted key presses.
-     * <p>
-     * If the attempted action was a move, do either of three things:
-     * 1. If the route is available and unblocked, execute a transition and update the scene.
-     * 2. If the route is available but blocked, tell the player which key item they need to proceed.
-     * 3. If the route is unavailable, inform the player that they may not go this way.
      */
     private void setEventFilter() {
-
         Scene scene = stage.getScene();
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 stopArticulation();
-                CommandCenter commandCenter = new CommandCenter();
-
-                // Assign the center a command based on which key was pressed.
-                switch (event.getCode()) {
-                    case W -> commandCenter.setCommand(new MoveUpCommand(model));
-                    case S -> commandCenter.setCommand(new MoveDownCommand(model));
-                    case A -> commandCenter.setCommand(new MoveLeftCommand(model));
-                    case D -> commandCenter.setCommand(new MoveRightCommand(model));
-                    case E -> commandCenter.setCommand(new InspectCommand(roomDescLabel, model));
-                    default -> commandCenter.setCommand(new NothingCommand());
+                if (inputEnabled) {
+                    setCommand(event);
+                    executeCommand();
                 }
-
-                // If the command was a movement command:
-                if (commandCenter.getCommand() instanceof MovementCommand) {
-
-                    // Keep track of the previous and current room after a move.
-                    int previousRoom = model.player.getCurrentRoom().getRoomNumber();
-                    commandCenter.execute();
-                    int currentRoom = model.player.getCurrentRoom().getRoomNumber();
-
-                    PauseTransition pause = new PauseTransition(Duration.seconds(5));
-                    pause.setOnFinished(e -> {
-                        updateScene("");
-                        updateItems();
-                    });
-
-                    // If the room has changed:
-                    if (previousRoom != currentRoom) {
-                        executeTransition();
-                        pause.play();
-                    }
-
-                    // Otherwise:
-                    else {
-                        String direction = getMovementDirection(event); // Get the direction of the attempted move.
-                        boolean routeAvailable = model.player.getCurrentRoom().getMotionTable().optionExists(direction);
-
-                        // If the route to a room is available but blocked:
-                        if (routeAvailable) {
-                            Passage targetedPassage = getTargetedPassage(direction);
-                            assert targetedPassage != null; // Should always be true for a route is available.
-                            roomDescLabel.setText("You will need " + targetedPassage.getKeyName() + " to enter here!");
-                        }
-
-                        // If the route does not exist:
-                        else { roomDescLabel.setText("You cannot go this way!"); }
-                    }
-                }
-
-                // Otherwise, execute the command as is.
-                else { commandCenter.execute(); }
             }
         });
     }
 
+    /**
+     * Given a key press, assign the command center the action bound to said key.
+     *
+     * @param event The key that was pressed.
+     */
+    public void setCommand(KeyEvent event) {
+        switch (event.getCode()) {
+            case W -> commandCenter.setCommand(new MoveUpCommand(model));
+            case S -> commandCenter.setCommand(new MoveDownCommand(model));
+            case A -> commandCenter.setCommand(new MoveLeftCommand(model));
+            case D -> commandCenter.setCommand(new MoveRightCommand(model));
+            case E -> commandCenter.setCommand(new InspectCommand(roomDescLabel, model));
+            default -> commandCenter.setCommand(new NothingCommand());
+        }
+    }
+
+    /**
+     * Execute the command assigned to the command center.
+     * <p>
+     * If the assigned command was a move, then do either of three things:
+     * 1. If the route is available and unblocked, execute a transition and update the scene.
+     * 2. If the route is available but blocked, tell the player which key item they need to proceed.
+     * 3. If the route is unavailable, inform the player that they may not go this way.
+     *
+     */
+    private void executeCommand() {
+        // If the command was a movement command:
+        if (commandCenter.getCommand() instanceof MovementCommand) {
+
+            // Keep track of the previous and current room after a move.
+            int previousRoom = model.player.getCurrentRoom().getRoomNumber();
+            commandCenter.execute();
+            int currentRoom = model.player.getCurrentRoom().getRoomNumber();
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                inputEnabled = true;
+                updateScene("");
+                updateItems();
+            });
+
+            // If the room has changed:
+            if (previousRoom != currentRoom) {
+                inputEnabled = false;
+                executeTransition();
+                pause.play();
+            }
+
+            // Otherwise:
+            else {
+                String direction = getMovementDirection(); // Get the direction of the attempted move.
+                boolean routeAvailable =
+                        model.player.getCurrentRoom().getMotionTable().optionExists(direction);
+
+                // If the route to a room is available but blocked:
+                if (routeAvailable) {
+                    Passage targetedPassage = getTargetedPassage(direction);
+                    assert targetedPassage != null; // Should always be true for a route is available.
+                    roomDescLabel.setText
+                            ("You will need " + targetedPassage.getKeyName() + " to enter here!");
+                }
+
+                // If the route does not exist:
+                else {
+                    roomDescLabel.setText("You cannot go this way!");
+                }
+            }
+        }
+
+        // Otherwise, execute the command as is.
+        else { commandCenter.execute(); }
+
+    }
     /**
      * Given a direction, return the passage corresponding to that direction.
      *
@@ -267,18 +291,25 @@ public class AdventureGameView {
     }
 
     /**
-     * Given a key event corresponding to a move, return the String direction of said move.
+     * GIven that the command center's assigned command is a movement command, return its String direction.
      *
-     * @param event a key press event associated with a movement command.
      * @return the String direction of the attempted move.
      */
-    private String getMovementDirection(KeyEvent event) {
-        switch (event.getCode()) {
-            case W -> { return "UP"; }
-            case A -> { return "LEFT"; }
-            case S -> { return "DOWN"; }
-            case D -> { return "RIGHT"; }
-            default -> { return ""; }
+    private String getMovementDirection() {
+        Command current = this.commandCenter.getCommand();
+        assert current instanceof MovementCommand;
+
+        if (current instanceof MoveUpCommand) {
+            return "UP";
+        }
+        else if (current instanceof MoveDownCommand) {
+            return "DOWN";
+        }
+        else if (current instanceof MoveLeftCommand) {
+            return "LEFT";
+        }
+        else {
+            return "RIGHT";
         }
     }
 
