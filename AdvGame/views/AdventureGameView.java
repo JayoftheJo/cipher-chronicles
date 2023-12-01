@@ -359,6 +359,10 @@ AdventureGameView {
         }
     }
 
+    /**
+     * Creates the Boss View needed for the battle system
+     * @throws IOException
+     */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
         gridPane.requestFocus();

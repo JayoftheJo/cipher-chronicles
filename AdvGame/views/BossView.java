@@ -1,5 +1,6 @@
 package views;
 
+import AdventureModel.Player;
 import CharacterFactory.Character;
 import CharacterFactory.concreteCharacterFactory;
 import AdventureModel.AdventureGame;
@@ -22,10 +23,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Class BossView.
+ *
+ * This is the Class that will visualize the battle system
+ * It follows the similar structure of AdventureView except
+ * for a few GUI changes
+ */
 public class BossView extends AdventureGameView{
 
     Button bossHelp;
     Character bossTroll;
+    Player finalPlayer;
     boolean boss_helpToggle = false;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
@@ -89,6 +98,7 @@ public class BossView extends AdventureGameView{
         invLabel.setFont(new Font("Arial", 16));
 
         concreteCharacterFactory factory = new concreteCharacterFactory();
+        finalPlayer = this.model.getPlayer();
         bossTroll = factory.createBossCharacter();
         String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
         bossTroll.charImage = new Image(bossImg);
