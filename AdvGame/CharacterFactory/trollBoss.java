@@ -1,6 +1,8 @@
 package CharacterFactory;
 
 import CharacterFactory.Character;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class trollBoss extends Character {
     public double bossHealth;
