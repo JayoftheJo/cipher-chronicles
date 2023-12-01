@@ -195,8 +195,9 @@ public class AdventureGameView {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                stopArticulation();
+
                 if (inputEnabled) {
+                    stopArticulation();
                     setCommand(event);
                     executeCommand();
                 }
