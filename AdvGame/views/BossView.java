@@ -1,12 +1,18 @@
 package views;
 
+import CharacterFactory.Character;
+import CharacterFactory.concreteCharacterFactory;
 import AdventureModel.AdventureGame;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -22,6 +28,7 @@ public class BossView extends AdventureGameView{
     boolean boss_helpToggle = false;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
+
         model.setHelpText(parseOtherFile("boss_help"));
     }
 
@@ -80,11 +87,24 @@ public class BossView extends AdventureGameView{
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
 
+        concreteCharacterFactory factory = new concreteCharacterFactory();
+        Character finalPlayer = factory.createPlayerCharacter();
+        Character bossTroll = factory.createBossCharacter();
+        String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
+        bossTroll.charImage = new Image(bossImg);
+        bossTroll.charImageview = new ImageView(bossTroll.charImage);
+
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-        this.gridPane.add(bossHelp, 0, 2);
-
+        this.gridPane.add(bossHelp, 0, 0);
+        this.gridPane.add(bossTroll.charImageview, 1, 1);
+        GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
+        GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
+        GridPane.setValignment(bossHelp, VPos.TOP);
+        GridPane.setValignment(objLabel, VPos.BOTTOM);
+        GridPane.setValignment(invLabel, VPos.BOTTOM);
+        GridPane.setHalignment(objLabel, HPos.RIGHT);
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);

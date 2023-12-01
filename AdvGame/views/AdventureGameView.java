@@ -28,9 +28,10 @@ import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 
 /**
@@ -194,9 +195,6 @@ AdventureGameView {
         this.stage.show();
 
         setEventFilter();
-
-
-
     }
 
     /**
@@ -342,7 +340,11 @@ AdventureGameView {
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
-                Platform.exit();
+                try {
+                    create_BossView();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             pause.play();
 
@@ -357,7 +359,10 @@ AdventureGameView {
         }
     }
 
-
+    public void create_BossView() throws IOException {
+        BossView boss_view = new BossView(this.model, this.stage);
+        gridPane.requestFocus();
+    }
 
     /**
      * showCommands
