@@ -6,10 +6,5 @@ public class concreteCharacterFactory implements characterFactory {
         return new trollBoss(150.0, 5.0);
     }
 
-    @Override
-    public Character createPlayerCharacter() {
-        return new finalPlayer(100.0, 5.0);
-    }
-
 
 }

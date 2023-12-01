@@ -25,6 +25,7 @@ import java.io.IOException;
 public class BossView extends AdventureGameView{
 
     Button bossHelp;
+    Character bossTroll;
     boolean boss_helpToggle = false;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
@@ -88,8 +89,7 @@ public class BossView extends AdventureGameView{
         invLabel.setFont(new Font("Arial", 16));
 
         concreteCharacterFactory factory = new concreteCharacterFactory();
-        Character finalPlayer = factory.createPlayerCharacter();
-        Character bossTroll = factory.createBossCharacter();
+        bossTroll = factory.createBossCharacter();
         String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
         bossTroll.charImage = new Image(bossImg);
         bossTroll.charImageview = new ImageView(bossTroll.charImage);
@@ -136,6 +136,7 @@ public class BossView extends AdventureGameView{
         }
         else {
             removeByCell(1, 1);
+            gridPane.add(bossTroll.charImageview, 1, 1);
             boss_helpToggle = false;
         }
     }
