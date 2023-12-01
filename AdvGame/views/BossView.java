@@ -1,8 +1,8 @@
 package views;
 
 import AdventureModel.Player;
-import CharacterFactory.Character;
-import CharacterFactory.concreteCharacterFactory;
+import BossFactory.Boss;
+import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class BossView extends AdventureGameView{
 
     Button bossHelp;
-    Character bossTroll;
+    Boss bossTroll;
     Player finalPlayer;
     boolean boss_helpToggle = false;
     public BossView(AdventureGame model, Stage stage) throws IOException {
@@ -97,7 +97,7 @@ public class BossView extends AdventureGameView{
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
 
-        concreteCharacterFactory factory = new concreteCharacterFactory();
+        concreteBossFactory factory = new concreteBossFactory();
         finalPlayer = this.model.getPlayer();
         bossTroll = factory.createBossCharacter();
         String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";

@@ -1,15 +1,15 @@
-package CharacterFactory;
+package BossFactory;
 
 /**
  * This class is used to create the boss character for the final battle
  */
-public class concreteCharacterFactory implements characterFactory {
+public class concreteBossFactory implements bossFactory {
 
     /*
      * this method creates and returns a boss character
      */
     @Override
-    public Character createBossCharacter() {
+    public Boss createBossCharacter() {
         return new trollBoss(150.0, 5.0);
     }
 }

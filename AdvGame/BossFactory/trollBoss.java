@@ -1,4 +1,4 @@
-package CharacterFactory;
+package BossFactory;
 
 
 /**
@@ -7,7 +7,7 @@ package CharacterFactory;
  * This class is used initialize a troll boss
  * in the battle system
  */
-public class trollBoss extends Character {
+public class trollBoss extends Boss {
     public double bossHealth;//used to represent the health attribute for the troll boss
     public double bossStrength;//used to represent the health attribute for the troll boss
 
