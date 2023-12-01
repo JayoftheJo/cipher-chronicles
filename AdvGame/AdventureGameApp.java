@@ -2,6 +2,7 @@ import AdventureModel.AdventureGame;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import views.AdventureGameView;
+import views.BossView;
 
 import java.io.IOException;
 
