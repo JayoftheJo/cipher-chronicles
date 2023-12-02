@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d10cc1b5-de97-40b5-8605-44ab81ddf36d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/javafx_swt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_swt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/AdventureObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Passage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/PassageTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BasicAdventureTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/help.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objectImages/BIRD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objectImages/BOOK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objectImages/CHEST.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objects.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/synonyms.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/LoadView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/SaveView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../group_57.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../group_57.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/AdventureGameApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/AdventureGameApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/AdventureGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/AdventureGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/AdventureLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/AdventureLoader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/Boss_Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/AdventureModel/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/room-images/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/rooms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/rooms.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain1-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain1-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain2-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain2-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain3-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/curtain3-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/end-of-road-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/end-of-road-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/inside-building-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/inside-building-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/missing-treasures-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/missing-treasures-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/outside-building-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/outside-building-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/slit-in-rock-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/slit-in-rock-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/valley-beside-a-stream-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/valley-beside-a-stream-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/victory-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/Games/TinyGame/sounds/victory-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/help.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/objectImages/BIRD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/objectImages/BOOK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/objectImages/CHEST.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/objects.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/room-images/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain1-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain1-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain2-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain2-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain3-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/curtain3-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/end-of-road-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/end-of-road-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/inside-building-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/inside-building-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/missing-treasures-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/missing-treasures-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/outside-building-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/outside-building-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/slit-in-rock-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/slit-in-rock-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/valley-beside-a-stream-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/valley-beside-a-stream-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/victory-long.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/sounds/victory-short.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/Games/TinyGame/synonyms.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/out/production/assignment2/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/group_57/views/AdventureGameView.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2Z0LXO10fJq3AXkVz8JLJE5XB3P" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/armye/Downloads/openjfx-21_windows-x64_bin-sdk/javafx-sdk-21/lib/javafx.web.jar",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d10cc1b5-de97-40b5-8605-44ab81ddf36d" name="Changes" comment="" />
+      <created>1701554089149</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701554089149</updated>
+    </task>
+    <servers />
+  </component>
+</project>
