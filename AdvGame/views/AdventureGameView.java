@@ -3,9 +3,11 @@ package views;
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import Commands.*;
 import Commands.MovementCommands.*;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,6 +30,8 @@ import javafx.scene.AccessibleRole;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -196,9 +200,6 @@ AdventureGameView {
         this.stage.show();
 
         setEventFilter();
-
-
-
     }
 
     /**
@@ -363,6 +364,10 @@ AdventureGameView {
         }
     }
 
+    /**
+     * Creates the Boss View needed for the battle system
+     * @throws IOException
+     */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
         gridPane.requestFocus();

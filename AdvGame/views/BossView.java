@@ -1,15 +1,22 @@
 package views;
 
+import AdventureModel.Player;
+import BossFactory.Boss;
+import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,9 +26,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Class BossView.
+ *
+ * This is the Class that will visualize the battle system
+ * It follows the similar structure of AdventureView except
+ * for a few GUI changes
+ */
 public class BossView extends AdventureGameView{
 
     Button bossHelp;
+    Boss bossTroll;
+    Player finalPlayer;
     boolean boss_helpToggle = false;
 
 
@@ -32,6 +48,7 @@ public class BossView extends AdventureGameView{
     VBox playerStats;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
+
         model.setHelpText(parseOtherFile("boss_help"));
     }
 
@@ -90,6 +107,13 @@ public class BossView extends AdventureGameView{
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
 
+        concreteBossFactory factory = new concreteBossFactory();
+        finalPlayer = this.model.getPlayer();
+        bossTroll = factory.createBossCharacter();
+        String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
+        bossTroll.charImage = new Image(bossImg);
+        bossTroll.charImageview = new ImageView(bossTroll.charImage);
+
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
@@ -100,6 +124,14 @@ public class BossView extends AdventureGameView{
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening the health bar
         this.playerStatsEvent();
+        this.gridPane.add(bossHelp, 0, 0);
+        this.gridPane.add(bossTroll.charImageview, 1, 1);
+        GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
+        GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
+        GridPane.setValignment(bossHelp, VPos.TOP);
+        GridPane.setValignment(objLabel, VPos.BOTTOM);
+        GridPane.setValignment(invLabel, VPos.BOTTOM);
+        GridPane.setHalignment(objLabel, HPos.RIGHT);
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -131,6 +163,7 @@ public class BossView extends AdventureGameView{
         }
         else {
             removeByCell(1, 1);
+            gridPane.add(bossTroll.charImageview, 1, 1);
             boss_helpToggle = false;
         }
     }
