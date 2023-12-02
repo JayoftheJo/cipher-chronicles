@@ -1,12 +1,22 @@
 package views;
 
+import AdventureModel.Player;
+import BossFactory.Boss;
+import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,12 +26,29 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Class BossView.
+ *
+ * This is the Class that will visualize the battle system
+ * It follows the similar structure of AdventureView except
+ * for a few GUI changes
+ */
 public class BossView extends AdventureGameView{
 
     Button bossHelp;
+    Boss bossTroll;
+    Player finalPlayer;
     boolean boss_helpToggle = false;
+
+
+    boolean playerStatsToggle; //to know if health bar is on or off
+    BarView healthBar; // to access the health bar
+    BarView strengthBar;
+
+    VBox playerStats;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
+
         model.setHelpText(parseOtherFile("boss_help"));
     }
 
@@ -80,11 +107,34 @@ public class BossView extends AdventureGameView{
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
 
+        concreteBossFactory factory = new concreteBossFactory();
+        finalPlayer = this.model.getPlayer();
+        bossTroll = factory.createBossCharacter();
+        String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
+        bossTroll.charImage = new Image(bossImg);
+        bossTroll.charImageview = new ImageView(bossTroll.charImage);
+
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-        this.gridPane.add(bossHelp, 0, 2);
 
+
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
+
+        // event for hiding or opening the health bar
+        this.playerStatsEvent();
+
+
+        this.gridPane.add(bossHelp, 0, 0);
+        this.gridPane.add(bossTroll.charImageview, 1, 1);
+        GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
+        GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
+        GridPane.setValignment(bossHelp, VPos.TOP);
+        GridPane.setValignment(objLabel, VPos.BOTTOM);
+        GridPane.setValignment(invLabel, VPos.BOTTOM);
+        GridPane.setHalignment(objLabel, HPos.RIGHT);
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -116,6 +166,7 @@ public class BossView extends AdventureGameView{
         }
         else {
             removeByCell(1, 1);
+            gridPane.add(bossTroll.charImageview, 1, 1);
             boss_helpToggle = false;
         }
     }
@@ -148,5 +199,62 @@ public class BossView extends AdventureGameView{
         bossHelp.setOnAction(e -> {
             showInstructions();
         });
+    }
+
+    /**
+     * Responds to a 'H' click by showing the or closing the player's healthBar
+     */
+    public void playerStatsEvent(){
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event){
+                if (event.getCode().equals(KeyCode.H)){
+                    showPlayerStats();
+                }
+            }
+        };
+
+        // Make the gridpane wait for it
+        this.gridPane.setOnKeyPressed(keyBindClick);
+
+    }
+
+    public void showPlayerStats(){
+        // if health bar is off
+        if (!playerStatsToggle) {
+
+            // turn it on, make and show it
+            playerStatsToggle = true;
+            removeByCell(2, 0);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
+            gridPane.add(playerStats, 0, 2, 1, 1);
+        }
+        // else
+        else{
+            //turn it off and close it
+            playerStatsToggle = false;
+            removeByCell(2, 0);
+        }
+    }
+
+    public void gameOver() {
+
+    }
+
+    /**
+     * Set player stats toggle
+     * @param playerStatsToggle what to set playerStatsToggle to
+     */
+    public void setPlayerStatsToggle(boolean playerStatsToggle){
+        this.playerStatsToggle = playerStatsToggle;
+        if(this.playerStatsToggle){
+            this.playerStatsToggle = !this.playerStatsToggle;
+            showPlayerStats();
+        }
     }
 }

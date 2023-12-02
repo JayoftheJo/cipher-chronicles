@@ -27,9 +27,10 @@ import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 
 /**
@@ -61,9 +62,11 @@ public class AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    private boolean healthToggle = false; //to know if health bar is on or off
-    private HealthBarView healthBar; // to access the health bar
+    boolean playerStatsToggle; //to know if player stats is on or off
+    BarView healthBar; // to access the health bar
+    BarView strengthBar; // to access the strength bar
 
+    VBox playerStats; // for player stats
 
     /**
      * Adventure Game View Constructor
@@ -185,8 +188,12 @@ public class AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 1, 2, 2, 1 );
 
-        // event for hiding or opening the health bar
-        addHealthBarEvent();
+        this.playerStatsToggle = false;
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
+        // event for hiding or opening player stats
+        playerStatsEvent();
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -464,7 +471,11 @@ public class AdventureGameView {
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
-                Platform.exit();
+                try {
+                    create_BossView();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             pause.play();
 
@@ -479,6 +490,15 @@ public class AdventureGameView {
         }
     }
 
+    /**
+     * Creates the Boss View needed for the battle system
+     * @throws IOException
+     */
+    public void create_BossView() throws IOException {
+        BossView boss_view = new BossView(this.model, this.stage);
+        boss_view.setPlayerStatsToggle(this.playerStatsToggle);
+        gridPane.requestFocus();
+    }
 
     /**
      * showCommands
@@ -708,16 +728,19 @@ public class AdventureGameView {
     }
 
     /**
-     * Responds to a 'H' click by showing the or closing the player's healthBar
+     * Responds to a 'H' click by showing the or closing the player's stats
      */
-    public void addHealthBarEvent(){
+    public void playerStatsEvent(){
+        // Initialize them
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
             @Override
             public void handle(KeyEvent event){
                 if (event.getCode().equals(KeyCode.H)){
-                    showHealthBar();
+                    showPlayerStats();
                 }
             }
         };
@@ -727,20 +750,22 @@ public class AdventureGameView {
 
     }
 
-    private void showHealthBar(){
-        // if health bar is off
-        if (!healthToggle) {
+    public void showPlayerStats(){
+        // if player stats is off
+        if (!this.playerStatsToggle) {
 
             // turn it on, make and show it
-            healthToggle = true;
+            this.playerStatsToggle = true;
             removeByCell(2, 0);
-            healthBar = (new HealthBarView(this.model.getPlayer()));
-            gridPane.add(healthBar.getHealthBar(), 0, 2, 1, 1);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
+            gridPane.add(playerStats, 0, 2, 1, 1);
         }
         // else
         else{
             //turn it off and close it
-            healthToggle = false;
+            this.playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
@@ -797,5 +822,9 @@ public class AdventureGameView {
             mediaPlayer.stop(); //shush!
             mediaPlaying = false;
         }
+    }
+
+    public void gameOver(){
+
     }
 }
