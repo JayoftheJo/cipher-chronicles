@@ -17,6 +17,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -27,6 +28,9 @@ import javafx.scene.AccessibleRole;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
+
 
 /**
  * Class AdventureGameView.
@@ -56,6 +60,10 @@ public class AdventureGameView {
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
+
+    private boolean healthToggle = false; //to know if health bar is on or off
+    private HealthBarView healthBar; // to access the health bar
+
 
     /**
      * Adventure Game View Constructor
@@ -135,15 +143,15 @@ public class AdventureGameView {
         topButtons.setSpacing(10);
         topButtons.setAlignment(Pos.CENTER);
 
-//        inputTextField = new TextField();
-//        inputTextField.setFont(new Font("Arial", 16));
-//        inputTextField.setFocusTraversable(true);
-//
-//        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
-//        inputTextField.setAccessibleRoleDescription("Text Entry Box");
-//        inputTextField.setAccessibleText("Enter commands in this box.");
-//        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
-//        addTextHandlingEvent(); //attach an event to this input field
+        inputTextField = new TextField();
+        inputTextField.setFont(new Font("Arial", 16));
+        inputTextField.setFocusTraversable(true);
+
+        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
+        inputTextField.setAccessibleRoleDescription("Text Entry Box");
+        inputTextField.setAccessibleText("Enter commands in this box.");
+        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
+        addTextHandlingEvent(); //attach an event to this input field
 
         //labels for inventory and room items
         Label objLabel =  new Label("Objects in Room");
@@ -161,21 +169,24 @@ public class AdventureGameView {
         gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
         gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
-//        Label commandLabel = new Label("What would you like to do?");
-//        commandLabel.setStyle("-fx-text-fill: white;");
-//        commandLabel.setFont(new Font("Arial", 16));
+        Label commandLabel = new Label("What would you like to do?");
+        commandLabel.setStyle("-fx-text-fill: white;");
+        commandLabel.setFont(new Font("Arial", 16));
 
         updateScene(""); //method displays an image and whatever text is supplied
         updateItems(); //update items shows inventory and objects in rooms
 
         // adding the text area and submit button to a VBox
-//        VBox textEntry = new VBox();
-//        textEntry.setStyle("-fx-background-color: #000000;");
-//        textEntry.setPadding(new Insets(20, 20, 20, 20));
-//        textEntry.getChildren().addAll(commandLabel, inputTextField);
-//        textEntry.setSpacing(10);
-//        textEntry.setAlignment(Pos.CENTER);
-//        gridPane.add( textEntry, 0, 2, 3, 1 );
+        VBox textEntry = new VBox();
+        textEntry.setStyle("-fx-background-color: #000000;");
+        textEntry.setPadding(new Insets(20, 20, 20, 20));
+        textEntry.getChildren().addAll(commandLabel, inputTextField);
+        textEntry.setSpacing(10);
+        textEntry.setAlignment(Pos.CENTER);
+        gridPane.add( textEntry, 1, 2, 2, 1 );
+
+        // event for hiding or opening the health bar
+        addHealthBarEvent();
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -397,43 +408,24 @@ public class AdventureGameView {
      * of the scene onto any other node in the scene 
      * graph by invoking requestFocus method.
      */
-//    private void addTextHandlingEvent() {
-//
-//        EventHandler<KeyEvent> eventHandler = new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent event) {
-//
-//                CommandCenter commandCenter = new CommandCenter();
-//                MoveUpCommand moveUp = new MoveUpCommand(model);
-//                MoveDownCommand moveDown = new MoveDownCommand(model);
-//                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
-//                MoveRightCommand moveRight = new MoveRightCommand(model);
-//
-//                switch (event.getCode()){
-//                    case W:
-//                        commandCenter.setCommand(moveUp);
-//                        break;
-//                    case S:
-//                        commandCenter.setCommand(moveDown);
-//                        break;
-//                    case A:
-//                        commandCenter.setCommand(moveLeft);
-//                        break;
-//                    case D:
-//                        commandCenter.setCommand(moveRight);
-//                        break;
-//                }
-//
-//                commandCenter.execute();
-//
-//                updateScene("");
-//                updateItems();
-//            }
-//
-//        };
-//
-//        inputTextField.setOnKeyPressed(eventHandler);
-//    }
+    private void addTextHandlingEvent() {
+        EventHandler<KeyEvent> eventHandler = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+
+                if (event.getCode().equals(KeyCode.ENTER)){
+                    String input = inputTextField.getText().strip();
+                    submitEvent(input);
+                    inputTextField.clear();
+                }
+                else if (event.getCode().equals(KeyCode.TAB)) {
+                    gridPane.requestFocus();
+                }
+            }
+        };
+
+        inputTextField.setOnKeyPressed(eventHandler);
+    }
 
 
     /**
@@ -713,6 +705,44 @@ public class AdventureGameView {
             stopArticulation(); //if speaking, stop
             showInstructions();
         });
+    }
+
+    /**
+     * Responds to a 'H' click by showing the or closing the player's healthBar
+     */
+    public void addHealthBarEvent(){
+
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event){
+                if (event.getCode().equals(KeyCode.H)){
+                    showHealthBar();
+                }
+            }
+        };
+
+        // Make the gridpane wait for it
+        this.gridPane.setOnKeyPressed(keyBindClick);
+
+    }
+
+    private void showHealthBar(){
+        // if health bar is off
+        if (!healthToggle) {
+
+            // turn it on, make and show it
+            healthToggle = true;
+            removeByCell(2, 0);
+            healthBar = (new HealthBarView(this.model.getPlayer()));
+            gridPane.add(healthBar.getHealthBar(), 0, 2, 1, 1);
+        }
+        // else
+        else{
+            //turn it off and close it
+            healthToggle = false;
+            removeByCell(2, 0);
+        }
     }
 
     /**
