@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -518,15 +519,28 @@ AdventureGameView {
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
             customizeButton(objectButton, 100, 100);
-            int count = 1 + vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().equals(objectName)).toList().size();
+            int othernNum = 0;
+            for(Node node: vbox.getChildren()){
+                if(node instanceof Button){
+                    if(((Button) node).getText().startsWith(objectName.split("x")[0])){
+                        if(((Button) node).getText().split("x").length != 2){
+                            othernNum = 1;
+                        }
+                        else {
+                            othernNum = Integer.parseInt(((Button) node).getText().split("x")[1]);
+                        }
+                    }
+                }
+            }
+            int count = 1 + othernNum;
             if (count == 1) {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
                 vbox.getChildren().add(objectButton);
             }
             else {
-                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().equals(objectName)).findAny().get();
-                button.setText(button.getText() + "x" + count);
+                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
+                button.setText(button.getText().split("x")[0] + "x" + count);
 
             }
             EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
