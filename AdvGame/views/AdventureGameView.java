@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import Commands.*;
 import Commands.MovementCommands.*;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -506,17 +508,27 @@ AdventureGameView {
         for (AdventureObject object: lst) {
             String objectName = object.getName();
             String objectDesc = object.getDescription();
-            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg");
+            String objectHelp = object.getHelpTxt();
+            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".png");
             ImageView objectImageView = new ImageView(objectImage);
+            objectImageView.setPreserveRatio(true);
             objectImageView.setFitWidth(100);
             objectImageView.setFitHeight(100);
 
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
             customizeButton(objectButton, 100, 100);
-            makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
-            vbox.getChildren().add(objectButton);
+            int count = 1 + vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().equals(objectName)).toList().size();
+            if (count == 1) {
+                makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
+                objectButton.setTooltip(new Tooltip(objectHelp));
+                vbox.getChildren().add(objectButton);
+            }
+            else {
+                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().equals(objectName)).findAny().get();
+                button.setText(button.getText() + "x" + count);
 
+            }
             EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
                 @Override

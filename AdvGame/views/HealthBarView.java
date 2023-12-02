@@ -63,6 +63,7 @@ public class HealthBarView implements BarView {
 
         // to make sure the top layer changes left to right
         healthBar.setAlignment(Pos.CENTER_LEFT);
+
     }
 
     /**
@@ -125,6 +126,13 @@ public class HealthBarView implements BarView {
         pause.play();
 
     }
+
+//    /**
+//     * Update player health based on current health
+//     */
+//    public void update(){
+//        onTop.setWidth((double) (player.getHealth()/player.TOTAL_HEALTH) * B_WIDTH);
+//    }
 
     /**
      * Getter for the health bar

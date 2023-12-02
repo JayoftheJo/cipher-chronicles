@@ -117,13 +117,8 @@ public class BossView extends AdventureGameView{
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-        this.gridPane.add(bossHelp, 0, 2);
 
-        playerStats = new VBox();
-        playerStats.setSpacing(10);
-        playerStats.setAlignment(Pos.CENTER_LEFT);
-        // event for hiding or opening the health bar
-        this.playerStatsEvent();
+
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
@@ -132,6 +127,12 @@ public class BossView extends AdventureGameView{
         GridPane.setValignment(objLabel, VPos.BOTTOM);
         GridPane.setValignment(invLabel, VPos.BOTTOM);
         GridPane.setHalignment(objLabel, HPos.RIGHT);
+
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
+        // event for hiding or opening the health bar
+        this.playerStatsEvent();
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -236,8 +237,11 @@ public class BossView extends AdventureGameView{
             //turn it off and close it
             playerStatsToggle = false;
             removeByCell(2, 0);
-            this.gridPane.add(bossHelp,0, 2);
         }
+    }
+
+    public void activateStrengthButton(){
+
     }
 
     public void gameOver() {

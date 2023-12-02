@@ -1,6 +1,9 @@
 package AdventureModel;
 
+import BossFactory.trollBoss;
+
 import java.io.Serializable; //you will need this to save the game!
+import java.util.ArrayList;
 
 /**
  * This class keeps track of the props or the objects in the game.
@@ -19,10 +22,15 @@ public class AdventureObject implements Serializable {
      */
     private String description;
 
+    private String helpTxt;
+
+
+    private State state;
+
     /**
      * The location of the object.
      */
-    private Room location = null;
+    private ArrayList<Room> location = null;
 
     /**
      * Adventure Object Constructor
@@ -33,10 +41,16 @@ public class AdventureObject implements Serializable {
      * @param description One line description of the Object.
      * @param location The location of the Object in the game.
      */
-    public AdventureObject(String name, String description, Room location){
+    public AdventureObject(String name, String description, ArrayList<Room> location, String helpTxt){
         this.objectName = name;
         this.description = description;
         this.location = location;
+        this.helpTxt = helpTxt;
+        this.state = null;
+    }
+
+    public void changeState(State state){
+        this.state = state;
     }
 
     /**
@@ -64,8 +78,15 @@ public class AdventureObject implements Serializable {
      * @return returns the location of the object if the objects is still in
      * the room otherwise, returns null.
      */
-    public Room getLocation(){
+    public ArrayList<Room> getLocation(){
         return this.location;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public String getHelpTxt() {
+        return helpTxt;
+    }
 }

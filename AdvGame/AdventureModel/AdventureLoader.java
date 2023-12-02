@@ -3,6 +3,7 @@ package AdventureModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Class AdventureLoader. Loads an adventure from files.
@@ -93,21 +94,27 @@ public class AdventureLoader {
      * Parse Objects File
      */
     public void parseObjects() throws IOException {
-
+        State token = new Token();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
         while (buff.ready()) {
             String objectName = buff.readLine();
             String objectDescription = buff.readLine();
-            String objectLocation = buff.readLine();
+            String helptxt  = buff.readLine();
+            String[] objectLocation = buff.readLine().split(",");
             String separator = buff.readLine();
             if (separator != null && !separator.isEmpty())
                 System.out.println("Formatting Error!");
-            int i = Integer.parseInt(objectLocation);
+            ArrayList<Room> locations = new ArrayList<>();
+            AdventureObject object = new AdventureObject(objectName, objectDescription, locations, helptxt);
+            for (String str: objectLocation){
+            int i = Integer.parseInt(str);
             Room location = this.game.getRooms().get(i);
-            AdventureObject object = new AdventureObject(objectName, objectDescription, location);
             location.addGameObject(object);
+            locations.add(location);
+            }
+            object.changeState(token);
         }
 
     }
