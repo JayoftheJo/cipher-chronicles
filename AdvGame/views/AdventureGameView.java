@@ -3,11 +3,9 @@ package views;
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import Commands.*;
 import Commands.MovementCommands.*;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,9 +26,8 @@ import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 
 
 /**
@@ -61,9 +58,11 @@ AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    private boolean healthToggle = false; //to know if health bar is on or off
-    private HealthBarView healthBar; // to access the health bar
+    boolean playerStatsToggle = false; //to know if health bar is on or off
+    BarView healthBar; // to access the health bar
+    BarView strengthBar;
 
+    VBox playerStats;
 
     /**
      * Adventure Game View Constructor
@@ -183,8 +182,11 @@ AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 1, 2, 2, 1 );
 
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening the health bar
-        addHealthBarEvent();
+        playerStatsEvent();
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -342,7 +344,11 @@ AdventureGameView {
             updateItems();
             PauseTransition pause = new PauseTransition(Duration.seconds(10));
             pause.setOnFinished(event -> {
-                Platform.exit();
+                try {
+                    create_BossView();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             pause.play();
 
@@ -357,7 +363,10 @@ AdventureGameView {
         }
     }
 
-
+    public void create_BossView() throws IOException {
+        BossView boss_view = new BossView(this.model, this.stage);
+        gridPane.requestFocus();
+    }
 
     /**
      * showCommands
@@ -589,14 +598,16 @@ AdventureGameView {
     /**
      * Responds to a 'H' click by showing the or closing the player's healthBar
      */
-    public void addHealthBarEvent(){
+    public void playerStatsEvent(){
+        healthBar = new HealthBarView(this.model.getPlayer());
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
             @Override
             public void handle(KeyEvent event){
                 if (event.getCode().equals(KeyCode.H)){
-                    showHealthBar();
+                    showPlayerStats();
                 }
             }
         };
@@ -606,20 +617,22 @@ AdventureGameView {
 
     }
 
-    private void showHealthBar(){
+    public void showPlayerStats(){
         // if health bar is off
-        if (!healthToggle) {
+        if (!playerStatsToggle) {
 
             // turn it on, make and show it
-            healthToggle = true;
+            playerStatsToggle = true;
             removeByCell(2, 0);
-            healthBar = (new HealthBarView(this.model.getPlayer()));
-            gridPane.add(healthBar.getHealthBar(), 0, 2, 1, 1);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
+            gridPane.add(playerStats, 0, 2, 1, 1);
         }
         // else
         else{
             //turn it off and close it
-            healthToggle = false;
+            playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
