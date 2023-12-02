@@ -83,7 +83,7 @@ public class Player implements Serializable {
             if(this.inventory.get(i).getName().equals(s)) {
                 this.currentRoom.addGameObject(this.inventory.get(i));
                 this.inventory.remove(i);
-                break;
+                break; // since this version supports duplications, we have to stop at 1 removal
             }
         }
     }

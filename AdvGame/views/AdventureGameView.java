@@ -522,6 +522,8 @@ AdventureGameView {
             objectButton.setContentDisplay(ContentDisplay.TOP);
             customizeButton(objectButton, 100, 100);
             int othernNum = 0;
+
+            // Go through all the button nodes to find how many times this item is duplicated
             for(Node node: vbox.getChildren()){
                 if(node instanceof Button){
                     if(((Button) node).getText().startsWith(objectName.split("x")[0])){
@@ -534,12 +536,17 @@ AdventureGameView {
                     }
                 }
             }
+
+            // Add 1 to that count to account for this item
             int count = 1 + othernNum;
+
+            // if there was no duplicates, put this item on screen
             if (count == 1) {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
                 vbox.getChildren().add(objectButton);
             }
+            // else update the button there to reflect how many duplicates of this item are there
             else {
                 Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
                 button.setText(button.getText().split("x")[0] + "x" + count);

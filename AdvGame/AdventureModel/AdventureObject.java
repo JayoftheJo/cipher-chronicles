@@ -24,11 +24,10 @@ public class AdventureObject implements Serializable {
 
     private String helpTxt;
 
-
     private State state;
 
     /**
-     * The location of the object.
+     * The location(s) of the object.
      */
     private ArrayList<Room> location = null;
 
@@ -49,6 +48,10 @@ public class AdventureObject implements Serializable {
         this.state = null;
     }
 
+    /**
+     * Switch to or set a different state for this object
+     * @param state the state to switch to
+     */
     public void changeState(State state){
         this.state = state;
     }
@@ -82,10 +85,18 @@ public class AdventureObject implements Serializable {
         return this.location;
     }
 
+    /**
+     * Returns what state this object is at
+     * @return state of this object
+     */
     public State getState() {
         return state;
     }
 
+    /**
+     * Returns the use of this object
+     * @return the purpose of this object
+     */
     public String getHelpTxt() {
         return helpTxt;
     }

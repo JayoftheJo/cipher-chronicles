@@ -117,7 +117,6 @@ public class BossView extends AdventureGameView{
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-        this.gridPane.add(bossHelp, 0, 2);
 
         playerStats = new VBox();
         playerStats.setSpacing(10);
@@ -132,6 +131,8 @@ public class BossView extends AdventureGameView{
         GridPane.setValignment(objLabel, VPos.BOTTOM);
         GridPane.setValignment(invLabel, VPos.BOTTOM);
         GridPane.setHalignment(objLabel, HPos.RIGHT);
+
+        updateItems();
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -191,6 +192,10 @@ public class BossView extends AdventureGameView{
         return text;
     }
 
+    public void updateScene(String textToDisplay){
+
+    }
+
     @Override
     public void addInstructionEvent() {
         bossHelp.setOnAction(e -> {
@@ -236,7 +241,6 @@ public class BossView extends AdventureGameView{
             //turn it off and close it
             playerStatsToggle = false;
             removeByCell(2, 0);
-            this.gridPane.add(bossHelp,0, 2);
         }
     }
 
