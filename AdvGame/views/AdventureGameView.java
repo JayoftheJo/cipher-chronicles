@@ -2,12 +2,11 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
+import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
-
-import javafx.event.ActionEvent;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -44,8 +43,7 @@ import java.util.Objects;
  * ZOOM LINK: <a href="https://utoronto-my.sharepoint.com/:v:/r/personal/dale_mejia_mail_utoronto_ca/Documents/a2doc.mp4?csf=1&web=1&e=z9dafu&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19">...</a>
  * PASSWORD: N/A
  */
-public class
-AdventureGameView {
+public class AdventureGameView {
 
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
@@ -58,6 +56,8 @@ AdventureGameView {
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
+    CommandCenter commandCenter;
+    boolean inputEnabled;
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
@@ -78,6 +78,8 @@ AdventureGameView {
     public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
+        this.commandCenter = new CommandCenter();
+        this.inputEnabled = true;
         intiUI();
     }
 
@@ -204,49 +206,172 @@ AdventureGameView {
     }
 
     /**
-     * Set an event filter listening for key presses for the scene.
+     * Add an event filter to the scene to listen for any inputted key presses.
      */
     private void setEventFilter() {
         Scene scene = stage.getScene();
-
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                CommandCenter commandCenter = new CommandCenter();
-                MoveUpCommand moveUp = new MoveUpCommand(model);
-                MoveDownCommand moveDown = new MoveDownCommand(model);
-                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
-                MoveRightCommand moveRight = new MoveRightCommand(model);
-                NothingCommand doNothing = new NothingCommand();
-                InspectCommand inspect = new InspectCommand(roomDescLabel, model);
 
-                switch (event.getCode()) {
-                    case W -> commandCenter.setCommand(moveUp);
-                    case S -> commandCenter.setCommand(moveDown);
-                    case A -> commandCenter.setCommand(moveLeft);
-                    case D -> commandCenter.setCommand(moveRight);
-                    case E -> commandCenter.setCommand(inspect);
-                    default -> commandCenter.setCommand(doNothing);
-                }
-
-                commandCenter.execute();
-
-                // Render the new room if the player has moved.
-                if (commandCenter.getCommand() instanceof MovementCommand) {
-                    updateScene("");
-                    updateItems();
+                if (inputEnabled) {
+                    stopArticulation();
+                    setCommand(event);
+                    executeCommand();
                 }
             }
         });
     }
 
+    /**
+     * Given a key press, assign the command center the action bound to said key.
+     *
+     * @param event The key that was pressed.
+     */
+    public void setCommand(KeyEvent event) {
+        switch (event.getCode()) {
+            case W -> commandCenter.setCommand(new MoveUpCommand(model));
+            case S -> commandCenter.setCommand(new MoveDownCommand(model));
+            case A -> commandCenter.setCommand(new MoveLeftCommand(model));
+            case D -> commandCenter.setCommand(new MoveRightCommand(model));
+            case E -> commandCenter.setCommand(new InspectCommand(roomDescLabel, model));
+            default -> commandCenter.setCommand(new NothingCommand());
+        }
+    }
 
+    /**
+     * Execute the command assigned to the command center.
+     * <p>
+     * If the assigned command was a move, then do either of three things:
+     * 1. If the route is available and unblocked, execute a transition and update the scene.
+     * 2. If the route is available but blocked, tell the player which key item they need to proceed.
+     * 3. If the route is unavailable, inform the player that they may not go this way.
+     *
+     */
+    private void executeCommand() {
+        // If the command was a movement command:
+        if (commandCenter.getCommand() instanceof MovementCommand) {
+
+            // Keep track of the previous and current room after a move.
+            int previousRoom = model.player.getCurrentRoom().getRoomNumber();
+            commandCenter.execute();
+            int currentRoom = model.player.getCurrentRoom().getRoomNumber();
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                inputEnabled = true;
+                updateScene("");
+                updateItems();
+            });
+
+            // If the room has changed:
+            if (previousRoom != currentRoom) {
+                inputEnabled = false;
+                executeTransition();
+                pause.play();
+            }
+
+            // Otherwise:
+            else {
+                String direction = getMovementDirection(); // Get the direction of the attempted move.
+                boolean routeAvailable =
+                        model.player.getCurrentRoom().getMotionTable().optionExists(direction);
+
+                // If the route to a room is available but blocked:
+                if (routeAvailable) {
+                    Passage targetedPassage = getTargetedPassage(direction);
+                    assert targetedPassage != null; // Should always be true for a route is available.
+                    roomDescLabel.setText
+                            ("You will need " + targetedPassage.getKeyName() + " to enter here!");
+                }
+
+                // If the route does not exist:
+                else {
+                    roomDescLabel.setText("You cannot go this way!");
+                }
+            }
+        }
+
+        // Otherwise, execute the command as is.
+        else { commandCenter.execute(); }
+
+    }
+    /**
+     * Given a direction, return the passage corresponding to that direction.
+     *
+     * @param direction the direction of the desired passage.
+     * @return the passage correlating to the given direction.
+     */
+    private Passage getTargetedPassage(String direction) {
+        for (Passage passage: model.player.getCurrentRoom().getMotionTable().passageTable) {
+            if (passage.getDirection().equalsIgnoreCase(direction)) { return passage; }
+        }
+        return null;
+    }
+
+    /**
+     * GIven that the command center's assigned command is a movement command, return its String direction.
+     *
+     * @return the String direction of the attempted move.
+     */
+    private String getMovementDirection() {
+        Command current = this.commandCenter.getCommand();
+        assert current instanceof MovementCommand;
+
+        if (current instanceof MoveUpCommand) {
+            return "UP";
+        }
+        else if (current instanceof MoveDownCommand) {
+            return "DOWN";
+        }
+        else if (current instanceof MoveLeftCommand) {
+            return "LEFT";
+        }
+        else {
+            return "RIGHT";
+        }
+    }
+
+    /**
+     * Change the room image to a black image and play a footstep SFX to indicate a room transition.
+     */
+    private void executeTransition() {
+        String roomImage = model.getDirectoryName() + "/room-images/transition.png";
+        Image transitionImage = new Image(roomImage);
+        roomImageView = new ImageView(transitionImage);
+        roomImageView.setPreserveRatio(true);
+        roomImageView.setFitWidth(400);
+        roomImageView.setFitHeight(400);
+
+        roomDescLabel.setText("You are moving into a new room.");
+        roomDescLabel.setPrefWidth(500);
+        roomDescLabel.setPrefHeight(500);
+        roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
+        roomDescLabel.setWrapText(true);
+        VBox roomPane = new VBox(roomImageView,roomDescLabel);
+        roomPane.setPadding(new Insets(10));
+        roomPane.setAlignment(Pos.TOP_CENTER);
+        roomPane.setStyle("-fx-background-color: #000000;");
+
+        objectsInRoom.getChildren().clear();
+        objectsInInventory.getChildren().clear();
+
+        String musicFile = model.getDirectoryName() + "/sounds/transition.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        mediaPlaying = true;
+
+        gridPane.add(roomPane, 1, 1);
+        stage.sizeToScene();
+    }
 
     /**
      * makeButtonAccessible
      * __________________________
      * For information about ARIA standards, see
-     * https://www.w3.org/WAI/standards-guidelines/aria/
+     * <a href="https://www.w3.org/WAI/standards-guidelines/aria/"></a>
      *
      * @param inputButton the button to add screenreader hooks to
      * @param name ARIA name
@@ -702,5 +827,4 @@ AdventureGameView {
     public void gameOver(){
 
     }
-
 }
