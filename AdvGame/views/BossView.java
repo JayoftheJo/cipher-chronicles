@@ -202,7 +202,7 @@ public class BossView extends AdventureGameView{
      * Responds to a 'H' click by showing the or closing the player's healthBar
      */
     public void playerStatsEvent(){
-        healthBar = new HealthBarView(this.model.getPlayer());
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
@@ -238,5 +238,9 @@ public class BossView extends AdventureGameView{
             removeByCell(2, 0);
             this.gridPane.add(bossHelp,0, 2);
         }
+    }
+
+    public void gameOver() {
+
     }
 }

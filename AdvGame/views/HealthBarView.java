@@ -25,15 +25,20 @@ public class HealthBarView implements BarView {
 
     private StackPane healthBar;
 
+    Object view;
+
 
     /**
      * HealthBarView Constructor
      * @param player the player playing the game
      */
-    public HealthBarView(Player player){
+    public HealthBarView(Player player, Object view){
 
         // set the player to access health and totalHealth from
         this.player = player;
+
+        this.view = view;
+
 
         // Set the parts of the health bar
         // the back layer of the health bar gets the whole width
@@ -97,6 +102,13 @@ public class HealthBarView implements BarView {
                     onTop.setWidth(0);
                     this.player.changeHealth(-this.player.getHealth());
                     //Game Over
+                    if (view instanceof AdventureGameView){
+                        ((AdventureGameView) view).gameOver();
+                    }
+                    else if(view instanceof BossView){
+                        ((BossView) view).gameOver();
+                    }
+
                 }
                 // Change the health bar according based on player's decreased health when within bounds
                 else{
@@ -108,8 +120,8 @@ public class HealthBarView implements BarView {
                 onTop.setFill(Color.GREEN);
             });
         }
-        // to change colour back from the light green after the pause
 
+        // to change colour back from the light green after the pause
         pause.play();
 
     }
