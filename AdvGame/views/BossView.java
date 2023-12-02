@@ -41,7 +41,7 @@ public class BossView extends AdventureGameView{
     boolean boss_helpToggle = false;
 
 
-    boolean playerStatsToggle = false; //to know if health bar is on or off
+    boolean playerStatsToggle; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar;
 
@@ -117,13 +117,16 @@ public class BossView extends AdventureGameView{
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-        this.gridPane.add(bossHelp, 0, 2);
+
 
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
+
         // event for hiding or opening the health bar
         this.playerStatsEvent();
+
+
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
@@ -236,11 +239,22 @@ public class BossView extends AdventureGameView{
             //turn it off and close it
             playerStatsToggle = false;
             removeByCell(2, 0);
-            this.gridPane.add(bossHelp,0, 2);
         }
     }
 
     public void gameOver() {
 
+    }
+
+    /**
+     * Set player stats toggle
+     * @param playerStatsToggle what to set playerStatsToggle to
+     */
+    public void setPlayerStatsToggle(boolean playerStatsToggle){
+        this.playerStatsToggle = playerStatsToggle;
+        if(this.playerStatsToggle){
+            this.playerStatsToggle = !this.playerStatsToggle;
+            showPlayerStats();
+        }
     }
 }

@@ -62,7 +62,7 @@ AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    boolean playerStatsToggle = false; //to know if player stats is on or off
+    boolean playerStatsToggle; //to know if player stats is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar; // to access the strength bar
 
@@ -186,6 +186,7 @@ AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 1, 2, 2, 1 );
 
+        this.playerStatsToggle = false;
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
@@ -370,6 +371,7 @@ AdventureGameView {
      */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
+        boss_view.setPlayerStatsToggle(this.playerStatsToggle);
         gridPane.requestFocus();
     }
 
@@ -625,10 +627,10 @@ AdventureGameView {
 
     public void showPlayerStats(){
         // if player stats is off
-        if (!playerStatsToggle) {
+        if (!this.playerStatsToggle) {
 
             // turn it on, make and show it
-            playerStatsToggle = true;
+            this.playerStatsToggle = true;
             removeByCell(2, 0);
             playerStats.getChildren().clear();
             playerStats.getChildren().add(healthBar.get());
@@ -638,7 +640,7 @@ AdventureGameView {
         // else
         else{
             //turn it off and close it
-            playerStatsToggle = false;
+            this.playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
