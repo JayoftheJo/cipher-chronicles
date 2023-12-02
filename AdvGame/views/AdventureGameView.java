@@ -65,11 +65,11 @@ AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    boolean playerStatsToggle = false; //to know if health bar is on or off
+    boolean playerStatsToggle; //to know if player stats is on or off
     BarView healthBar; // to access the health bar
-    BarView strengthBar;
+    BarView strengthBar; // to access the strength bar
 
-    VBox playerStats;
+    VBox playerStats; // for player stats
 
     /**
      * Adventure Game View Constructor
@@ -189,10 +189,11 @@ AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 1, 2, 2, 1 );
 
+        this.playerStatsToggle = false;
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
-        // event for hiding or opening the health bar
+        // event for hiding or opening player stats
         playerStatsEvent();
 
         // Render everything
@@ -373,6 +374,7 @@ AdventureGameView {
      */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
+        boss_view.setPlayerStatsToggle(this.playerStatsToggle);
         gridPane.requestFocus();
     }
 
@@ -627,9 +629,10 @@ AdventureGameView {
     }
 
     /**
-     * Responds to a 'H' click by showing the or closing the player's healthBar
+     * Responds to a 'H' click by showing the or closing the player's stats
      */
     public void playerStatsEvent(){
+        // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
@@ -649,11 +652,11 @@ AdventureGameView {
     }
 
     public void showPlayerStats(){
-        // if health bar is off
-        if (!playerStatsToggle) {
+        // if player stats is off
+        if (!this.playerStatsToggle) {
 
             // turn it on, make and show it
-            playerStatsToggle = true;
+            this.playerStatsToggle = true;
             removeByCell(2, 0);
             playerStats.getChildren().clear();
             playerStats.getChildren().add(healthBar.get());
@@ -663,7 +666,7 @@ AdventureGameView {
         // else
         else{
             //turn it off and close it
-            playerStatsToggle = false;
+            this.playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
