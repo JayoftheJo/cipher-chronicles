@@ -22,7 +22,7 @@ public class StrengthBarView implements BarView{
 
 
     /**
-     * HealthBarView Constructor
+     * StrengthBarView Constructor
      * @param player the player playing the game
      */
     public StrengthBarView(Player player, Object view){
@@ -31,18 +31,20 @@ public class StrengthBarView implements BarView{
         if (view instanceof BossView) {
             this.usable = true;
         }
-        // set the player to access health and totalHealth from
+        // set the player to access strength and full strength from
         this.player = player;
 
-        // Set the parts of the health bar
-        // the back layer of the health bar gets the whole width
+        // Set the parts of the strength bar
+        // the back layer of the strength bar gets the whole width
         this.background = new Rectangle(B_WIDTH, B_HEIGHT);
 
-        // the top layer occupies space synonymous to player's current health
+        // the top layer occupies space synonymous to player's current strength
         this.onTop = new Rectangle(0, B_HEIGHT);
 
+        // Colour the different parts
         colour();
 
+        // Set the initial state
         initState();
 
     }
@@ -68,9 +70,9 @@ public class StrengthBarView implements BarView{
     }
 
     /**
-     * Changes the player's health
+     * Changes the player's strength
      * Precondition: howMuch >= 0
-     * @param howMuch the value by which to increase the player health
+     * @param howMuch the value by which to increase the player strength
      */
     @Override
     public void change(int howMuch) {

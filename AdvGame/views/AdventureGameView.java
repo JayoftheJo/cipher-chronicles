@@ -62,11 +62,11 @@ AdventureGameView {
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    boolean playerStatsToggle = false; //to know if health bar is on or off
+    boolean playerStatsToggle = false; //to know if player stats is on or off
     BarView healthBar; // to access the health bar
-    BarView strengthBar;
+    BarView strengthBar; // to access the strength bar
 
-    VBox playerStats;
+    VBox playerStats; // for player stats
 
     /**
      * Adventure Game View Constructor
@@ -189,7 +189,7 @@ AdventureGameView {
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
-        // event for hiding or opening the health bar
+        // event for hiding or opening player stats
         playerStatsEvent();
 
         // Render everything
@@ -601,9 +601,10 @@ AdventureGameView {
     }
 
     /**
-     * Responds to a 'H' click by showing the or closing the player's healthBar
+     * Responds to a 'H' click by showing the or closing the player's stats
      */
     public void playerStatsEvent(){
+        // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
@@ -623,7 +624,7 @@ AdventureGameView {
     }
 
     public void showPlayerStats(){
-        // if health bar is off
+        // if player stats is off
         if (!playerStatsToggle) {
 
             // turn it on, make and show it
