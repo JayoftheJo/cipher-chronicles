@@ -545,29 +545,30 @@ AdventureGameView {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
                 vbox.getChildren().add(objectButton);
+
+                EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+
+                        if (objectsInRoom.getChildren().contains(objectButton)) {
+                            submitEvent("take " + object.getName());
+                        }
+
+                        else if (objectsInInventory.getChildren().contains(objectButton)) {
+                            submitEvent("drop " + object.getName());
+                        }
+                    }
+                };
+
+                objectButton.setOnMouseClicked(eventHandler);
             }
             // else update the button there to reflect how many duplicates of this item are there
             else {
                 Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
                 button.setText(button.getText().split("x")[0] + "x" + count);
-
             }
-            EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
-                @Override
-                public void handle(MouseEvent event) {
-
-                    if (objectsInRoom.getChildren().contains(objectButton)) {
-                        submitEvent("take " + object.getName());
-                    }
-
-                    else if (objectsInInventory.getChildren().contains(objectButton)) {
-                        submitEvent("drop " + object.getName());
-                    }
-                }
-            };
-
-            objectButton.setOnMouseClicked(eventHandler);
         }
     }
 

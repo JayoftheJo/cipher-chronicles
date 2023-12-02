@@ -66,15 +66,32 @@ public class Room implements Serializable {
      */
     public String getObjectString() {
         String presentObjects = "";
+        int duplicate = 1;
 
         for (AdventureObject o: this.objectsInRoom){
             if (presentObjects.isEmpty()){
                 presentObjects += o.getDescription();
             }
             else {
-                presentObjects += ", " + o.getDescription();
-            }
+                if (presentObjects.contains(o.getDescription())){
+                    duplicate += 1;
+                    int start = presentObjects.indexOf(o.getDescription());
+                    int end = presentObjects.indexOf("x") + 3;
+                    if (end != 2) {
+                        presentObjects = presentObjects.replace(presentObjects.substring(start, end), o.getDescription() + " x " + duplicate);
+                    }
+                    else {
+                        presentObjects = presentObjects.replace(o.getDescription(), o.getDescription() + " x " + duplicate);
+                    }
+
+                    }
+                else {
+                    presentObjects += ", " + o.getDescription();
+                }
+                }
         }
+
+
 
         return presentObjects;
     }
