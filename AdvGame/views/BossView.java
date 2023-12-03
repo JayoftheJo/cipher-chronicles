@@ -169,7 +169,7 @@ public class BossView extends AdventureGameView{
         this.stage.setResizable(false);
         this.stage.show();
 
-        // Running the intro message to the boss room
+        // Alerting the intro message to the boss room
         Platform.runLater(() -> {
             Alert round = new Alert(Alert.AlertType.INFORMATION);
             ImageView intro_img = new ImageView(bossTroll.charImage);
@@ -332,6 +332,12 @@ public class BossView extends AdventureGameView{
         open_buttons();
     }
 
+    /*
+     * This method returns the text needed for move
+     * confirmation message after each round
+     *
+     * @param boss_dmg
+     */
     private String round_text(int boss_dmg){
         return "\nYou dealt " + damage + " damage\nThe troll dealt " + boss_dmg + "\n\n" +
                 "CURRENT STATS:\nPLAYER: \nHEALTH = " + finalPlayer.getHealth() + "\nSTRENGTH = " +

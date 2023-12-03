@@ -24,6 +24,7 @@ public class trollBoss extends Boss {
     /*
      *
      * make this character fight another boss
+     * and return the damage inflicted
      * @param other
      */
     @Override
