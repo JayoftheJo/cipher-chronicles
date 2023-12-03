@@ -50,13 +50,20 @@ public class BossView extends AdventureGameView{
 
     boolean playerStatsToggle = false; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
-    BarView strengthBar;
+    BarView strengthBar; // to access the strength bar
 
-    VBox playerStats;
+    VBox playerStats; // holds the player stats
+
+    boolean invincible;
+
+    int roundNum;
+
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
         rand = new Random();
         model.setHelpText(parseOtherFile("boss_help"));
+        roundNum = 0;
+        invincible = false;
     }
 
     @Override
@@ -123,6 +130,8 @@ public class BossView extends AdventureGameView{
         abilityButtons.setSpacing(10);
         abilityButtons.setAlignment(Pos.CENTER);
 
+        specAttackButton.setDisable(true);
+
         healButton.setOnAction(event -> heal_handle());
         attackButton.setOnAction(event -> attack_handle());
         specAttackButton.setOnAction(event -> specAttack_handle());
@@ -147,6 +156,8 @@ public class BossView extends AdventureGameView{
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening the health bar
+        playerStatsEvent();
+
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
@@ -278,7 +289,10 @@ public class BossView extends AdventureGameView{
     private void open_buttons(){
         attackButton.setDisable(false);
         healButton.setDisable(false);
+
+        if (!specAttackButton.isDisabled()){
         specAttackButton.setDisable(false);
+        }
     }
 
     /*
@@ -298,11 +312,18 @@ public class BossView extends AdventureGameView{
     private void boss_move(){
         int move = rand.nextInt(0,50);
         if (move > 10){
+            if(!invincible){
             bossTroll.attack(finalPlayer);
+            }
         }
         else{
             bossTroll.heal();
         }
+        roundNum += 1;
+        if (roundNum == 3){
+            invincible = false;
+        }
+
         open_buttons();
     }
 
@@ -340,13 +361,39 @@ public class BossView extends AdventureGameView{
         });
     }
 
+    /**
+     * Responds to a 'H' click by showing the or closing the player's stats
+     */
+    public void playerStatsEvent(){
+        // Initialize them
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
+
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event){
+                if (event.getCode().equals(KeyCode.H)){
+                    showPlayerStats();
+                }
+            }
+        };
+
+        // Make the gridpane wait for it
+        this.gridPane.setOnKeyPressed(keyBindClick);
+
+    }
+
     public void showPlayerStats(){
         // if health bar is off
         if (!playerStatsToggle) {
 
             // turn it on, make and show it
             playerStatsToggle = true;
-            removeByCell(2, 0);playerStats.getChildren().clear();
+            removeByCell(2, 0);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
             gridPane.add(playerStats, 0, 2, 1, 1);
         }
         // else
@@ -358,6 +405,10 @@ public class BossView extends AdventureGameView{
     }
 
     public void activateStrengthButton(){
+        specAttackButton.setDisable(false);
+    }
+
+    public void invincible(){
 
     }
 
@@ -376,4 +427,9 @@ public class BossView extends AdventureGameView{
             showPlayerStats();
         }
     }
+
+    /**
+     * Set the view to delegate the execute task to
+     * @param view the boss view for this game
+     */
 }

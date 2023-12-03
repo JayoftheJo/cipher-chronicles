@@ -95,6 +95,7 @@ public class AdventureLoader {
      */
     public void parseObjects() throws IOException {
         State token = new Token();
+        State invem = new InvincibleItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
@@ -114,7 +115,13 @@ public class AdventureLoader {
             location.addGameObject(object);
             locations.add(location);
             }
-            object.changeState(token);
+
+            if (objectLocation.length > 1) {
+                object.changeState(token);
+            }
+            else {
+                object.changeState(invem);
+            }
         }
 
     }
