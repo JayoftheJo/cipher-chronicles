@@ -21,6 +21,11 @@ public class trollBoss extends Boss {
         this.bossStrength = strength;
     }
 
+    /*
+     *
+     * make this character fight another boss
+     * @param other
+     */
     @Override
     public void attack(Player other){
         int damage = rand.nextInt(0, this.bossStrength * 5);

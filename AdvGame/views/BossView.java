@@ -118,9 +118,9 @@ public class BossView extends AdventureGameView{
         abilityButtons.setSpacing(10);
         abilityButtons.setAlignment(Pos.CENTER);
 
-        healButton.setOnAction(event -> heal_handle(healButton, attackButton, specAttackButton));
-        attackButton.setOnAction(event -> attack_handle(healButton, attackButton, specAttackButton));
-        specAttackButton.setOnAction(event -> specAttack_handle(healButton, attackButton, specAttackButton));
+        healButton.setOnAction(event -> heal_handle());
+        attackButton.setOnAction(event -> attack_handle());
+        specAttackButton.setOnAction(event -> specAttack_handle());
 
         //labels for inventory and room items
         Label objLabel =  new Label("Objects in Room");
@@ -196,52 +196,61 @@ public class BossView extends AdventureGameView{
         }
     }
 
+    /*
+     * This method checks whether the battle has ended
+     * based on the player and boss's health
+     */
     private void check_status(){
-        System.out.println(finalPlayer.getHealth());
-        System.out.println(bossTroll.bossHealth);
         if (finalPlayer.getHealth() <= 0 || bossTroll.bossHealth <= 0) {
             Platform.exit();
         }
     }
 
-    private void heal_handle(Button button1, Button button2, Button button3) {
-        // Disable all buttons
-        button1.setDisable(true);
-        button2.setDisable(true);
-        button3.setDisable(true);
-
+    /*
+     * This method handles when the heal
+     * button has been clicked
+     */
+    private void heal_handle() {
+        close_buttons();
         playerHeal();
         boss_move();
         check_status();
     }
 
-    private void attack_handle(Button button1, Button button2, Button button3) {
-        // Disable all buttons
-        button1.setDisable(true);
-        button2.setDisable(true);
-        button3.setDisable(true);
-
+    /*
+     * This method handles when the attack
+     * button has been clicked
+     */
+    private void attack_handle() {
+        close_buttons();
         playerAttack();
         boss_move();
         check_status();
     }
 
-    private void specAttack_handle(Button button1, Button button2, Button button3) {
-        // Disable all buttons
-        button1.setDisable(true);
-        button2.setDisable(true);
-        button3.setDisable(true);
-
+    /*
+     * This method handles when the special attack
+     * button has been clicked
+     */
+    private void specAttack_handle() {
+        close_buttons();
         playerSpec();
         boss_move();
         check_status();
     }
 
+    /*
+     * This method lets the player attack
+     * the enemy boss
+     */
     private void playerAttack(){
         int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 5);
         bossTroll.bossHealth -= damage;
     }
 
+    /*
+     * This method lets the player heal themselves
+     */
     private void playerHeal(){
         finalPlayer.changeHealth(25);
         if (finalPlayer.getHealth() > 100){
@@ -249,17 +258,38 @@ public class BossView extends AdventureGameView{
         }
     }
 
+    /*
+     * This method lets the player unleash
+     * a special attack on the enemy boss
+     */
     private void playerSpec(){
         int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
         bossTroll.bossHealth -= damage;
     }
 
+    /*
+     * This method is used to enable the ability buttons
+     */
     private void open_buttons(){
         attackButton.setDisable(false);
         healButton.setDisable(false);
         specAttackButton.setDisable(false);
     }
 
+    /*
+     * This method is used to disable the ability buttons
+     */
+    private void close_buttons(){
+        attackButton.setDisable(true);
+        healButton.setDisable(true);
+        specAttackButton.setDisable(true);
+    }
+
+    /*
+     * This method is used to initiate the boss's move
+     * where they can either attack or heal based on
+     * a random number between 0 and 50
+     */
     private void boss_move(){
         int move = rand.nextInt(0,50);
         if (move > 10){
