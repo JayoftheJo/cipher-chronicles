@@ -10,6 +10,6 @@ public class concreteBossFactory implements bossFactory {
      */
     @Override
     public Boss createBossCharacter() {
-        return new trollBoss(150.0, 5.0);
+        return new trollBoss(150, 10);
     }
 }
