@@ -54,10 +54,16 @@ public class BossView extends AdventureGameView{
 
     VBox playerStats; // holds the player stats
 
-    boolean invincible;
+    boolean invincible;    // for invincibility
 
-    int roundNum;
+    int roundNum; // num rounds invincible for
 
+    /**
+     * BossView Constructor.
+     * @param model the game we are playing
+     * @param stage the window we are using
+     * @throws IOException
+     */
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
         rand = new Random();
@@ -130,7 +136,7 @@ public class BossView extends AdventureGameView{
         abilityButtons.setSpacing(10);
         abilityButtons.setAlignment(Pos.CENTER);
 
-        specAttackButton.setDisable(true);
+        specAttackButton.setDisable(true); // only activated with tokens
 
         healButton.setOnAction(event -> heal_handle());
         attackButton.setOnAction(event -> attack_handle());
@@ -279,8 +285,13 @@ public class BossView extends AdventureGameView{
      * a special attack on the enemy boss
      */
     private void playerSpec(){
+
+
         int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
         bossTroll.bossHealth -= damage;
+
+        this.strengthBar.initState();
+
     }
 
     /*
@@ -312,6 +323,8 @@ public class BossView extends AdventureGameView{
     private void boss_move(){
         int move = rand.nextInt(0,50);
         if (move > 10){
+
+            // can only attack a non-invincible player
             if(!invincible){
             bossTroll.attack(finalPlayer);
             }
@@ -319,9 +332,11 @@ public class BossView extends AdventureGameView{
         else{
             bossTroll.heal();
         }
+
+        // Keep track of how many rounds of invincibility
         roundNum += 1;
         if (roundNum == 3){
-            invincible = false;
+            invincible = false; // after 3 the invincibility wears off
         }
 
         open_buttons();
@@ -384,36 +399,49 @@ public class BossView extends AdventureGameView{
 
     }
 
-    public void showPlayerStats(){
-        // if health bar is off
-        if (!playerStatsToggle) {
-
-            // turn it on, make and show it
-            playerStatsToggle = true;
-            removeByCell(2, 0);
-            playerStats.getChildren().clear();
-            playerStats.getChildren().add(healthBar.get());
-            playerStats.getChildren().add(strengthBar.get());
-            gridPane.add(playerStats, 0, 2, 1, 1);
-        }
-        // else
-        else{
-            //turn it off and close it
-            playerStatsToggle = false;
-            removeByCell(2, 0);
-        }
-    }
-
+//    public void showPlayerStats(){
+//        // if health bar is off
+//        if (!this.playerStatsToggle) {
+//
+//            // turn it on, make and show it
+//            this.playerStatsToggle = true;
+//            removeByCell(2, 0);
+//            playerStats.getChildren().clear();
+//            playerStats.getChildren().add(healthBar.get());
+//            playerStats.getChildren().add(strengthBar.get());
+//            gridPane.add(playerStats, 0, 2, 1, 1);
+//        }
+//        // else
+//        else{
+//            //turn it off and close it
+//            this.playerStatsToggle = false;
+//            removeByCell(2, 0);
+//        }
+//    }
+//
+//    /**
+//     * Allows user ability to use special attack
+//     */
     public void activateStrengthButton(){
         specAttackButton.setDisable(false);
     }
 
+    /**
+     * Makes the player invincible
+     */
     public void invincible(){
-
+        this.invincible = true;
     }
 
-    public void gameOver() {
 
+    /**
+     * GameOver.
+     * Window closes
+     */
+    public void gameOver() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(actionEvent -> Platform.exit());
+        pause.play();
     }
 
     /**
@@ -428,8 +456,4 @@ public class BossView extends AdventureGameView{
         }
     }
 
-    /**
-     * Set the view to delegate the execute task to
-     * @param view the boss view for this game
-     */
 }

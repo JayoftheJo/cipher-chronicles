@@ -1,11 +1,13 @@
-import AdventureModel.AdventureGame;
-import AdventureModel.Room;
-import AdventureModel.State;
-import AdventureModel.Token;
+import AdventureModel.*;
 import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import views.AdventureGameView;
+import views.BossView;
 import views.HealthBarView;
 import views.StrengthBarView;
+
+import java.io.IOException;
 
 public class StateTest {
 
@@ -44,5 +46,15 @@ public class StateTest {
         assert game.getPlayer().getCurrentRoom().objectsInRoom.isEmpty();
     }
 
+    @Test
+    public void getInvincibleItem() throws IOException {
+        AdventureGame game = new AdventureGame("TinyGame");
+        int count = 0;
+        for (int room: game.getRooms().keySet()){
+            count += (int) game.getRooms().get(room).objectsInRoom.stream().filter(node -> node.getState() instanceof InvincibleItem).count();
+        }
 
+        assert count == 1;
+
+    }
 }
