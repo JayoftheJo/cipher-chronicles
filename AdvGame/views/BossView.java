@@ -295,6 +295,9 @@ public class BossView extends AdventureGameView{
     }
 
 
+    /*
+     * Makes this BossView thier view
+     */
     private void updateObjs(){
         objectsInRoom.getChildren().clear();
 
