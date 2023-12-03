@@ -26,10 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import views.bars.BarView;
-import views.bars.BossHealthBarView;
-import views.bars.HealthBarView;
-import views.bars.StrengthBarView;
+import views.bars.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -185,8 +182,11 @@ public class BossView extends AdventureGameView{
         bossStats.setAlignment(Pos.CENTER_LEFT);
 
         bossHealthBar = new BossHealthBarView(bossTroll, this);
+        bossStrengthBar = new BossStrengthBarView(bossTroll, this);
 
-        this.gridPane.add((Node) bossHealthBar.get(), 2, 0);
+        bossStats.getChildren().addAll(bossHealthBar.get(), bossStrengthBar.get());
+
+        this.gridPane.add(bossStats, 2, 0);
 
         bossTroll.setHealthBar(bossHealthBar);
 
@@ -600,7 +600,7 @@ public class BossView extends AdventureGameView{
     }
 
     public void halfDamage(){
-
+        bossTroll.changeHealthBar(-(bossTroll.getHealth()/2));
     }
 
 }
