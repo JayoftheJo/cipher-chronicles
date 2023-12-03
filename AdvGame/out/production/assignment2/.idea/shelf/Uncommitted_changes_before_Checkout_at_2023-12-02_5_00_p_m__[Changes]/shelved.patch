@@ -1,0 +1,423 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project version=\"4\">\r\n  <component name=\"JavadocGenerationManager\">\r\n    <option name=\"OUTPUT_DIRECTORY\" value=\"$USER_HOME$/Downloads\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"openjdk-20\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -1,7 +1,5 @@
++<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="JavadocGenerationManager">
+-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Downloads" />
+-  </component>
+   <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$/..\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	
++++ b/.idea/vcs.xml	
+@@ -2,5 +2,6 @@
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/group_57" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: ../out/production/group_57/out/production/assignment2/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"JavadocGenerationManager\">\r\n    <option name=\"OUTPUT_DIRECTORY\" value=\"$USER_HOME$/Downloads\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"openjdk-20\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/../out/production/group_57/out/production/assignment2/.idea/misc.xml b/../out/production/group_57/out/production/assignment2/.idea/misc.xml
+--- a/../out/production/group_57/out/production/assignment2/.idea/misc.xml	
++++ b/../out/production/group_57/out/production/assignment2/.idea/misc.xml	
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="JavadocGenerationManager">
+     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Downloads" />
+Index: ../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>1\r\nOutside building\r\nYou are standing at the end of a road before a small brick building.  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west.\r\n-----\r\nWEST       2\r\nUP         2\r\nNORTH      3\r\nIN         3\r\nSOUTH      4\r\nDOWN       4\r\n\r\n2\r\nEnd of road\r\nYou are at the end of a road at the top of a small hill. You can see a small building in the valley to the east.\r\n-----\r\nEAST       1\r\nWEST       3\r\nDOWN       3\r\n\r\n3\r\nInside building\r\nYou are inside a building, a well house for a large spring. The exit door is to the south.  There is another room to the north, but the door is barred by a shimmering curtain.\r\n-----\r\nSOUTH      1\r\nWEST       5\r\nOUT        6/BIRD\r\nOUT        1\r\nNORTH     3\r\nXYZZY     2/BOOK\r\nXYZZY     1\r\nPLUGH     2/BOOK\r\nPLUGH     1\r\n\r\n4\r\nValley beside a stream\r\nYou are in a valley in the forest beside a stream tumbling along a rocky bed.  The stream is flowing to the south.\r\n-----\r\nNORTH      1\r\nUP         1\r\nSOUTH      5\r\nDOWN       5\r\nWEST       5\r\n\r\n5\r\nSlit in rock\r\nAt your feet all the water of the stream splashes into a two-inch slit in the rock.  To the south, the streambed is bare rock.\r\n-----\r\nNORTH      4\r\nUP         4\r\nSOUTH      6\r\nDOWN       6\r\nWEST       6\r\n\r\n6\r\nCurtain1\r\nYou are passing through a curtain!\r\n-----\r\nFORCED    7/BIRD\r\nFORCED    9\r\n\r\n7\r\nCurtain2\r\nYou are passing through another curtain!\r\n-----\r\nFORCED    8\r\n\r\n8\r\nCurtain3\r\nYet another curtain here!\r\n-----\r\nFORCED    10\r\n\r\n9\r\nMissing Treasures\r\nYou can pass through this curtain only if you're carrying all the treasures.  You don't yet have all of them.\r\n-----\r\nFORCED     3\r\n\r\n10\r\nVictory\r\nYou have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!\r\n-----\r\nFORCED     0\r\n\r\n
+===================================================================
+diff --git a/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt b/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt
+--- a/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt	
++++ b/../out/production/group_57/out/production/assignment2/Games/TinyGame/rooms.txt	
+@@ -1,84 +1,74 @@
+ 1
+-Outside building
+-You are standing at the end of a road before a small brick building.  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west.
++Terminal
++You stand within an empty terminal. The sign above you emits a faint yellow while it hums monotonously. The seats lined up seem to be untouched for a while.
++-----
++LEFT     6
++RIGHT     4
++DOWN     11
++
++2
++Bingo Hall
++You stand in the middle of a busy bingo hall. The carpet beneath you is littered with tattered, inked papers of numbers. The lights above you shine on blindingly.
+ -----
+-WEST       2
+-UP         2
+-NORTH      3
+-IN         3
+-SOUTH      4
+-DOWN       4
++LEFT     4
++
++3
++Electrical Room
++You stand before a wide array of electrical panels. Fuses lay strewn across the concrete floor. The lever for the breaker appears to be missing.
++-----
++DOWN     4
+ 
+-2
+-End of road
+-You are at the end of a road at the top of a small hill. You can see a small building in the valley to the east.
++4
++Parking Lot
++You stand inside a wide concrete ocean. The yellow lines separating lots are barely recognizable. Not a single vehicle seems to be in sight.
+ -----
+-EAST       1
+-WEST       3
+-DOWN       3
++UP     3
++LEFT     1
++RIGHT     2
+ 
+-3
+-Inside building
+-You are inside a building, a well house for a large spring. The exit door is to the south.  There is another room to the north, but the door is barred by a shimmering curtain.
++5
++Boiler Room
++You stand within a very dim room. Your eyes can barely make out the silhouettes of three, presumably non-operational boilers. In the middle stands a lone table.
+ -----
+-SOUTH      1
+-WEST       5
+-OUT        6/BIRD
+-OUT        1
+-NORTH     3
+-XYZZY     2/BOOK
+-XYZZY     1
+-PLUGH     2/BOOK
+-PLUGH     1
++RIGHT     8
+ 
+-4
+-Valley beside a stream
+-You are in a valley in the forest beside a stream tumbling along a rocky bed.  The stream is flowing to the south.
++6
++Waiting Room
++You stand before an echelon of chairs lined perpendicularly to a receptionist desk. The lights above you seem to be on their last legs. Yet again, these seats seem to be untouched.
+ -----
+-NORTH      1
+-UP         1
+-SOUTH      5
+-DOWN       5
+-WEST       5
++UP     7
++RIGHT     1
+ 
+-5
+-Slit in rock
+-At your feet all the water of the stream splashes into a two-inch slit in the rock.  To the south, the streambed is bare rock.
++7
++Ice Rink
++You stand behind a barrier protecting an ice rink, or what is left of it. Inside the rink, all that is left is a pool of lukewarm water. The bleachers overlooking the rink are empty.
+ -----
+-NORTH      4
+-UP         4
+-SOUTH      6
+-DOWN       6
+-WEST       6
++UP     8
++DOWN     6
+ 
+-6
+-Curtain1
+-You are passing through a curtain!
++8
++Laundromat
++You stand inside a laundromat. Magazines and change lay strewn across chairs. You can even pick out clothes loaded in some of the machines.
+ -----
+-FORCED    7/BIRD
+-FORCED    9
++UP     9
++LEFT     5
++DOWN     7
+ 
+-7
+-Curtain2
+-You are passing through another curtain!
++9
++Aquarium
++You stand before a grandiose aquarium, which was disappointingly empty. The dark blue hue illuminated the room, revealing sets of tables and chairs.
+ -----
+-FORCED    8
++DOWN     8
++RIGHT     10
+ 
+-8
+-Curtain3
+-Yet another curtain here!
++10
++Storage Units
++You stand in the hall of a storage facility. There appears to be a unit left wide open to your right.
+ -----
+-FORCED    10
++LEFT     9
+ 
+-9
+-Missing Treasures
+-You can pass through this curtain only if you're carrying all the treasures.  You don't yet have all of them.
+------
+-FORCED     3
+-
+-10
+-Victory
+-You have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!
++11
++Exit
++At long last, an exit! But something is in your way. You must now battle to either win and prosper or die and suffer.
+ -----
+ FORCED     0
+-
+Index: ../out/production/group_57/assignment2.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"module-library\">\r\n      <library name=\"JUnit5.8.1\">\r\n        <CLASSES>\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n    <orderEntry type=\"library\" name=\"javafx\" level=\"application\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/../out/production/group_57/assignment2.iml b/../out/production/group_57/assignment2.iml
+--- a/../out/production/group_57/assignment2.iml	
++++ b/../out/production/group_57/assignment2.iml	
+@@ -24,5 +24,6 @@
+       </library>
+     </orderEntry>
+     <orderEntry type="library" name="javafx" level="application" />
++    <orderEntry type="library" name="javafx-swt" level="application" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: ../group_57.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/AdvGame\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/../group_57.iml b/../group_57.iml
+--- a/../group_57.iml	
++++ b/../group_57.iml	
+@@ -7,5 +7,22 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="library" name="javafx-swt" level="application" />
++    <orderEntry type="module-library">
++      <library name="JUnit5.8.1">
++        <CLASSES>
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
+   </component>
+ </module>
+\ No newline at end of file
+Index: ../out/production/group_57/out/production/assignment2/assignment2.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"module-library\">\r\n      <library name=\"JUnit5.8.1\">\r\n        <CLASSES>\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n    <orderEntry type=\"library\" name=\"javafx\" level=\"application\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/../out/production/group_57/out/production/assignment2/assignment2.iml b/../out/production/group_57/out/production/assignment2/assignment2.iml
+--- a/../out/production/group_57/out/production/assignment2/assignment2.iml	
++++ b/../out/production/group_57/out/production/assignment2/assignment2.iml	
+@@ -24,5 +24,6 @@
+       </library>
+     </orderEntry>
+     <orderEntry type="library" name="javafx" level="application" />
++    <orderEntry type="library" name="javafx-swt" level="application" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: ../out/production/group_57/Games/TinyGame/rooms.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>1\r\nOutside building\r\nYou are standing at the end of a road before a small brick building.  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west.\r\n-----\r\nWEST       2\r\nUP         2\r\nNORTH      3\r\nIN         3\r\nSOUTH      4\r\nDOWN       4\r\n\r\n2\r\nEnd of road\r\nYou are at the end of a road at the top of a small hill. You can see a small building in the valley to the east.\r\n-----\r\nEAST       1\r\nWEST       3\r\nDOWN       3\r\n\r\n3\r\nInside building\r\nYou are inside a building, a well house for a large spring. The exit door is to the south.  There is another room to the north, but the door is barred by a shimmering curtain.\r\n-----\r\nSOUTH      1\r\nWEST       5\r\nOUT        6/BIRD\r\nOUT        1\r\nNORTH     3\r\nXYZZY     2/BOOK\r\nXYZZY     1\r\nPLUGH     2/BOOK\r\nPLUGH     1\r\n\r\n4\r\nValley beside a stream\r\nYou are in a valley in the forest beside a stream tumbling along a rocky bed.  The stream is flowing to the south.\r\n-----\r\nNORTH      1\r\nUP         1\r\nSOUTH      5\r\nDOWN       5\r\nWEST       5\r\n\r\n5\r\nSlit in rock\r\nAt your feet all the water of the stream splashes into a two-inch slit in the rock.  To the south, the streambed is bare rock.\r\n-----\r\nNORTH      4\r\nUP         4\r\nSOUTH      6\r\nDOWN       6\r\nWEST       6\r\n\r\n6\r\nCurtain1\r\nYou are passing through a curtain!\r\n-----\r\nFORCED    7/BIRD\r\nFORCED    9\r\n\r\n7\r\nCurtain2\r\nYou are passing through another curtain!\r\n-----\r\nFORCED    8\r\n\r\n8\r\nCurtain3\r\nYet another curtain here!\r\n-----\r\nFORCED    10\r\n\r\n9\r\nMissing Treasures\r\nYou can pass through this curtain only if you're carrying all the treasures.  You don't yet have all of them.\r\n-----\r\nFORCED     3\r\n\r\n10\r\nVictory\r\nYou have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!\r\n-----\r\nFORCED     0\r\n\r\n
+===================================================================
+diff --git a/../out/production/group_57/Games/TinyGame/rooms.txt b/../out/production/group_57/Games/TinyGame/rooms.txt
+--- a/../out/production/group_57/Games/TinyGame/rooms.txt	
++++ b/../out/production/group_57/Games/TinyGame/rooms.txt	
+@@ -1,84 +1,74 @@
+ 1
+-Outside building
+-You are standing at the end of a road before a small brick building.  A small stream flows out of the building and down a gully to the south.  A road runs up a small hill to the west.
++Terminal
++You stand within an empty terminal. The sign above you emits a faint yellow while it hums monotonously. The seats lined up seem to be untouched for a while.
++-----
++LEFT     6
++RIGHT     4
++DOWN     11
++
++2
++Bingo Hall
++You stand in the middle of a busy bingo hall. The carpet beneath you is littered with tattered, inked papers of numbers. The lights above you shine on blindingly.
+ -----
+-WEST       2
+-UP         2
+-NORTH      3
+-IN         3
+-SOUTH      4
+-DOWN       4
++LEFT     4
++
++3
++Electrical Room
++You stand before a wide array of electrical panels. Fuses lay strewn across the concrete floor. The lever for the breaker appears to be missing.
++-----
++DOWN     4
+ 
+-2
+-End of road
+-You are at the end of a road at the top of a small hill. You can see a small building in the valley to the east.
++4
++Parking Lot
++You stand inside a wide concrete ocean. The yellow lines separating lots are barely recognizable. Not a single vehicle seems to be in sight.
+ -----
+-EAST       1
+-WEST       3
+-DOWN       3
++UP     3
++LEFT     1
++RIGHT     2
+ 
+-3
+-Inside building
+-You are inside a building, a well house for a large spring. The exit door is to the south.  There is another room to the north, but the door is barred by a shimmering curtain.
++5
++Boiler Room
++You stand within a very dim room. Your eyes can barely make out the silhouettes of three, presumably non-operational boilers. In the middle stands a lone table.
+ -----
+-SOUTH      1
+-WEST       5
+-OUT        6/BIRD
+-OUT        1
+-NORTH     3
+-XYZZY     2/BOOK
+-XYZZY     1
+-PLUGH     2/BOOK
+-PLUGH     1
++RIGHT     8
+ 
+-4
+-Valley beside a stream
+-You are in a valley in the forest beside a stream tumbling along a rocky bed.  The stream is flowing to the south.
++6
++Waiting Room
++You stand before an echelon of chairs lined perpendicularly to a receptionist desk. The lights above you seem to be on their last legs. Yet again, these seats seem to be untouched.
+ -----
+-NORTH      1
+-UP         1
+-SOUTH      5
+-DOWN       5
+-WEST       5
++UP     7
++RIGHT     1
+ 
+-5
+-Slit in rock
+-At your feet all the water of the stream splashes into a two-inch slit in the rock.  To the south, the streambed is bare rock.
++7
++Ice Rink
++You stand behind a barrier protecting an ice rink, or what is left of it. Inside the rink, all that is left is a pool of lukewarm water. The bleachers overlooking the rink are empty.
+ -----
+-NORTH      4
+-UP         4
+-SOUTH      6
+-DOWN       6
+-WEST       6
++UP     8
++DOWN     6
+ 
+-6
+-Curtain1
+-You are passing through a curtain!
++8
++Laundromat
++You stand inside a laundromat. Magazines and change lay strewn across chairs. You can even pick out clothes loaded in some of the machines.
+ -----
+-FORCED    7/BIRD
+-FORCED    9
++UP     9
++LEFT     5
++DOWN     7
+ 
+-7
+-Curtain2
+-You are passing through another curtain!
++9
++Aquarium
++You stand before a grandiose aquarium, which was disappointingly empty. The dark blue hue illuminated the room, revealing sets of tables and chairs.
+ -----
+-FORCED    8
++DOWN     8
++RIGHT     10
+ 
+-8
+-Curtain3
+-Yet another curtain here!
++10
++Storage Units
++You stand in the hall of a storage facility. There appears to be a unit left wide open to your right.
+ -----
+-FORCED    10
++LEFT     9
+ 
+-9
+-Missing Treasures
+-You can pass through this curtain only if you're carrying all the treasures.  You don't yet have all of them.
+------
+-FORCED     3
+-
+-10
+-Victory
+-You have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!
++11
++Exit
++At long last, an exit! But something is in your way. You must now battle to either win and prosper or die and suffer.
+ -----
+ FORCED     0
+-
+Index: ../out/production/group_57/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"JavadocGenerationManager\">\r\n    <option name=\"OUTPUT_DIRECTORY\" value=\"$USER_HOME$/Downloads\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"openjdk-20\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/../out/production/group_57/.idea/misc.xml b/../out/production/group_57/.idea/misc.xml
+--- a/../out/production/group_57/.idea/misc.xml	
++++ b/../out/production/group_57/.idea/misc.xml	
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="JavadocGenerationManager">
+     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Downloads" />
