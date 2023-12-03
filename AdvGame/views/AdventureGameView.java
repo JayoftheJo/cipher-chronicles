@@ -2,6 +2,7 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
+import RoomCompass.Compass;
 import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
@@ -25,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
+import RoomCompass.RoomCompass;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +56,7 @@ public class AdventureGameView {
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
+    Compass compass;
     CommandCenter commandCenter;
     boolean inputEnabled;
 
@@ -76,6 +79,8 @@ public class AdventureGameView {
     public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
+        RoomCompass roomCompass = new RoomCompass(model);
+        this.compass = new Compass(roomCompass);
         this.commandCenter = new CommandCenter();
         this.inputEnabled = true;
         intiUI();
@@ -192,6 +197,8 @@ public class AdventureGameView {
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening player stats
         playerStatsEvent();
+
+        CompassView compassView = new CompassView(compass);
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -538,6 +545,8 @@ public class AdventureGameView {
 
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
+        compass.update();
+
 
         //finally, articulate the description
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
