@@ -24,12 +24,14 @@ public class trollBoss extends Boss {
     /*
      *
      * make this character fight another boss
+     * and return the damage inflicted
      * @param other
      */
     @Override
-    public void attack(Player other){
+    public int attack(Player other){
         int damage = rand.nextInt(0, this.bossStrength * 5);
         other.changeHealth(-damage);
+        return damage;
     }
 
     /*

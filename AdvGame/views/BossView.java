@@ -13,10 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
@@ -45,7 +42,9 @@ public class BossView extends AdventureGameView{
     trollBoss bossTroll;
     Random rand;
     Player finalPlayer;
+    ImageView round_img_v;
     boolean boss_helpToggle = false;
+    int damage, round_num = 1;
 
 
     boolean playerStatsToggle = false; //to know if health bar is on or off
@@ -140,6 +139,12 @@ public class BossView extends AdventureGameView{
         bossTroll.charImage = new Image(bossImg);
         bossTroll.charImageview = new ImageView(bossTroll.charImage);
 
+        String round_file = this.model.getDirectoryName() + "/battleImages/" + "swords.png";
+        Image round_img = new Image(round_file);
+        round_img_v = new ImageView(round_img);
+        round_img_v.setFitHeight(35);
+        round_img_v.setPreserveRatio(true);
+
         //add all the widgets to the GridPane
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
@@ -164,14 +169,27 @@ public class BossView extends AdventureGameView{
         this.stage.setResizable(false);
         this.stage.show();
 
-//        PauseTransition pause = new PauseTransition(Duration.seconds(10));
-//        pause.setOnFinished(event -> {
-//            Alert boss_msg = new Alert(Alert.AlertType.INFORMATION);
-//            boss_msg.setGraphic(bossTroll.charImageview);
-//        });
-//        pause.play();
+        // Alerting the intro message to the boss room
+        Platform.runLater(() -> {
+            Alert round = new Alert(Alert.AlertType.INFORMATION);
+            ImageView intro_img = new ImageView(bossTroll.charImage);
+            intro_img.setFitHeight(35);
+            intro_img.setPreserveRatio(true);
+            round.setGraphic(intro_img);
+            round.setHeaderText("HAHAHAHAHAHA!");
+            round.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO BE CRUSHED " +
+                    "BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
+            round.getButtonTypes().clear();
+            round.getButtonTypes().addAll(ButtonType.OK);
+            DialogPane dialogPane = round.getDialogPane();
+            dialogPane.setPrefWidth(600);
+            dialogPane.setPrefHeight(200);
+            round.showAndWait();
+            open_buttons();
+        });
     }
 
+    //Displays boss instructions
     @Override
     public void showInstructions() {
         if (boss_helpToggle == Boolean.FALSE) {
@@ -204,8 +222,7 @@ public class BossView extends AdventureGameView{
      * based on the player and boss's health
      */
     private void check_status(){
-        System.out.println(finalPlayer.getHealth());
-        System.out.println(bossTroll.bossHealth);
+        round_num += 1;
         if (finalPlayer.getHealth() <= 0 || bossTroll.bossHealth <= 0) {
             Platform.exit();
         }
@@ -249,7 +266,7 @@ public class BossView extends AdventureGameView{
      * the enemy boss
      */
     private void playerAttack(){
-        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
+        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
         bossTroll.bossHealth -= damage;
     }
 
@@ -268,7 +285,7 @@ public class BossView extends AdventureGameView{
      * a special attack on the enemy boss
      */
     private void playerSpec(){
-        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
+        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 15);
         bossTroll.bossHealth -= damage;
     }
 
@@ -297,13 +314,35 @@ public class BossView extends AdventureGameView{
      */
     private void boss_move(){
         int move = rand.nextInt(0,50);
+        int boss_dmg;
         if (move > 10){
-            bossTroll.attack(finalPlayer);
+            boss_dmg = bossTroll.attack(finalPlayer);
         }
         else{
+            boss_dmg = 0;
             bossTroll.heal();
         }
+        Alert round = new Alert(Alert.AlertType.INFORMATION);
+        round.setHeaderText("ROUND " + round_num);
+        round.setGraphic(round_img_v);
+        round.setContentText(round_text(boss_dmg));
+        round.getButtonTypes().clear();
+        round.getButtonTypes().addAll(ButtonType.OK);
+        round.showAndWait();
         open_buttons();
+    }
+
+    /*
+     * This method returns the text needed for move
+     * confirmation message after each round
+     *
+     * @param boss_dmg
+     */
+    private String round_text(int boss_dmg){
+        return "\nYou dealt " + damage + " damage\nThe troll dealt " + boss_dmg + "\n\n" +
+                "CURRENT STATS:\nPLAYER: \nHEALTH = " + finalPlayer.getHealth() + "\nSTRENGTH = " +
+                finalPlayer.getStrength() + "\nTROLL: \nHEALTH = " + bossTroll.bossHealth + "\nSTRENGTH = " +
+                bossTroll.bossStrength;
     }
 
     private void customizeButton(Button inputButton) {
