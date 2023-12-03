@@ -29,9 +29,10 @@ public abstract class Boss {
      * make this character fight another boss
      * @param other
      */
-    public void attack(Player other){
+    public int attack(Player other){
         int damage = rand.nextInt(0, this.strength * 5);
         other.changeHealth(-damage);
+        return damage;
     }
 
     /*

@@ -27,9 +27,10 @@ public class trollBoss extends Boss {
      * @param other
      */
     @Override
-    public void attack(Player other){
+    public int attack(Player other){
         int damage = rand.nextInt(0, this.bossStrength * 5);
         other.changeHealth(-damage);
+        return damage;
     }
 
     /*
