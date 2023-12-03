@@ -1,6 +1,7 @@
 package AdventureModel;
 
 import AdventureModel.State.HalfDamageItem;
+import AdventureModel.State.InvincibleItem;
 import AdventureModel.State.State;
 import AdventureModel.State.Token;
 
@@ -123,7 +124,8 @@ public class AdventureLoader {
             locations.add(location);
             }
             if (objectLocation.length > 1){
-            object.changeState(token);}
+            object.changeState(token);
+            }
             else if (objectDescription.contains("half damage")) {
                 object.changeState(halfem);
             }

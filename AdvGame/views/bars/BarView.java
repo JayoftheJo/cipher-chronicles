@@ -1,4 +1,4 @@
-package views;
+package views.bars;
 
 import javafx.scene.layout.StackPane;
 

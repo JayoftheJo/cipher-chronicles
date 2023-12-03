@@ -1,8 +1,8 @@
 import AdventureModel.AdventureGame;
 import javafx.embed.swing.JFXPanel;
 import org.junit.jupiter.api.Test;
-import views.HealthBarView;
-import views.StrengthBarView;
+import views.bars.HealthBarView;
+import views.bars.StrengthBarView;
 
 public class PlayerStatsTest {
     public JFXPanel panel = new JFXPanel();

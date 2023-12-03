@@ -1,5 +1,6 @@
-package AdventureModel;
+package AdventureModel.State;
 
+import AdventureModel.AdventureObject;
 import AdventureModel.State.State;
 import views.BossView;
 

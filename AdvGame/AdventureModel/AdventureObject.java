@@ -100,4 +100,5 @@ public class AdventureObject implements Serializable {
     public String getHelpTxt() {
         return helpTxt;
     }
+
 }

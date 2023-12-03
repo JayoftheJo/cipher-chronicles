@@ -1,4 +1,4 @@
-package views;
+package views.bars;
 
 import AdventureModel.Player;
 import javafx.animation.PauseTransition;
@@ -7,6 +7,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import views.AdventureGameView;
+import views.BossView;
 
 /**
  * Class HealthBarView
@@ -46,6 +48,12 @@ public class HealthBarView implements BarView {
 
         initState();
 
+        // put these 2 on top of each other
+        healthBar = new StackPane(background, onTop);
+
+        // to make sure the top layer changes left to right
+        healthBar.setAlignment(Pos.CENTER_LEFT);
+
     }
 
     /**
@@ -54,15 +62,9 @@ public class HealthBarView implements BarView {
     public void initState() {
         // the top layer occupies space synonymous to player's current health
         this.onTop = new Rectangle(B_WIDTH, B_HEIGHT);
-        player.changeHealth(player.TOTAL_HEALTH - player.getHealth());
+        player.updateHealth(player.TOTAL_HEALTH - player.getHealth());
         background.setFill(Color.WHITE);
         onTop.setFill(Color.GREEN);
-
-        // put these 2 on top of each other
-        healthBar = new StackPane(background, onTop);
-
-        // to make sure the top layer changes left to right
-        healthBar.setAlignment(Pos.CENTER_LEFT);
 
     }
 
@@ -81,12 +83,12 @@ public class HealthBarView implements BarView {
                 if (!(this.player.getHealth() + howMuch >= 100)){
                     double percentage = ((double) (this.player.getHealth() + howMuch) / this.player.getHealth());
                     onTop.setWidth(percentage * onTop.getWidth());
-                    this.player.changeHealth(howMuch);
+                    this.player.updateHealth(howMuch);
                 }
                 // If more than bounds, set the health bar to max possible and update player health accordingly
                 else {
                     onTop.setWidth(B_WIDTH);
-                    this.player.changeHealth(player.TOTAL_HEALTH - this.player.getHealth());
+                    this.player.updateHealth(player.TOTAL_HEALTH - this.player.getHealth());
                 }
 
                 // to change colour back from the light green after the pause
@@ -101,7 +103,7 @@ public class HealthBarView implements BarView {
                 // If less than bounds, set the health bar to min possible and update player health accordingly
                 if (this.player.getHealth() + howMuch <= 0){
                     onTop.setWidth(0);
-                    this.player.changeHealth(-this.player.getHealth());
+                    this.player.updateHealth(-this.player.getHealth());
                     //Game Over
                     if (view instanceof AdventureGameView){
                         ((AdventureGameView) view).gameOver();
@@ -115,7 +117,7 @@ public class HealthBarView implements BarView {
                 else{
                     double percentage = (double) (this.player.getHealth() + howMuch) / this.player.getHealth();
                     onTop.setWidth(percentage * onTop.getWidth());
-                    this.player.changeHealth(howMuch);
+                    this.player.updateHealth(howMuch);
 
                 }
                 onTop.setFill(Color.GREEN);
@@ -126,6 +128,7 @@ public class HealthBarView implements BarView {
         pause.play();
 
     }
+
 
 //    /**
 //     * Update player health based on current health

@@ -1,4 +1,4 @@
-package views;
+package views.bars;
 import AdventureModel.Player;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import views.BossView;
 
 public class StrengthBarView implements BarView{
     private Rectangle background;
@@ -47,6 +48,12 @@ public class StrengthBarView implements BarView{
         // Set the initial state
         initState();
 
+        // put the top and bottom on top of each other
+        StrengthBar = new StackPane(background, onTop);
+
+        // to make sure the top layer changes left to right
+        StrengthBar.setAlignment(Pos.CENTER_LEFT);
+
     }
 
     /**
@@ -58,15 +65,11 @@ public class StrengthBarView implements BarView{
         PauseTransition pause2 = new PauseTransition(Duration.seconds(0.2));
         pause2.setOnFinished(actionEvent1 -> {
             onTop.setWidth(0);
-            this.player.changeStrength(-player.getStrength());
+            this.player.updateStrength(-player.getStrength());
         });
         pause2.play();
 
-        // put the top and bottom on top of each other
-        StrengthBar = new StackPane(background, onTop);
 
-        // to make sure the top layer changes left to right
-        StrengthBar.setAlignment(Pos.CENTER_LEFT);
     }
 
     /**
@@ -92,12 +95,12 @@ public class StrengthBarView implements BarView{
                         double percentage = ((double) (this.player.getStrength() + howMuch) / this.player.getStrength());
                         onTop.setWidth(percentage * onTop.getWidth());
                     }
-                    this.player.changeStrength(howMuch);
+                    this.player.updateStrength(howMuch);
                 }
                 // If more than bounds, set the strength bar to max possible and update player strength accordingly
                 else {
                     onTop.setWidth(B_WIDTH);
-                    this.player.changeStrength(player.FULL_STRENGTH - this.player.getStrength());
+                    this.player.updateStrength(player.FULL_STRENGTH - this.player.getStrength());
                 }
 
                 // to change colour back from the dark red after the pause

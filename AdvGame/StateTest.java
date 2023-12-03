@@ -1,13 +1,7 @@
 import AdventureModel.AdventureGame;
+import AdventureModel.State.InvincibleItem;
 import AdventureModel.State.Token;
-import AdventureModel.*;
-import javafx.embed.swing.JFXPanel;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import views.AdventureGameView;
-import views.BossView;
-import views.HealthBarView;
-import views.StrengthBarView;
 
 import java.io.IOException;
 

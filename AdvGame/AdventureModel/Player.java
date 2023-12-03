@@ -1,5 +1,7 @@
 package AdventureModel;
 
+import views.bars.BarView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,7 +19,11 @@ public class Player implements Serializable {
     public final int TOTAL_HEALTH = 100;
     private int strength;
 
-    public final int FULL_STRENGTH = 5;
+    private BarView healthBar;
+
+    private BarView strengthBar;
+
+    public final int FULL_STRENGTH = 6;
 
     /**
      * The list of items that the player is carrying at the moment.
@@ -129,6 +135,11 @@ public class Player implements Serializable {
         return objects;
     }
 
+
+    public void setHealthBar(BarView healthbar){
+        this.healthBar = healthbar;
+    }
+
     // Setters and getters of health and strength attributes
     public int getHealth(){
         return this.currHealth;
@@ -138,11 +149,23 @@ public class Player implements Serializable {
         return this.strength;
     }
 
-    public void changeHealth(int health){
+    public void changeHealthBar(int health){
+        this.healthBar.change(health);
+    }
+
+    public void updateHealth(int health){
         this.currHealth += health;
     }
 
-    public void changeStrength(int strength){
+    public void setStrengthBar(BarView strengthBar){
+        this.strengthBar = strengthBar;
+    }
+
+    public void changeStrengthBar(int strength){
+        this.strengthBar.change(strength);
+    }
+
+    public void updateStrength(int strength){
         this.strength += strength;
     }
 
