@@ -99,7 +99,7 @@ public class AdventureLoader {
      */
     public void parseObjects() throws IOException {
         State token = new Token();
-        State halfem = new HalfDamageItem();
+        State invem = new InvincibleItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
@@ -107,11 +107,13 @@ public class AdventureLoader {
             String objectName = buff.readLine();
             String objectDescription = buff.readLine();
             String helptxt  = buff.readLine();
-            String[] objectLocation = buff.readLine().split(",");
+            String[] objectLocation = buff.readLine().split(","); // all locations
             String separator = buff.readLine();
             if (separator != null && !separator.isEmpty())
                 System.out.println("Formatting Error!");
             ArrayList<Room> locations = new ArrayList<>();
+
+            // Set rooms to objects and vice versa
             AdventureObject object = new AdventureObject(objectName, objectDescription, locations, helptxt);
             for (String str: objectLocation){
             int i = Integer.parseInt(str);
@@ -124,8 +126,9 @@ public class AdventureLoader {
             else if (objectDescription.contains("half damage")) {
                 object.changeState(halfem);
             }
-            else{
-
+            // Single then a invincible item
+            else {
+                object.changeState(invem);
             }
         }
 

@@ -1,5 +1,6 @@
 package views;
 
+import AdventureModel.AdventureObject;
 import AdventureModel.Player;
 import BossFactory.Boss;
 import BossFactory.concreteBossFactory;
@@ -50,13 +51,26 @@ public class BossView extends AdventureGameView{
 
     boolean playerStatsToggle = false; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
-    BarView strengthBar;
+    BarView strengthBar; // to access the strength bar
 
-    VBox playerStats;
+    VBox playerStats; // holds the player stats
+
+    boolean invincible;    // for invincibility
+
+    int roundNum; // num rounds invincible for
+
+    /**
+     * BossView Constructor.
+     * @param model the game we are playing
+     * @param stage the window we are using
+     * @throws IOException
+     */
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
         rand = new Random();
         model.setHelpText(parseOtherFile("boss_help"));
+        roundNum = 0;
+        invincible = false;
     }
 
     @Override
@@ -123,6 +137,8 @@ public class BossView extends AdventureGameView{
         abilityButtons.setSpacing(10);
         abilityButtons.setAlignment(Pos.CENTER);
 
+        specAttackButton.setDisable(true); // only activated with tokens
+
         healButton.setOnAction(event -> heal_handle());
         attackButton.setOnAction(event -> attack_handle());
         specAttackButton.setOnAction(event -> specAttack_handle());
@@ -147,6 +163,8 @@ public class BossView extends AdventureGameView{
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening the health bar
+        playerStatsEvent();
+
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
@@ -270,8 +288,13 @@ public class BossView extends AdventureGameView{
      * a special attack on the enemy boss
      */
     private void playerSpec(){
+
+
         int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
         bossTroll.bossHealth -= damage;
+
+        this.strengthBar.initState();
+
     }
 
     /*
@@ -280,7 +303,10 @@ public class BossView extends AdventureGameView{
     private void open_buttons(){
         attackButton.setDisable(false);
         healButton.setDisable(false);
+
+        if (!specAttackButton.isDisabled()){
         specAttackButton.setDisable(false);
+        }
     }
 
     /*
@@ -300,11 +326,22 @@ public class BossView extends AdventureGameView{
     private void boss_move(){
         int move = rand.nextInt(0,50);
         if (move > 10){
+
+            // can only attack a non-invincible player
+            if(!invincible){
             bossTroll.attack(finalPlayer);
+            }
         }
         else{
             bossTroll.heal();
         }
+
+        // Keep track of how many rounds of invincibility
+        roundNum += 1;
+        if (roundNum == 3){
+            invincible = false; // after 3 the invincibility wears off
+        }
+
         open_buttons();
     }
 
@@ -342,29 +379,72 @@ public class BossView extends AdventureGameView{
         });
     }
 
+    /**
+     * Responds to a 'H' click by showing the or closing the player's stats
+     */
+    public void playerStatsEvent(){
+        // Initialize them
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
+
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event){
+                if (event.getCode().equals(KeyCode.H)){
+                    showPlayerStats();
+                }
+            }
+        };
+
+        // Make the gridpane wait for it
+        this.gridPane.setOnKeyPressed(keyBindClick);
+
+    }
+
     public void showPlayerStats(){
         // if health bar is off
-        if (!playerStatsToggle) {
+        if (!this.playerStatsToggle) {
 
             // turn it on, make and show it
-            playerStatsToggle = true;
-            removeByCell(2, 0);playerStats.getChildren().clear();
+            this.playerStatsToggle = true;
+            removeByCell(2, 0);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
             gridPane.add(playerStats, 0, 2, 1, 1);
         }
         // else
         else{
             //turn it off and close it
-            playerStatsToggle = false;
+            this.playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
 
+    /**
+     * Allows user ability to use special attack
+     */
     public void activateStrengthButton(){
-
+        specAttackButton.setDisable(false);
     }
 
-    public void gameOver() {
+    /**
+     * Makes the player invincible
+     */
+    public void invincible(){
+        this.invincible = true;
+    }
 
+
+    /**
+     * GameOver.
+     * Window closes
+     */
+    public void gameOver() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(actionEvent -> Platform.exit());
+        pause.play();
     }
 
     public void halfDamage(){
@@ -382,4 +462,5 @@ public class BossView extends AdventureGameView{
             showPlayerStats();
         }
     }
+
 }

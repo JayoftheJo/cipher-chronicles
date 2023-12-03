@@ -6,7 +6,6 @@ import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,9 +29,6 @@ import javafx.scene.AccessibleRole;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -668,6 +664,7 @@ public class AdventureGameView {
             if (count == 1) {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
+                objectButton.setFont(Font.font(14));
                 vbox.getChildren().add(objectButton);
 
                 EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
@@ -856,6 +853,11 @@ public class AdventureGameView {
             mediaPlaying = false;
         }
     }
+
+    public AdventureGame getModel(){
+        return model;
+    }
+
 
     public void gameOver(){
 
