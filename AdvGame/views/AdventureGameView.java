@@ -664,6 +664,7 @@ public class AdventureGameView {
             if (count == 1) {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
+                objectButton.setFont(Font.font(14));
                 vbox.getChildren().add(objectButton);
 
                 EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
