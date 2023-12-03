@@ -4,11 +4,15 @@ import AdventureModel.Player;
 import BossFactory.Boss;
 import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
+import BossFactory.trollBoss;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,10 +22,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Class BossView.
@@ -32,13 +38,19 @@ import java.io.IOException;
  */
 public class BossView extends AdventureGameView{
 
-    Button bossHelp;
-    Boss bossTroll;
+    Button bossHelp, healButton, attackButton, specAttackButton;
+    trollBoss bossTroll;
+    Random rand;
     Player finalPlayer;
+    private String[] announcerText = new String[] {"Heya there Challenger... You are new here aren't ya? Well my name is Laudius and WELCOME TO SUMMONER'S FIGHT!",
+            "Warriors here battle each other with their own Akuma, which are tamed demons...WAIT...YOU DON'T HAVE ONE???",
+            "Hehehe...That's completely fine because we offer a variety of choices for your choosing! You get to pick an Akuma based on what YOU like!",
+            "But be careful, as you win each battle, the next one gets even harder but the last one standing recieves... THE TROPHY OF ATROPHiIUS",
+            "So get on with your registration and your choice of monster. Battle your way through VICTORY!"};
     boolean boss_helpToggle = false;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
-
+        rand = new Random();
         model.setHelpText(parseOtherFile("boss_help"));
     }
 
@@ -86,6 +98,30 @@ public class BossView extends AdventureGameView{
             showInstructions();
         });
 
+        healButton = new Button("Heal");
+        healButton.setId("Heal");
+        customizeButton(healButton);
+        makeButtonAccessible(healButton, "Heal Button", "Heals the player", "This button heals the player if they have health tokens available");
+
+        attackButton = new Button("Attack");
+        attackButton.setId("Attack");
+        customizeButton(attackButton);
+        makeButtonAccessible(attackButton, "Attack Button", "Unleash a normal attack", "This button allows the user to use a normal attack on the troll");
+
+        specAttackButton = new Button("Special Attack");
+        specAttackButton.setId("Special Attack");
+        customizeButton(specAttackButton);
+        makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack", "This button allows the user to use a special attack on the troll if they have attack tokens available");
+
+        HBox abilityButtons = new HBox();
+        abilityButtons.getChildren().addAll(healButton, attackButton, specAttackButton);
+        abilityButtons.setSpacing(10);
+        abilityButtons.setAlignment(Pos.CENTER);
+
+        healButton.setOnAction(event -> heal_handle(healButton, attackButton, specAttackButton));
+        attackButton.setOnAction(event -> attack_handle(healButton, attackButton, specAttackButton));
+        specAttackButton.setOnAction(event -> specAttack_handle(healButton, attackButton, specAttackButton));
+
         //labels for inventory and room items
         Label objLabel =  new Label("Objects in Room");
         objLabel.setAlignment(Pos.CENTER);
@@ -99,7 +135,8 @@ public class BossView extends AdventureGameView{
 
         concreteBossFactory factory = new concreteBossFactory();
         finalPlayer = this.model.getPlayer();
-        bossTroll = factory.createBossCharacter();
+        bossTroll = (trollBoss) factory.createBossCharacter();
+
         String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
         bossTroll.charImage = new Image(bossImg);
         bossTroll.charImageview = new ImageView(bossTroll.charImage);
@@ -107,6 +144,7 @@ public class BossView extends AdventureGameView{
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
+        this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
@@ -122,6 +160,13 @@ public class BossView extends AdventureGameView{
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.show();
+
+//        PauseTransition pause = new PauseTransition(Duration.seconds(10));
+//        pause.setOnFinished(event -> {
+//            Alert boss_msg = new Alert(Alert.AlertType.INFORMATION);
+//            boss_msg.setGraphic(bossTroll.charImageview);
+//        });
+//        pause.play();
     }
 
     @Override
@@ -149,6 +194,81 @@ public class BossView extends AdventureGameView{
             gridPane.add(bossTroll.charImageview, 1, 1);
             boss_helpToggle = false;
         }
+    }
+
+    private void check_status(){
+        System.out.println(finalPlayer.getHealth());
+        System.out.println(bossTroll.bossHealth);
+        if (finalPlayer.getHealth() <= 0 || bossTroll.bossHealth <= 0) {
+            Platform.exit();
+        }
+    }
+
+    private void heal_handle(Button button1, Button button2, Button button3) {
+        // Disable all buttons
+        button1.setDisable(true);
+        button2.setDisable(true);
+        button3.setDisable(true);
+
+        playerHeal();
+        boss_move();
+        check_status();
+    }
+
+    private void attack_handle(Button button1, Button button2, Button button3) {
+        // Disable all buttons
+        button1.setDisable(true);
+        button2.setDisable(true);
+        button3.setDisable(true);
+
+        playerAttack();
+        boss_move();
+        check_status();
+    }
+
+    private void specAttack_handle(Button button1, Button button2, Button button3) {
+        // Disable all buttons
+        button1.setDisable(true);
+        button2.setDisable(true);
+        button3.setDisable(true);
+
+        playerSpec();
+        boss_move();
+        check_status();
+    }
+
+    private void playerAttack(){
+        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 5);
+        bossTroll.bossHealth -= damage;
+    }
+
+    private void playerHeal(){
+        finalPlayer.changeHealth(25);
+        if (finalPlayer.getHealth() > 100){
+            finalPlayer.changeHealth(-finalPlayer.getHealth() % 100);
+        }
+    }
+
+    private void playerSpec(){
+        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
+        bossTroll.bossHealth -= damage;
+    }
+
+    private void open_buttons(){
+        attackButton.setDisable(false);
+        healButton.setDisable(false);
+        specAttackButton.setDisable(false);
+    }
+
+    private void boss_move(){
+        int move = rand.nextInt(0,50);
+        if (move > 10){
+            bossTroll.attack(finalPlayer);
+        }
+        else{
+            bossTroll.heal();
+        }
+        open_buttons();
     }
 
     private void customizeButton(Button inputButton) {
