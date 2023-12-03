@@ -127,12 +127,6 @@ public class BossView extends AdventureGameView{
         attackButton.setOnAction(event -> attack_handle());
         specAttackButton.setOnAction(event -> specAttack_handle());
 
-        //labels for inventory and room items
-        Label objLabel =  new Label("Objects in Room");
-        objLabel.setAlignment(Pos.CENTER);
-        objLabel.setStyle("-fx-text-fill: white;");
-        objLabel.setFont(new Font("Arial", 16));
-
         Label invLabel =  new Label("Your Inventory");
         invLabel.setAlignment(Pos.CENTER);
         invLabel.setStyle("-fx-text-fill: white;");
@@ -147,7 +141,6 @@ public class BossView extends AdventureGameView{
         bossTroll.charImageview = new ImageView(bossTroll.charImage);
 
         //add all the widgets to the GridPane
-        this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
         playerStats = new VBox();
@@ -160,9 +153,7 @@ public class BossView extends AdventureGameView{
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
         GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
         GridPane.setValignment(bossHelp, VPos.TOP);
-        GridPane.setValignment(objLabel, VPos.BOTTOM);
         GridPane.setValignment(invLabel, VPos.BOTTOM);
-        GridPane.setHalignment(objLabel, HPos.RIGHT);
 
         updateItems();
 
@@ -213,6 +204,8 @@ public class BossView extends AdventureGameView{
      * based on the player and boss's health
      */
     private void check_status(){
+        System.out.println(finalPlayer.getHealth());
+        System.out.println(bossTroll.bossHealth);
         if (finalPlayer.getHealth() <= 0 || bossTroll.bossHealth <= 0) {
             Platform.exit();
         }
@@ -256,7 +249,7 @@ public class BossView extends AdventureGameView{
      * the enemy boss
      */
     private void playerAttack(){
-        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 5);
+        int damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
         bossTroll.bossHealth -= damage;
     }
 
