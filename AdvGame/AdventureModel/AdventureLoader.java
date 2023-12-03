@@ -100,6 +100,7 @@ public class AdventureLoader {
     public void parseObjects() throws IOException {
         State token = new Token();
         State invem = new InvincibleItem();
+        State halfem = new HalfDamageItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 

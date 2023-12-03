@@ -1,5 +1,6 @@
 package AdventureModel;
 
+import AdventureModel.State.State;
 import views.BossView;
 
 public class InvincibleItem implements State {
