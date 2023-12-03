@@ -1,5 +1,6 @@
 package views;
 
+import AdventureModel.AdventureObject;
 import AdventureModel.Player;
 import BossFactory.Boss;
 import BossFactory.concreteBossFactory;
@@ -399,29 +400,29 @@ public class BossView extends AdventureGameView{
 
     }
 
-//    public void showPlayerStats(){
-//        // if health bar is off
-//        if (!this.playerStatsToggle) {
-//
-//            // turn it on, make and show it
-//            this.playerStatsToggle = true;
-//            removeByCell(2, 0);
-//            playerStats.getChildren().clear();
-//            playerStats.getChildren().add(healthBar.get());
-//            playerStats.getChildren().add(strengthBar.get());
-//            gridPane.add(playerStats, 0, 2, 1, 1);
-//        }
-//        // else
-//        else{
-//            //turn it off and close it
-//            this.playerStatsToggle = false;
-//            removeByCell(2, 0);
-//        }
-//    }
-//
-//    /**
-//     * Allows user ability to use special attack
-//     */
+    public void showPlayerStats(){
+        // if health bar is off
+        if (!this.playerStatsToggle) {
+
+            // turn it on, make and show it
+            this.playerStatsToggle = true;
+            removeByCell(2, 0);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
+            gridPane.add(playerStats, 0, 2, 1, 1);
+        }
+        // else
+        else{
+            //turn it off and close it
+            this.playerStatsToggle = false;
+            removeByCell(2, 0);
+        }
+    }
+
+    /**
+     * Allows user ability to use special attack
+     */
     public void activateStrengthButton(){
         specAttackButton.setDisable(false);
     }

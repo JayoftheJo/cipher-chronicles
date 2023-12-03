@@ -21,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="develop" />
+        <entry key="$PROJECT_DIR$/.." value="feature/4.4-invincible-item" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -40,7 +40,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/4.4-invincible-item",
+    "git-widget-placeholder": "develop",
     "jdk.selected.JAVA_MODULE": "openjdk-20",
     "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
     "onboarding.tips.debug.path": "C:/Users/zuhay/CSC207/group_57/assignment2/src/Main.java",
@@ -168,63 +168,63 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>383</line>
+          <line>350</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>384</line>
+          <line>351</line>
           <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>390</line>
+          <line>357</line>
           <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>391</line>
+          <line>358</line>
           <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>397</line>
+          <line>364</line>
           <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>407</line>
+          <line>374</line>
           <option name="timeStamp" value="130" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>406</line>
+          <line>373</line>
           <option name="timeStamp" value="131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>416</line>
+          <line>383</line>
           <option name="timeStamp" value="132" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>417</line>
+          <line>384</line>
           <option name="timeStamp" value="133" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>453</line>
+          <line>403</line>
           <option name="timeStamp" value="134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>454</line>
+          <line>404</line>
           <option name="timeStamp" value="135" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>389</line>
-          <properties>
+          <line>356</line>
+          <properties class="views.BossView">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
