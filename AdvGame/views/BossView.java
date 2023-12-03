@@ -41,7 +41,7 @@ public class BossView extends AdventureGameView{
     boolean boss_helpToggle = false;
 
 
-    boolean playerStatsToggle; //to know if health bar is on or off
+    boolean playerStatsToggle = false; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar;
 
@@ -118,15 +118,11 @@ public class BossView extends AdventureGameView{
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
-
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
-
         // event for hiding or opening the health bar
         this.playerStatsEvent();
-
-
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
@@ -135,6 +131,8 @@ public class BossView extends AdventureGameView{
         GridPane.setValignment(objLabel, VPos.BOTTOM);
         GridPane.setValignment(invLabel, VPos.BOTTOM);
         GridPane.setHalignment(objLabel, HPos.RIGHT);
+
+        updateItems();
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -194,6 +192,10 @@ public class BossView extends AdventureGameView{
         return text;
     }
 
+    public void updateScene(String textToDisplay){
+
+    }
+
     @Override
     public void addInstructionEvent() {
         bossHelp.setOnAction(e -> {
@@ -240,6 +242,10 @@ public class BossView extends AdventureGameView{
             playerStatsToggle = false;
             removeByCell(2, 0);
         }
+    }
+
+    public void activateStrengthButton(){
+
     }
 
     public void gameOver() {

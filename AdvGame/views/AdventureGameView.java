@@ -9,6 +9,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -633,33 +635,64 @@ public class AdventureGameView {
         for (AdventureObject object: lst) {
             String objectName = object.getName();
             String objectDesc = object.getDescription();
-            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg");
+            String objectHelp = object.getHelpTxt();
+            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".png");
             ImageView objectImageView = new ImageView(objectImage);
+            objectImageView.setPreserveRatio(true);
             objectImageView.setFitWidth(100);
             objectImageView.setFitHeight(100);
 
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
             customizeButton(objectButton, 100, 100);
-            makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
-            vbox.getChildren().add(objectButton);
+            int othernNum = 0;
 
-            EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent event) {
-
-                    if (objectsInRoom.getChildren().contains(objectButton)) {
-                        submitEvent("take " + object.getName());
-                    }
-
-                    else if (objectsInInventory.getChildren().contains(objectButton)) {
-                        submitEvent("drop " + object.getName());
+            // Go through all the button nodes to find how many times this item is duplicated
+            for(Node node: vbox.getChildren()){
+                if(node instanceof Button){
+                    if(((Button) node).getText().startsWith(objectName.split("x")[0])){
+                        if(((Button) node).getText().split("x").length != 2){
+                            othernNum = 1;
+                        }
+                        else {
+                            othernNum = Integer.parseInt(((Button) node).getText().split("x")[1]);
+                        }
                     }
                 }
-            };
+            }
 
-            objectButton.setOnMouseClicked(eventHandler);
+            // Add 1 to that count to account for this item
+            int count = 1 + othernNum;
+
+            // if there was no duplicates, put this item on screen
+            if (count == 1) {
+                makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
+                objectButton.setTooltip(new Tooltip(objectHelp));
+                vbox.getChildren().add(objectButton);
+
+                EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+
+                        if (objectsInRoom.getChildren().contains(objectButton)) {
+                            submitEvent("take " + object.getName());
+                        }
+
+                        else if (objectsInInventory.getChildren().contains(objectButton)) {
+                            submitEvent("drop " + object.getName());
+                        }
+                    }
+                };
+
+                objectButton.setOnMouseClicked(eventHandler);
+            }
+            // else update the button there to reflect how many duplicates of this item are there
+            else {
+                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
+                button.setText(button.getText().split("x")[0] + "x" + count);
+            }
+
         }
     }
 
