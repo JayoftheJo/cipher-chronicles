@@ -24,7 +24,7 @@ public class BossStrengthBarView implements BarView{
 
 
     /**
-     * StrengthBarView Constructor
+     * BossStrengthBarView Constructor
      * @param player the player playing the game
      */
     public BossStrengthBarView(trollBoss player, BossView view){
@@ -106,13 +106,6 @@ public class BossStrengthBarView implements BarView{
             pause.play();
         }
 
-
-//    /**
-//     * Update player strength based on current health
-//     */
-//    public void update(){
-//        onTop.setWidth((double) (player.getStrength()/player.FULL_STRENGTH) * B_WIDTH);
-//    }
 
     /**
      * Set the colour for the strength bar

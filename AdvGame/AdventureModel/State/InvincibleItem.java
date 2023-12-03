@@ -4,6 +4,9 @@ import AdventureModel.AdventureObject;
 import AdventureModel.State.State;
 import views.BossView;
 
+/**
+ * The Invincible Item State of Adventure Object
+ */
 public class InvincibleItem implements State {
 
     BossView view; // to direct us to the appropriate action for using this object

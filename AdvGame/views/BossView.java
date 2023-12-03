@@ -181,12 +181,12 @@ public class BossView extends AdventureGameView{
         bossStats.setSpacing(10);
         bossStats.setAlignment(Pos.CENTER_LEFT);
 
-        bossHealthBar = new BossHealthBarView(bossTroll, this);
+        bossHealthBar = new BossHealthBarView(bossTroll, this);// boss health and strength bar
         bossStrengthBar = new BossStrengthBarView(bossTroll, this);
 
         bossStats.getChildren().addAll(bossHealthBar.get(), bossStrengthBar.get());
 
-        this.gridPane.add(bossStats, 2, 0);
+        this.gridPane.add(bossStats, 2, 0);//top left
 
         bossTroll.setHealthBar(bossHealthBar);
 
@@ -378,7 +378,7 @@ public class BossView extends AdventureGameView{
         }
 
         // Keep track of how many rounds of invincibility
-        if (invRoundNum < 3){
+        if (invRoundNum >= 3){
             invincible = false; // after 3 the invincibility wears off
             invRoundNum = 0;
         }
@@ -418,7 +418,7 @@ public class BossView extends AdventureGameView{
      *
      * This method is partially completed, but you are asked to finish it off.
      *
-     * The method should populate the objectsInRoom and objectsInInventory Vboxes.
+     * The method should populate the objectsInInventory Vbox.
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
      *
@@ -427,7 +427,6 @@ public class BossView extends AdventureGameView{
      */
     public void updateItems() {
 
-        //write some code here to add images of objects in a given room to the objectsInRoom Vbox
         //write some code here to add images of objects in a player's inventory room to the objectsInInventory Vbox
         //please use setAccessibleText to add "alt" descriptions to your images!
         //the path to the image of any is as follows:
@@ -444,6 +443,7 @@ public class BossView extends AdventureGameView{
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         gridPane.add(scI,2,1);
 
+        // Poppulate the onjectsInInventory
         objectsInInventory.getChildren().clear();
 
         addImageButtons(this.model.getPlayer().inventory, objectsInInventory);
@@ -495,6 +495,7 @@ public class BossView extends AdventureGameView{
                     @Override
                     public void handle(MouseEvent event) {
 
+                        // Treat the click of a object as using it and continue the game
                         if (objectsInInventory.getChildren().contains(objectButton)) {
                             object.getState().execute();
                             model.player.inventory.remove(object);
@@ -519,10 +520,6 @@ public class BossView extends AdventureGameView{
         }
     }
 
-
-    public void updateScene(String textToDisplay){
-
-    }
 
     @Override
     public void addInstructionEvent() {
@@ -597,11 +594,14 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     public void gameOver() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(actionEvent -> Platform.exit());
         pause.play();
     }
 
+    /**
+     * Halves the boss' health
+     */
     public void halfDamage(){
         bossTroll.changeHealthBar(-(bossTroll.getHealth()/2));
     }

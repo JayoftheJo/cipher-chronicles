@@ -1,3 +1,5 @@
+package Tests;
+
 import AdventureModel.AdventureGame;
 import javafx.embed.swing.JFXPanel;
 import org.junit.jupiter.api.Test;

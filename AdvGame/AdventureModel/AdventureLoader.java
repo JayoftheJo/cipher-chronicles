@@ -126,6 +126,7 @@ public class AdventureLoader {
             if (objectLocation.length > 1){
             object.changeState(token);
             }
+            // has half damage in desp then half damage item
             else if (objectDescription.contains("half damage")) {
                 object.changeState(halfem);
             }

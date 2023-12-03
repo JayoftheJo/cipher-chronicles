@@ -1,3 +1,5 @@
+package Tests;
+
 import AdventureModel.AdventureGame;
 import AdventureModel.State.InvincibleItem;
 import AdventureModel.State.Token;
@@ -44,6 +46,18 @@ public class StateTest {
 
     @Test
     public void getInvincibleItem() throws IOException {
+        AdventureGame game = new AdventureGame("TinyGame");
+        int count = 0;
+        for (int room: game.getRooms().keySet()){
+            count += (int) game.getRooms().get(room).objectsInRoom.stream().filter(node -> node.getState() instanceof InvincibleItem).count();
+        }
+
+        assert count == 1;
+
+    }
+
+    @Test
+    public void getHalfDamageItem() throws IOException {
         AdventureGame game = new AdventureGame("TinyGame");
         int count = 0;
         for (int room: game.getRooms().keySet()){

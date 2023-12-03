@@ -26,7 +26,7 @@ public class BossHealthBarView implements BarView{
 
 
     /**
-     * HealthBarView Constructor
+     * BossHealthBarView Constructor
      * @param player the player playing the game
      */
     public BossHealthBarView(trollBoss player, BossView view){
@@ -43,6 +43,12 @@ public class BossHealthBarView implements BarView{
 
         initState();
 
+        // put these 2 on top of each other
+        healthBar = new StackPane(background, onTop);
+
+        // to make sure the top layer changes left to right
+        healthBar.setAlignment(Pos.CENTER_LEFT);
+
     }
 
     /**
@@ -55,11 +61,7 @@ public class BossHealthBarView implements BarView{
         background.setFill(Color.WHITE);
         onTop.setFill(Color.GREEN);
 
-        // put these 2 on top of each other
-        healthBar = new StackPane(background, onTop);
 
-        // to make sure the top layer changes left to right
-        healthBar.setAlignment(Pos.CENTER_LEFT);
 
     }
 
@@ -99,10 +101,9 @@ public class BossHealthBarView implements BarView{
                 if (this.player.getHealth() + howMuch <= 0){
                     onTop.setWidth(0);
                     this.player.updateHealth(-this.player.getHealth());
+
                     //Game Over
-
-
-                        view.gameOver();
+                    view.gameOver();
 
 
                 }
@@ -121,14 +122,6 @@ public class BossHealthBarView implements BarView{
         pause.play();
 
     }
-
-
-//    /**
-//     * Update player health based on current health
-//     */
-//    public void update(){
-//        onTop.setWidth((double) (player.getHealth()/player.TOTAL_HEALTH) * B_WIDTH);
-//    }
 
     /**
      * Getter for the health bar
