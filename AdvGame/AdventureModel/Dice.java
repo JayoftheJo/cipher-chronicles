@@ -3,8 +3,13 @@ package AdventureModel;
 import java.util.Random;
 import java.util.Scanner;
 
+    /**
+    * This is Dice Mini Game, it is a concrete implementation of MiniGame
+    */
 public class Dice implements miniGame {
-
+    /**
+     * This is simple boolean that returns whether the user wins or loses
+     */
     private boolean isWin = false;
     @Override
     public void playminiGame() {
