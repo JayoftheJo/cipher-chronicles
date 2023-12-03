@@ -25,9 +25,10 @@ public class Token implements State{
     @Override
     public void execute() {
         count++;
-        if (count == 3){
-            this.view.activateStrengthButton();
+        if (count == 3 || this.view.getModel().getPlayer().getStrength() == 5){
             count = 0;
+            this.view.activateStrengthButton();
+
         }
     }
 

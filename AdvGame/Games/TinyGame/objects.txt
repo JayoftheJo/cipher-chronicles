@@ -1,4 +1,9 @@
-TOKEN
-a strength token
+MIGHTORBS
+a strengthener
 During the boss fight, use this to build up to a special attack.
 2,5,7,9,10
+
+UNBREAKORBS
+an invincibility item
+During the boss fight, use this to be invincible for 3 rounds
+10
