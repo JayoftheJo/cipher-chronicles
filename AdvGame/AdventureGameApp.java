@@ -2,13 +2,14 @@ import AdventureModel.AdventureGame;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import views.AdventureGameView;
+import views.BossView;
 
 import java.io.IOException;
 
 /**
  * Class AdventureGameApp.
  */
-public class AdventureGameApp extends  Application {
+public class AdventureGameApp extends Application {
 
     AdventureGame model;
     AdventureGameView view;

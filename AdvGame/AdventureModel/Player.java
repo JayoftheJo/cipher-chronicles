@@ -12,6 +12,12 @@ public class Player implements Serializable {
      * The current room that the player is located in.
      */
     private Room currentRoom;
+    private int currHealth;
+
+    public final int TOTAL_HEALTH = 100;
+    private int strength;
+
+    public final int FULL_STRENGTH = 5;
 
     /**
      * The list of items that the player is carrying at the moment.
@@ -23,6 +29,8 @@ public class Player implements Serializable {
      * @param currentRoom the current room the player is in
      */
     public Player(Room currentRoom) {
+        this.currHealth = TOTAL_HEALTH;
+        this.strength = 0;
         this.inventory = new ArrayList<AdventureObject>();
         this.currentRoom = currentRoom;
     }
@@ -31,6 +39,7 @@ public class Player implements Serializable {
      * This method adds an object into players inventory if the object is present in
      * the room and returns true. If the object is not present in the room, the method
      * returns false.
+
      *
      * @param object name of the object to pick up
      * @return true if picked up, false otherwise
@@ -117,6 +126,23 @@ public class Player implements Serializable {
             objects.add(this.inventory.get(i).getName());
         }
         return objects;
+    }
+
+    // Setters and getters of health and strength attributes
+    public int getHealth(){
+        return this.currHealth;
+    }
+
+    public int getStrength(){
+        return this.strength;
+    }
+
+    public void changeHealth(int health){
+        this.currHealth += health;
+    }
+
+    public void changeStrength(int strength){
+        this.strength += strength;
     }
 
 

@@ -42,7 +42,6 @@ public class AdventureLoader {
     private void parseRooms() throws IOException {
 
         int roomNumber;
-
         String roomFileName = this.adventureName + "/rooms.txt";
         BufferedReader buff = new BufferedReader(new FileReader(roomFileName));
 
