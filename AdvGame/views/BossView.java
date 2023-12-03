@@ -65,7 +65,7 @@ public class BossView extends AdventureGameView{
 
     boolean invincible;    // for invincibility
 
-    int roundNum; // num rounds invincible for
+    int invRoundNum; // num rounds invincible for
 
     /**
      * BossView Constructor.
@@ -77,7 +77,7 @@ public class BossView extends AdventureGameView{
         super(model, stage);
         rand = new Random();
         model.setHelpText(parseOtherFile("boss_help"));
-        roundNum = 0;
+        invRoundNum = 0;
         invincible = false;
     }
 
@@ -378,9 +378,12 @@ public class BossView extends AdventureGameView{
         }
 
         // Keep track of how many rounds of invincibility
-        roundNum += 1;
-        if (roundNum == 3){
+        if (invRoundNum < 3){
             invincible = false; // after 3 the invincibility wears off
+            invRoundNum = 0;
+        }
+        else{
+            invRoundNum += 1;
         }
 
         open_buttons();
