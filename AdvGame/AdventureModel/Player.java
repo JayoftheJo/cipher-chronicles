@@ -17,6 +17,8 @@ public class Player implements Serializable {
     public final int TOTAL_HEALTH = 100;
     private int strength;
 
+    public final int FULL_STRENGTH = 5;
+
     /**
      * The list of items that the player is carrying at the moment.
      */
@@ -28,7 +30,7 @@ public class Player implements Serializable {
      */
     public Player(Room currentRoom) {
         this.currHealth = TOTAL_HEALTH;
-        this.strength = 5;
+        this.strength = 0;
         this.inventory = new ArrayList<AdventureObject>();
         this.currentRoom = currentRoom;
     }
@@ -81,6 +83,7 @@ public class Player implements Serializable {
             if(this.inventory.get(i).getName().equals(s)) {
                 this.currentRoom.addGameObject(this.inventory.get(i));
                 this.inventory.remove(i);
+                break; // since this version supports duplications, we have to stop at 1 removal
             }
         }
     }

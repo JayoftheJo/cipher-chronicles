@@ -7,6 +7,7 @@ import AdventureModel.AdventureGame;
 import BossFactory.trollBoss;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -42,12 +45,14 @@ public class BossView extends AdventureGameView{
     trollBoss bossTroll;
     Random rand;
     Player finalPlayer;
-    private String[] announcerText = new String[] {"Heya there Challenger... You are new here aren't ya? Well my name is Laudius and WELCOME TO SUMMONER'S FIGHT!",
-            "Warriors here battle each other with their own Akuma, which are tamed demons...WAIT...YOU DON'T HAVE ONE???",
-            "Hehehe...That's completely fine because we offer a variety of choices for your choosing! You get to pick an Akuma based on what YOU like!",
-            "But be careful, as you win each battle, the next one gets even harder but the last one standing recieves... THE TROPHY OF ATROPHiIUS",
-            "So get on with your registration and your choice of monster. Battle your way through VICTORY!"};
     boolean boss_helpToggle = false;
+
+
+    boolean playerStatsToggle = false; //to know if health bar is on or off
+    BarView healthBar; // to access the health bar
+    BarView strengthBar;
+
+    VBox playerStats;
     public BossView(AdventureGame model, Stage stage) throws IOException {
         super(model, stage);
         rand = new Random();
@@ -144,6 +149,11 @@ public class BossView extends AdventureGameView{
         //add all the widgets to the GridPane
         this.gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
         this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
+
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
+        // event for hiding or opening the health bar
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
@@ -153,6 +163,8 @@ public class BossView extends AdventureGameView{
         GridPane.setValignment(objLabel, VPos.BOTTOM);
         GridPane.setValignment(invLabel, VPos.BOTTOM);
         GridPane.setHalignment(objLabel, HPos.RIGHT);
+
+        updateItems();
 
         // Render everything
         var scene = new Scene(this.gridPane,  1000, 800);
@@ -324,10 +336,51 @@ public class BossView extends AdventureGameView{
         return text;
     }
 
+    public void updateScene(String textToDisplay){
+
+    }
+
     @Override
     public void addInstructionEvent() {
         bossHelp.setOnAction(e -> {
             showInstructions();
         });
+    }
+
+    public void showPlayerStats(){
+        // if health bar is off
+        if (!playerStatsToggle) {
+
+            // turn it on, make and show it
+            playerStatsToggle = true;
+            removeByCell(2, 0);playerStats.getChildren().clear();
+            gridPane.add(playerStats, 0, 2, 1, 1);
+        }
+        // else
+        else{
+            //turn it off and close it
+            playerStatsToggle = false;
+            removeByCell(2, 0);
+        }
+    }
+
+    public void activateStrengthButton(){
+
+    }
+
+    public void gameOver() {
+
+    }
+
+    /**
+     * Set player stats toggle
+     * @param playerStatsToggle what to set playerStatsToggle to
+     */
+    public void setPlayerStatsToggle(boolean playerStatsToggle){
+        this.playerStatsToggle = playerStatsToggle;
+        if(this.playerStatsToggle){
+            this.playerStatsToggle = !this.playerStatsToggle;
+            showPlayerStats();
+        }
     }
 }

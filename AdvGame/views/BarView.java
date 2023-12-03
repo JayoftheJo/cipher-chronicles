@@ -1,12 +1,17 @@
 package views;
 
+import javafx.scene.layout.StackPane;
+
 /**
  * BarView interface
  */
 public interface BarView {
 
-    public void increase(int howMuch);
+    public void change(int howMuch);
+    public void initState();
 
-    public void decrease(int howMuch);
+//    public void update();
+
+    public StackPane get();
 
 }

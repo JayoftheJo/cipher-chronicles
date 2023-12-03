@@ -2,14 +2,14 @@ package views;
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
+import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
-
-import javafx.event.ActionEvent;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -44,8 +45,7 @@ import java.util.Objects;
  * ZOOM LINK: <a href="https://utoronto-my.sharepoint.com/:v:/r/personal/dale_mejia_mail_utoronto_ca/Documents/a2doc.mp4?csf=1&web=1&e=z9dafu&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19">...</a>
  * PASSWORD: N/A
  */
-public class
-AdventureGameView {
+public class AdventureGameView {
 
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
@@ -58,13 +58,17 @@ AdventureGameView {
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
+    CommandCenter commandCenter;
+    boolean inputEnabled;
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
 
-    private boolean healthToggle = false; //to know if health bar is on or off
-    private HealthBarView healthBar; // to access the health bar
+    boolean playerStatsToggle; //to know if player stats is on or off
+    BarView healthBar; // to access the health bar
+    BarView strengthBar; // to access the strength bar
 
+    VBox playerStats; // for player stats
 
     /**
      * Adventure Game View Constructor
@@ -76,6 +80,8 @@ AdventureGameView {
     public AdventureGameView(AdventureGame model, Stage stage) {
         this.model = model;
         this.stage = stage;
+        this.commandCenter = new CommandCenter();
+        this.inputEnabled = true;
         intiUI();
     }
 
@@ -184,8 +190,12 @@ AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 1, 2, 2, 1 );
 
-        // event for hiding or opening the health bar
-        addHealthBarEvent();
+        this.playerStatsToggle = false;
+        playerStats = new VBox();
+        playerStats.setSpacing(10);
+        playerStats.setAlignment(Pos.CENTER_LEFT);
+        // event for hiding or opening player stats
+        playerStatsEvent();
 
         // Render everything
         var scene = new Scene( gridPane ,  1000, 800);
@@ -198,49 +208,172 @@ AdventureGameView {
     }
 
     /**
-     * Set an event filter listening for key presses for the scene.
+     * Add an event filter to the scene to listen for any inputted key presses.
      */
     private void setEventFilter() {
         Scene scene = stage.getScene();
-
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                CommandCenter commandCenter = new CommandCenter();
-                MoveUpCommand moveUp = new MoveUpCommand(model);
-                MoveDownCommand moveDown = new MoveDownCommand(model);
-                MoveLeftCommand moveLeft = new MoveLeftCommand(model);
-                MoveRightCommand moveRight = new MoveRightCommand(model);
-                NothingCommand doNothing = new NothingCommand();
-                InspectCommand inspect = new InspectCommand(roomDescLabel, model);
 
-                switch (event.getCode()) {
-                    case W -> commandCenter.setCommand(moveUp);
-                    case S -> commandCenter.setCommand(moveDown);
-                    case A -> commandCenter.setCommand(moveLeft);
-                    case D -> commandCenter.setCommand(moveRight);
-                    case E -> commandCenter.setCommand(inspect);
-                    default -> commandCenter.setCommand(doNothing);
-                }
-
-                commandCenter.execute();
-
-                // Render the new room if the player has moved.
-                if (commandCenter.getCommand() instanceof MovementCommand) {
-                    updateScene("");
-                    updateItems();
+                if (inputEnabled) {
+                    stopArticulation();
+                    setCommand(event);
+                    executeCommand();
                 }
             }
         });
     }
 
+    /**
+     * Given a key press, assign the command center the action bound to said key.
+     *
+     * @param event The key that was pressed.
+     */
+    public void setCommand(KeyEvent event) {
+        switch (event.getCode()) {
+            case W -> commandCenter.setCommand(new MoveUpCommand(model));
+            case S -> commandCenter.setCommand(new MoveDownCommand(model));
+            case A -> commandCenter.setCommand(new MoveLeftCommand(model));
+            case D -> commandCenter.setCommand(new MoveRightCommand(model));
+            case E -> commandCenter.setCommand(new InspectCommand(roomDescLabel, model));
+            default -> commandCenter.setCommand(new NothingCommand());
+        }
+    }
 
+    /**
+     * Execute the command assigned to the command center.
+     * <p>
+     * If the assigned command was a move, then do either of three things:
+     * 1. If the route is available and unblocked, execute a transition and update the scene.
+     * 2. If the route is available but blocked, tell the player which key item they need to proceed.
+     * 3. If the route is unavailable, inform the player that they may not go this way.
+     *
+     */
+    private void executeCommand() {
+        // If the command was a movement command:
+        if (commandCenter.getCommand() instanceof MovementCommand) {
+
+            // Keep track of the previous and current room after a move.
+            int previousRoom = model.player.getCurrentRoom().getRoomNumber();
+            commandCenter.execute();
+            int currentRoom = model.player.getCurrentRoom().getRoomNumber();
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> {
+                inputEnabled = true;
+                updateScene("");
+                updateItems();
+            });
+
+            // If the room has changed:
+            if (previousRoom != currentRoom) {
+                inputEnabled = false;
+                executeTransition();
+                pause.play();
+            }
+
+            // Otherwise:
+            else {
+                String direction = getMovementDirection(); // Get the direction of the attempted move.
+                boolean routeAvailable =
+                        model.player.getCurrentRoom().getMotionTable().optionExists(direction);
+
+                // If the route to a room is available but blocked:
+                if (routeAvailable) {
+                    Passage targetedPassage = getTargetedPassage(direction);
+                    assert targetedPassage != null; // Should always be true for a route is available.
+                    roomDescLabel.setText
+                            ("You will need " + targetedPassage.getKeyName() + " to enter here!");
+                }
+
+                // If the route does not exist:
+                else {
+                    roomDescLabel.setText("You cannot go this way!");
+                }
+            }
+        }
+
+        // Otherwise, execute the command as is.
+        else { commandCenter.execute(); }
+
+    }
+    /**
+     * Given a direction, return the passage corresponding to that direction.
+     *
+     * @param direction the direction of the desired passage.
+     * @return the passage correlating to the given direction.
+     */
+    private Passage getTargetedPassage(String direction) {
+        for (Passage passage: model.player.getCurrentRoom().getMotionTable().passageTable) {
+            if (passage.getDirection().equalsIgnoreCase(direction)) { return passage; }
+        }
+        return null;
+    }
+
+    /**
+     * GIven that the command center's assigned command is a movement command, return its String direction.
+     *
+     * @return the String direction of the attempted move.
+     */
+    private String getMovementDirection() {
+        Command current = this.commandCenter.getCommand();
+        assert current instanceof MovementCommand;
+
+        if (current instanceof MoveUpCommand) {
+            return "UP";
+        }
+        else if (current instanceof MoveDownCommand) {
+            return "DOWN";
+        }
+        else if (current instanceof MoveLeftCommand) {
+            return "LEFT";
+        }
+        else {
+            return "RIGHT";
+        }
+    }
+
+    /**
+     * Change the room image to a black image and play a footstep SFX to indicate a room transition.
+     */
+    private void executeTransition() {
+        String roomImage = model.getDirectoryName() + "/room-images/transition.png";
+        Image transitionImage = new Image(roomImage);
+        roomImageView = new ImageView(transitionImage);
+        roomImageView.setPreserveRatio(true);
+        roomImageView.setFitWidth(400);
+        roomImageView.setFitHeight(400);
+
+        roomDescLabel.setText("You are moving into a new room.");
+        roomDescLabel.setPrefWidth(500);
+        roomDescLabel.setPrefHeight(500);
+        roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
+        roomDescLabel.setWrapText(true);
+        VBox roomPane = new VBox(roomImageView,roomDescLabel);
+        roomPane.setPadding(new Insets(10));
+        roomPane.setAlignment(Pos.TOP_CENTER);
+        roomPane.setStyle("-fx-background-color: #000000;");
+
+        objectsInRoom.getChildren().clear();
+        objectsInInventory.getChildren().clear();
+
+        String musicFile = model.getDirectoryName() + "/sounds/transition.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        mediaPlaying = true;
+
+        gridPane.add(roomPane, 1, 1);
+        stage.sizeToScene();
+    }
 
     /**
      * makeButtonAccessible
      * __________________________
      * For information about ARIA standards, see
-     * https://www.w3.org/WAI/standards-guidelines/aria/
+     * <a href="https://www.w3.org/WAI/standards-guidelines/aria/"></a>
      *
      * @param inputButton the button to add screenreader hooks to
      * @param name ARIA name
@@ -365,6 +498,7 @@ AdventureGameView {
      */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
+        boss_view.setPlayerStatsToggle(this.playerStatsToggle);
         gridPane.requestFocus();
     }
 
@@ -501,33 +635,64 @@ AdventureGameView {
         for (AdventureObject object: lst) {
             String objectName = object.getName();
             String objectDesc = object.getDescription();
-            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg");
+            String objectHelp = object.getHelpTxt();
+            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".png");
             ImageView objectImageView = new ImageView(objectImage);
+            objectImageView.setPreserveRatio(true);
             objectImageView.setFitWidth(100);
             objectImageView.setFitHeight(100);
 
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
             customizeButton(objectButton, 100, 100);
-            makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
-            vbox.getChildren().add(objectButton);
+            int othernNum = 0;
 
-            EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent event) {
-
-                    if (objectsInRoom.getChildren().contains(objectButton)) {
-                        submitEvent("take " + object.getName());
-                    }
-
-                    else if (objectsInInventory.getChildren().contains(objectButton)) {
-                        submitEvent("drop " + object.getName());
+            // Go through all the button nodes to find how many times this item is duplicated
+            for(Node node: vbox.getChildren()){
+                if(node instanceof Button){
+                    if(((Button) node).getText().startsWith(objectName.split("x")[0])){
+                        if(((Button) node).getText().split("x").length != 2){
+                            othernNum = 1;
+                        }
+                        else {
+                            othernNum = Integer.parseInt(((Button) node).getText().split("x")[1]);
+                        }
                     }
                 }
-            };
+            }
 
-            objectButton.setOnMouseClicked(eventHandler);
+            // Add 1 to that count to account for this item
+            int count = 1 + othernNum;
+
+            // if there was no duplicates, put this item on screen
+            if (count == 1) {
+                makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
+                objectButton.setTooltip(new Tooltip(objectHelp));
+                vbox.getChildren().add(objectButton);
+
+                EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+
+                        if (objectsInRoom.getChildren().contains(objectButton)) {
+                            submitEvent("take " + object.getName());
+                        }
+
+                        else if (objectsInInventory.getChildren().contains(objectButton)) {
+                            submitEvent("drop " + object.getName());
+                        }
+                    }
+                };
+
+                objectButton.setOnMouseClicked(eventHandler);
+            }
+            // else update the button there to reflect how many duplicates of this item are there
+            else {
+                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
+                button.setText(button.getText().split("x")[0] + "x" + count);
+            }
+
         }
     }
 
@@ -596,16 +761,19 @@ AdventureGameView {
     }
 
     /**
-     * Responds to a 'H' click by showing the or closing the player's healthBar
+     * Responds to a 'H' click by showing the or closing the player's stats
      */
-    public void addHealthBarEvent(){
+    public void playerStatsEvent(){
+        // Initialize them
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
             @Override
             public void handle(KeyEvent event){
                 if (event.getCode().equals(KeyCode.H)){
-                    showHealthBar();
+                    showPlayerStats();
                 }
             }
         };
@@ -615,20 +783,22 @@ AdventureGameView {
 
     }
 
-    private void showHealthBar(){
-        // if health bar is off
-        if (!healthToggle) {
+    public void showPlayerStats(){
+        // if player stats is off
+        if (!this.playerStatsToggle) {
 
             // turn it on, make and show it
-            healthToggle = true;
+            this.playerStatsToggle = true;
             removeByCell(2, 0);
-            healthBar = (new HealthBarView(this.model.getPlayer()));
-            gridPane.add(healthBar.getHealthBar(), 0, 2, 1, 1);
+            playerStats.getChildren().clear();
+            playerStats.getChildren().add(healthBar.get());
+            playerStats.getChildren().add(strengthBar.get());
+            gridPane.add(playerStats, 0, 2, 1, 1);
         }
         // else
         else{
             //turn it off and close it
-            healthToggle = false;
+            this.playerStatsToggle = false;
             removeByCell(2, 0);
         }
     }
@@ -687,4 +857,7 @@ AdventureGameView {
         }
     }
 
+    public void gameOver(){
+
+    }
 }

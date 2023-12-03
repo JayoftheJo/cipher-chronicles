@@ -1,11 +1,4 @@
-BIRD
-a water bird
-1
-
-CHEST
-a pirate chest
-2
-
-BOOK
-a copy of an illuminated manuscript
-3
+TOKEN
+a strength token
+During the boss fight, use this to build up to a special attack.
+2,5,7,9,10
