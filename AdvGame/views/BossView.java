@@ -231,6 +231,7 @@ public class BossView extends AdventureGameView{
         playerAttack();
         boss_move();
         check_status();
+        strengthBar.change(1);
     }
 
     /*
@@ -242,6 +243,7 @@ public class BossView extends AdventureGameView{
         playerSpec();
         boss_move();
         check_status();
+        strengthBar.initState();
     }
 
     /*
@@ -362,6 +364,10 @@ public class BossView extends AdventureGameView{
     }
 
     public void gameOver() {
+
+    }
+
+    public void halfDamage(){
 
     }
 

@@ -1,11 +1,6 @@
 import AdventureModel.AdventureGame;
-import AdventureModel.Room;
-import AdventureModel.State;
-import AdventureModel.Token;
-import javafx.embed.swing.JFXPanel;
+import AdventureModel.State.Token;
 import org.junit.jupiter.api.Test;
-import views.HealthBarView;
-import views.StrengthBarView;
 
 public class StateTest {
 

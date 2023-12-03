@@ -1,5 +1,9 @@
 package AdventureModel;
 
+import AdventureModel.State.HalfDamageItem;
+import AdventureModel.State.State;
+import AdventureModel.State.Token;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -95,6 +99,7 @@ public class AdventureLoader {
      */
     public void parseObjects() throws IOException {
         State token = new Token();
+        State halfem = new HalfDamageItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
@@ -114,7 +119,14 @@ public class AdventureLoader {
             location.addGameObject(object);
             locations.add(location);
             }
-            object.changeState(token);
+            if (objectLocation.length > 1){
+            object.changeState(token);}
+            else if (objectDescription.contains("half damage")) {
+                object.changeState(halfem);
+            }
+            else{
+
+            }
         }
 
     }

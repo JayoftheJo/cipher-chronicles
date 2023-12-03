@@ -1,6 +1,6 @@
 package AdventureModel;
 
-import BossFactory.trollBoss;
+import AdventureModel.State.State;
 
 import java.io.Serializable; //you will need this to save the game!
 import java.util.ArrayList;

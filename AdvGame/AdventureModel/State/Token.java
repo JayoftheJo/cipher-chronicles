@@ -1,6 +1,5 @@
-package AdventureModel;
+package AdventureModel.State;
 
-import BossFactory.trollBoss;
 import views.BossView;
 
 /**

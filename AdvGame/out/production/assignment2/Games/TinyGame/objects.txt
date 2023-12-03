@@ -2,3 +2,8 @@ TOKEN
 a strength token
 During the boss fight, use this to build up to a special attack.
 2,5,7,9,10
+
+HALVER
+a half damage item
+During the boss fight, use this to half the enemy health
+5
