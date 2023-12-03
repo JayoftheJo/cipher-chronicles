@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="" />
+    <list default="true" id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BossFactory/trollBoss.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/BossFactory/trollBoss.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feature/4.4-invincible-item" />
+        <entry key="$PROJECT_DIR$/.." value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -40,11 +51,11 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "feature/4.4-invincible-item",
     "jdk.selected.JAVA_MODULE": "openjdk-20",
     "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
     "onboarding.tips.debug.path": "C:/Users/zuhay/CSC207/group_57/assignment2/src/Main.java",
-    "project.structure.last.edited": "Global Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "vcs.Git"
@@ -161,77 +172,8 @@
     <MESSAGE value="Revert &quot;[DEV-4.2] Finalized changes&quot;&#10;&#10;This reverts commit 1f2c6e84" />
     <MESSAGE value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
     <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
-    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>350</line>
-          <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>351</line>
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>357</line>
-          <option name="timeStamp" value="127" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>358</line>
-          <option name="timeStamp" value="128" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>364</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>374</line>
-          <option name="timeStamp" value="130" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>373</line>
-          <option name="timeStamp" value="131" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>383</line>
-          <option name="timeStamp" value="132" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>384</line>
-          <option name="timeStamp" value="133" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>403</line>
-          <option name="timeStamp" value="134" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>404</line>
-          <option name="timeStamp" value="135" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/views/BossView.java</url>
-          <line>356</line>
-          <properties class="views.BossView">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="126" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="AdventureModel.Player" memberName="inventory" />
