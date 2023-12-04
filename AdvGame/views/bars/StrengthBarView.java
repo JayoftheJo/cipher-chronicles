@@ -110,13 +110,6 @@ public class StrengthBarView implements BarView{
         }
     }
 
-//    /**
-//     * Update player strength based on current health
-//     */
-//    public void update(){
-//        onTop.setWidth((double) (player.getStrength()/player.FULL_STRENGTH) * B_WIDTH);
-//    }
-
     /**
      * Set the colour for the strength bar
      * - Normal colours in Boss Room
