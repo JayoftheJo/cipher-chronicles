@@ -7,12 +7,12 @@ import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -35,9 +35,6 @@ import views.bars.StrengthBarView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -60,7 +57,13 @@ public class AdventureGameView {
     GridPane gridPane = new GridPane(); //to hold images and buttons
     Label roomDescLabel = new Label(); //to hold room description and/or instructions
     VBox objectsInRoom = new VBox(); //to hold room items
+    ScrollPane objInRoomVis = new ScrollPane();//items
+
+    VBox objRoomEve = new VBox();// holds both label and items
     VBox objectsInInventory = new VBox(); //to hold inventory items
+    ScrollPane objInInvenVis = new ScrollPane();// items
+
+    VBox objInvEve = new VBox();// holds both label and items
     ImageView roomImageView; //to hold room image
     TextField inputTextField; //for user input
     Compass compass;
@@ -71,6 +74,9 @@ public class AdventureGameView {
     private boolean mediaPlaying; //to know if the audio is playing
 
     boolean playerStatsToggle; //to know if player stats is on or off
+    boolean objRoomToggle;// to know if object room display is on or off
+
+    boolean objInvToggle;// to know if object inventory display is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar; // to access the strength bar
 
@@ -177,10 +183,37 @@ public class AdventureGameView {
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
 
+        // Setting up the displays
+        objInRoomVis = new ScrollPane(objectsInRoom);
+        objInRoomVis.setPadding(new Insets(10));
+        objInRoomVis.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        objInRoomVis.setFitToWidth(true);
+
+        objRoomToggle = true;
+
+        objRoomEve = new VBox();
+        objRoomEve.setSpacing(5);
+        objRoomEve.getChildren().addAll(objLabel, objInRoomVis);
+
+        objInInvenVis = new ScrollPane(objectsInInventory);
+        objInInvenVis.setPadding(new Insets(10));
+        objInInvenVis.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        objInInvenVis.setFitToWidth(true);
+
+        objInvToggle = true;
+
+        objInvEve = new VBox();
+        objInvEve.setSpacing(5);
+        objInvEve.getChildren().addAll(invLabel, objInInvenVis);
+
+
+
         //add all the widgets to the GridPane
-        gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
+        gridPane.add( objRoomEve, 0, 1, 1, 1 );  // Add obj in room display
         gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
-        gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
+        gridPane.add( objInvEve, 2, 1, 1, 1 );  // Add obj in inven display
+
+
 
         Label commandLabel = new Label("What would you like to do?");
         commandLabel.setStyle("-fx-text-fill: white;");
@@ -203,7 +236,7 @@ public class AdventureGameView {
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening player stats
-        playerStatsEvent();
+        playerStatsAndObjEvent();
 
         CompassView compassView = new CompassView(compass);
 
@@ -623,17 +656,6 @@ public class AdventureGameView {
         //the path to the image of any is as follows:
         //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
 
-        ScrollPane scO = new ScrollPane(objectsInRoom);
-        scO.setPadding(new Insets(10));
-        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        scO.setFitToWidth(true);
-        gridPane.add(scO,0,1);
-
-        ScrollPane scI = new ScrollPane(objectsInInventory);
-        scI.setFitToWidth(true);
-        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        gridPane.add(scI,2,1);
-
         objectsInRoom.getChildren().clear();
         objectsInInventory.getChildren().clear();
 
@@ -682,17 +704,27 @@ public class AdventureGameView {
                 objectButton.setFont(Font.font(14));
                 vbox.getChildren().add(objectButton);
 
+                // Different functionality for left and right mouse click
                 EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
                     @Override
                     public void handle(MouseEvent event) {
-
+                        if (event.getButton() == MouseButton.PRIMARY){
                         if (objectsInRoom.getChildren().contains(objectButton)) {
                             submitEvent("take " + object.getName());
                         }
 
                         else if (objectsInInventory.getChildren().contains(objectButton)) {
                             submitEvent("drop " + object.getName());
+                        }
+                        } else if (event.getButton() == MouseButton.SECONDARY) {
+                            if (objectsInRoom.getChildren().contains(objectButton)) {
+                                //TTS
+                            }
+
+                            else if (objectsInInventory.getChildren().contains(objectButton)) {
+                                //TTS
+                            }
                         }
                     }
                 };
@@ -775,7 +807,7 @@ public class AdventureGameView {
     /**
      * Responds to a 'H' click by showing the or closing the player's stats
      */
-    public void playerStatsEvent(){
+    public void playerStatsAndObjEvent(){
         // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
@@ -786,8 +818,34 @@ public class AdventureGameView {
 
             @Override
             public void handle(KeyEvent event){
+                // close or open health bar
                 if (event.getCode().equals(KeyCode.H)){
                     showPlayerStats();
+                }
+                // close or open objects in room display
+                else if(event.getCode().equals(KeyCode.R)){
+                    if(objRoomToggle) {
+                        removeByCell(1, 0);
+                        objRoomToggle = false;
+                    }
+                    else{
+                        removeByCell(1, 0);
+                        gridPane.add(objRoomEve, 0, 1, 1, 1);
+                        objRoomToggle = true;
+                    }
+
+                }
+                // close or open inventory display
+                else if(event.getCode().equals(KeyCode.I)){
+                    if(objInvToggle) {
+                        removeByCell(1, 2);
+                        objInvToggle = false;
+                    }
+                    else{
+                        removeByCell(1, 2);
+                        gridPane.add(objInvEve, 2, 1, 1, 1);
+                        objInvToggle = true;
+                    }
                 }
             }
         };

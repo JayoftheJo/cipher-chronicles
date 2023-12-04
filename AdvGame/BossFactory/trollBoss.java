@@ -49,9 +49,10 @@ public class trollBoss extends Boss {
      * make this boss heal themselves
      */
     @Override
-    public void heal(){
+    public int heal(){
         int heal = rand.nextInt(0, this.bossHealth);
         changeHealthBar(heal);
+        return heal;
     }
 
     public void setHealthBar(BarView healthbar){

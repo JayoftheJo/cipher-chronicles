@@ -1,21 +1,23 @@
-To play this game you must move between locations and interact with objects by typing one or two word commands.
+To play this game you must move between locations and interact with objects by typing one or two word commands or clicking on them.
 
-Some commands are motion commands.  These will move you from room to room. Motion commands include:
+Some commands are motion commands. These will move you from room to room. Motion commands include:
 
-UP, DOWN, EAST, WEST, NORTH, SOUTH
+UP or 'W', DOWN or 'S', RIGHT or 'D', LEFT or 'A', aside '' are used to represent button clicks
 
-Not all motions are possible in every room. In addition, some rooms may have "special" or "secret" motion commands.
+Not all motions are possible in every room.
 
 There are other action commands in the game. These include:
 
-COMMANDS: this will print the moves that are legal in a given room.
-HELP: this will display instructions
-INVENTORY: this will print your current inventory.
-LOOK: this will print the description for the current room.
-TAKE <object>: this will take an object from a room and place it in your inventory. Replace <object> with the name of the object to take.  The object must be present in the room in order to take it.
-DROP <object>: this will drop an object in your inventory. Replace <object> with the name of the object to drop. The object must be in your inventory to drop it.
+COMMANDS or 'E': this will print the moves that are legal in a given room. Not applicable in BOSS room
+HELP: this will display instructions. Not applicable in BOSS room
+INVENTORY: this will print your current inventory. Not applicable in BOSS room
+LOOK: this will print the description for the current room. Not applicable in BOSS room
+TAKE <object> or left click on an object in room object: this will take an object from a room and place it in your inventory. Replace <object> with the name of the object to take.  The object must be present in the room in order to take it. Not applicable in BOSS room
+DROP <object> or left click on an inventory object: this will drop an object in your inventory. Replace <object> with the name of the object to drop. The object must be in your inventory to drop it. Not applicable in BOSS room.
+left click on an inventory object in BOSS room: this will use the item to give you a buff.
+'R': To open or close the objects in room display. Not applicable in BOSS room.
+'I': To open or close the inventory objects display
+'H': To open or close the player stats (health and strength bar)
 
-Some paths may be blocked.  To unblock a path you may need a specific object to be in your inventory.
-
-The game is over when your player reaches the VICTORY room, or when your player DIES.
+The game is over when your player reaches the BOSS room and wins or loses.
 

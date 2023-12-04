@@ -130,12 +130,7 @@ public class HealthBarView implements BarView {
     }
 
 
-//    /**
-//     * Update player health based on current health
-//     */
-//    public void update(){
-//        onTop.setWidth((double) (player.getHealth()/player.TOTAL_HEALTH) * B_WIDTH);
-//    }
+
 
     /**
      * Getter for the health bar
