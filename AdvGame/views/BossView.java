@@ -9,6 +9,7 @@ import AdventureModel.AdventureGame;
 import BossFactory.trollBoss;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.css.Style;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -71,6 +72,8 @@ public class BossView extends AdventureGameView{
     boolean invincible;    // for invincibility
 
     int invRoundNum; // num rounds invincible for
+
+    boolean luckySpec = false;
 
     /**
      * BossView Constructor.
@@ -215,6 +218,7 @@ public class BossView extends AdventureGameView{
         this.gridPane.add(bossStats, 2, 0);//top left
 
         bossTroll.setHealthBar(bossHealthBar);
+        bossTroll.setStrengthBar(bossStrengthBar);
 
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
@@ -370,8 +374,35 @@ public class BossView extends AdventureGameView{
         p_damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
         bossTroll.changeHealthBar(-p_damage);
 
-        this.strengthBar.initState();
+        // Special attack the noraml way
+        if(!luckySpec) {
+            p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
+            bossTroll.changeHealthBar(-damage);
+        }
+        // or in the lucky way
+        else{
+            int output = rand.nextInt(0, 5);
+            // luck wins out then user causes a potentially big damage
+            if(output == 4){
+                p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
+                bossTroll.changeHealthBar(-damage);
+                luckySpec = false;
+            }
+            // luck loses out, no attack from user, and user get the failure indicated with a red flicker
+            else{
+                String prev = specAttackButton.getStyle();
+                specAttackButton.setStyle("-fx-background-colour: #8B0000;");
+                PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
+                pause.setOnFinished(actionEvent -> {
+                    customizeButton(specAttackButton);
+                    makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack", "This button allows the user to use a special attack on the troll if they have attack tokens available");
 
+                });
+                pause.play();
+            }
+        }
+        this.strengthBar.initState();
+        specAttackButton.setDisable(true);
     }
 
     /*
@@ -420,7 +451,9 @@ public class BossView extends AdventureGameView{
             }
         }
         else{
+            boss_dmg = 0;
             bossTroll.heal();
+            bossTroll.changeStrengthBar(5);
         }
 
         // Keep track of how many rounds of invincibility
@@ -756,4 +789,11 @@ public class BossView extends AdventureGameView{
         bossTroll.changeHealthBar(-(bossTroll.getHealth()/2));
     }
 
+    /**
+     * Lets user use the special attack button in the lucky way
+     */
+    public void specialAttackChance(){
+        specAttackButton.setDisable(false);
+        luckySpec = true;
+    }
 }

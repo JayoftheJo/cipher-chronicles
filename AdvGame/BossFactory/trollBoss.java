@@ -34,6 +34,13 @@ public class trollBoss extends Boss {
     @Override
     public int attack(Player other){
         int damage = rand.nextInt(0, this.bossStrength * 5);
+
+        // boss' special attack
+        if (bossStrength == 100){
+            damage *= 2;
+            strengthBar.initState();
+        }
+
         other.changeHealthBar(-damage);
         return damage;
     }
@@ -57,7 +64,7 @@ public class trollBoss extends Boss {
     }
 
     public int getStrength(){
-        return this.strength;
+        return this.bossStrength;
     }
 
     public void changeHealthBar(int health){
@@ -77,7 +84,7 @@ public class trollBoss extends Boss {
     }
 
     public void updateStrength(int strength){
-        this.strength += strength;
+        this.bossStrength += strength;
     }
 
 

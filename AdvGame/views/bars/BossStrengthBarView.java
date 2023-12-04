@@ -14,7 +14,7 @@ public class BossStrengthBarView implements BarView{
     private Rectangle background;
     private Rectangle onTop;
 
-    private final int B_WIDTH = 160;
+    private final int B_WIDTH = 178;
     private final int B_HEIGHT = 20;
 
     private trollBoss player;
@@ -43,7 +43,12 @@ public class BossStrengthBarView implements BarView{
         colour();
 
         // Set the initial state
-        initState();
+        if (player.getStrength() == 0) {
+            initState();
+        }
+        else{
+            onTop.setWidth((double) player.getStrength()/100 * B_WIDTH);
+        }
 
         // put the top and bottom on top of each other
         StrengthBar = new StackPane(background, onTop);
@@ -84,9 +89,9 @@ public class BossStrengthBarView implements BarView{
             pause.setOnFinished(actionEvent -> {
 
                 // Change the strength bar according based on player's increased strength when within bounds
-                if (!(this.player.getStrength() + howMuch >= 5)) {
+                if (!(this.player.getStrength() + howMuch >= 100)) {
                     if (player.getStrength() == 0){
-                        onTop.setWidth( ((double)howMuch /5) *B_WIDTH);
+                        onTop.setWidth( ((double)howMuch /100) *B_WIDTH);
                     }
                     else {
                         double percentage = ((double) (this.player.getStrength() + howMuch) / this.player.getStrength());
@@ -97,7 +102,7 @@ public class BossStrengthBarView implements BarView{
                 // If more than bounds, set the strength bar to max possible and update player strength accordingly
                 else {
                     onTop.setWidth(B_WIDTH);
-                    this.player.updateStrength(150 - this.player.getStrength());
+                    this.player.updateStrength(100 - this.player.getStrength());
                 }
 
                 // to change colour back from the dark red after the pause
