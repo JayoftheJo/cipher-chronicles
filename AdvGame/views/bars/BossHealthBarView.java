@@ -15,7 +15,7 @@ public class BossHealthBarView implements BarView{
     private Rectangle background;
     private Rectangle onTop;
 
-    private final int B_WIDTH = 160;
+    private final int B_WIDTH = 178;
     private final int B_HEIGHT = 20;
 
     private trollBoss player;

@@ -1,6 +1,6 @@
 MIGHTORBS
 a strengthener
-During the boss fight, use this to build up to a special attack.
+During the boss fight, use this to build up to a potentially great attack.
 2,5,7,9,10
 
 UNBREAKORBS
@@ -12,3 +12,8 @@ HALVER
 a half damage item
 During the boss fight, use this to half the enemy health
 5
+
+LUCK
+a lucky item
+During the boss fight, use this to get a 20% shot at doing a big attack. A flicker means fail.
+4

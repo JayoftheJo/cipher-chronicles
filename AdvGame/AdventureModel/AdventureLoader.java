@@ -1,9 +1,6 @@
 package AdventureModel;
 
-import AdventureModel.State.HalfDamageItem;
-import AdventureModel.State.InvincibleItem;
-import AdventureModel.State.State;
-import AdventureModel.State.Token;
+import AdventureModel.State.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -102,6 +99,7 @@ public class AdventureLoader {
         State token = new Token();
         State invem = new InvincibleItem();
         State halfem = new HalfDamageItem();
+        State luck = new LuckyItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
@@ -126,9 +124,13 @@ public class AdventureLoader {
             if (objectLocation.length > 1){
             object.changeState(token);
             }
-            // has half damage in desp then half damage item
+            // has half damage in description then half damage item
             else if (objectDescription.contains("half damage")) {
                 object.changeState(halfem);
+            }
+            // is LUCK, then is the luck item
+            else if (objectName.equals("LUCK")){
+                object.changeState(luck);
             }
             // Single then a invincible item
             else {
