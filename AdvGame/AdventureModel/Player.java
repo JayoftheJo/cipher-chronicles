@@ -4,6 +4,7 @@ import views.bars.BarView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class keeps track of the progress
@@ -129,9 +130,25 @@ public class Player implements Serializable {
      */
     public ArrayList<String> getInventory() {
         ArrayList<String> objects = new ArrayList<>();
+        HashMap<String, Integer> count = new HashMap<>();
         for(int i=0;i<this.inventory.size();i++){
-            objects.add(this.inventory.get(i).getName());
+            if(count.get(this.inventory.get(i).getName()) == null){
+                count.put(this.inventory.get(i).getName(), 1);
+                }
+            else{
+                count.put(this.inventory.get(i).getName(), count.get(this.inventory.get(i).getName()) + 1);
+            }
+            }
+
+        for (String str: count.keySet()){
+            if (count.get(str) > 1){
+                objects.add(str + " x " + count.get(str));
+            }
+            else {
+                objects.add(str);
+            }
         }
+
         return objects;
     }
 
