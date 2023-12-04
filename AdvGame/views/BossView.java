@@ -24,6 +24,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -31,6 +33,7 @@ import javafx.util.Duration;
 import views.bars.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ public class BossView extends AdventureGameView{
     Player finalPlayer;
     ImageView round_img_v, heal_img, attack_img, spec_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
+    private MediaPlayer mediaPlayer;
     boolean boss_helpToggle = false;
     int p_damage;
     double round_num = 1.0;
@@ -237,6 +241,14 @@ public class BossView extends AdventureGameView{
         this.stage.setResizable(false);
         this.stage.show();
 
+        // creating a looped background music for the entirety of the battle
+        String bgrnd_music = this.model.getDirectoryName() + "/sounds/" + "bgrnd_music.mp3";
+        Media sound = new Media(new File(bgrnd_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
+        mediaPlayer.play();
+
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
             intro_alert = new Alert(Alert.AlertType.INFORMATION);
@@ -377,7 +389,7 @@ public class BossView extends AdventureGameView{
         // Special attack the noraml way
         if(!luckySpec) {
             p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
-            bossTroll.changeHealthBar(-damage);
+            bossTroll.changeHealthBar(-p_damage);
         }
         // or in the lucky way
         else{
@@ -385,7 +397,7 @@ public class BossView extends AdventureGameView{
             // luck wins out then user causes a potentially big damage
             if(output == 4){
                 p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
-                bossTroll.changeHealthBar(-damage);
+                bossTroll.changeHealthBar(-p_damage);
                 luckySpec = false;
             }
             // luck loses out, no attack from user, and user get the failure indicated with a red flicker
@@ -481,6 +493,14 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     private void defeat() {
+        // stop the background music
+        mediaPlayer.stop();
+
+        //cue the victory music
+        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
+        Media sound = new Media(new File(defeat_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "defeatBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -528,6 +548,14 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     private void victory(){
+        //stop background music
+        mediaPlayer.stop();
+
+        //cue the victory music
+        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
+        Media sound = new Media(new File(defeat_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "victoryBoss.png"));
         bossTroll.charImageview.setFitHeight(500);

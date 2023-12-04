@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="resolved merge conflicts">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_swt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/BossView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/BossView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +41,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "battle__system/2.9-victory-defeat-scenario",
+    "git-widget-placeholder": "battle__system/2.13-battle-music",
     "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
