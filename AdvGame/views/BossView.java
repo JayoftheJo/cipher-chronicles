@@ -502,14 +502,17 @@ public class BossView extends AdventureGameView{
             // can only attack a non-invincible player
             if(!invincible){
                 boss_dmg = bossTroll.attack(finalPlayer);
+                curr_health = Math.max(finalPlayer.getHealth() - boss_dmg, 0);
             } else {
                 boss_dmg = 0;
             }
         }
         else{
             boss_dmg = 0;
-            bossTroll.heal();
+            int heal = bossTroll.heal();
+            curr_boss_health = Math.min(bossTroll.getHealth() + heal, 150);
             bossTroll.changeStrengthBar(5);
+            curr_boss_strength = Math.min(bossTroll.getStrength() + 5, 100);
         }
 
         // Keep track of how many rounds of invincibility

@@ -38,8 +38,9 @@ public abstract class Boss {
     /*
      * make this boss heal themselves
      */
-    public void heal(){
+    public int heal(){
         int heal = rand.nextInt(0, 30);
         this.health += heal;
+        return heal;
     }
 }
