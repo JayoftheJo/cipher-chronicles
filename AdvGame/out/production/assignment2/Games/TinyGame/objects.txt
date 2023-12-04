@@ -7,3 +7,8 @@ UNBREAKORBS
 an invincibility item
 During the boss fight, use this to be invincible for 3 rounds
 10
+
+HALVER
+a half damage item
+During the boss fight, use this to half the enemy health
+5

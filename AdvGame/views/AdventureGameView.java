@@ -7,6 +7,7 @@ import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,10 +28,16 @@ import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 import RoomCompass.RoomCompass;
+import views.bars.BarView;
+import views.bars.HealthBarView;
+import views.bars.StrengthBarView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -399,7 +406,7 @@ public class AdventureGameView {
      * @param w width
      * @param h height
      */
-    private void customizeButton(Button inputButton, int w, int h) {
+    protected void customizeButton(Button inputButton, int w, int h) {
         inputButton.setPrefSize(w, h);
         inputButton.setFont(new Font("Arial", 16));
         inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
@@ -501,7 +508,6 @@ public class AdventureGameView {
      */
     public void create_BossView() throws IOException {
         BossView boss_view = new BossView(this.model, this.stage);
-        boss_view.setPlayerStatsToggle(this.playerStatsToggle);
         gridPane.requestFocus();
     }
 
@@ -773,6 +779,8 @@ public class AdventureGameView {
         // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
+        this.model.getPlayer().setStrengthBar(strengthBar);
+        this.model.getPlayer().setHealthBar(healthBar);
 
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 

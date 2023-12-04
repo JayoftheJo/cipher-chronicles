@@ -3,6 +3,7 @@ package views;
 import AdventureModel.AdventureObject;
 import AdventureModel.Player;
 import BossFactory.Boss;
+import AdventureModel.State.Token;
 import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
 import BossFactory.trollBoss;
@@ -13,21 +14,25 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import views.bars.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -54,9 +59,16 @@ public class BossView extends AdventureGameView{
 
     VBox playerStats; // holds the player stats
 
+
+    BarView bossHealthBar;
+
+    BarView bossStrengthBar;
+
+    VBox bossStats;
+
     boolean invincible;    // for invincibility
 
-    int roundNum; // num rounds invincible for
+    int invRoundNum; // num rounds invincible for
 
     /**
      * BossView Constructor.
@@ -68,7 +80,7 @@ public class BossView extends AdventureGameView{
         super(model, stage);
         rand = new Random();
         model.setHelpText(parseOtherFile("boss_help"));
-        roundNum = 0;
+        invRoundNum = 0;
         invincible = false;
     }
 
@@ -104,6 +116,7 @@ public class BossView extends AdventureGameView{
         RowConstraints row3 = new RowConstraints();
         row1.setVgrow( Priority.SOMETIMES );
         row3.setVgrow( Priority.SOMETIMES );
+
 
         this.gridPane.getColumnConstraints().addAll( column1 , column2 , column1 );
         this.gridPane.getRowConstraints().addAll( row1 , row2 , row1 );
@@ -151,6 +164,8 @@ public class BossView extends AdventureGameView{
         finalPlayer = this.model.getPlayer();
         bossTroll = (trollBoss) factory.createBossCharacter();
 
+        updateObjs();
+
         String bossImg = this.model.getDirectoryName() + "/battleImages/" + "normalBoss.png";
         bossTroll.charImage = new Image(bossImg);
         bossTroll.charImageview = new ImageView(bossTroll.charImage);
@@ -161,14 +176,26 @@ public class BossView extends AdventureGameView{
         round_img_v.setFitHeight(35);
         round_img_v.setPreserveRatio(true);
 
-        //add all the widgets to the GridPane
-        this.gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
 
         playerStats = new VBox();
         playerStats.setSpacing(10);
         playerStats.setAlignment(Pos.CENTER_LEFT);
         // event for hiding or opening the health bar
         playerStatsEvent();
+        showPlayerStats();
+
+        bossStats = new VBox();
+        bossStats.setSpacing(10);
+        bossStats.setAlignment(Pos.CENTER_LEFT);
+
+        bossHealthBar = new BossHealthBarView(bossTroll, this);// boss health and strength bar
+        bossStrengthBar = new BossStrengthBarView(bossTroll, this);
+
+        bossStats.getChildren().addAll(bossHealthBar.get(), bossStrengthBar.get());
+
+        this.gridPane.add(bossStats, 2, 0);//top left
+
+        bossTroll.setHealthBar(bossHealthBar);
 
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
@@ -267,6 +294,18 @@ public class BossView extends AdventureGameView{
         check_status();
     }
 
+
+    /*
+     * Makes this BossView thier view
+     */
+    private void updateObjs(){
+        objectsInRoom.getChildren().clear();
+
+        for (AdventureObject object: finalPlayer.inventory){
+            object.getState().setView(this);
+        }
+    }
+
     /*
      * This method handles when the special attack
      * button has been clicked
@@ -284,17 +323,17 @@ public class BossView extends AdventureGameView{
      */
     private void playerAttack(){
         damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
-        bossTroll.bossHealth -= damage;
+        bossTroll.changeHealthBar(-damage);
     }
 
     /*
      * This method lets the player heal themselves
      */
     private void playerHeal(){
-        finalPlayer.changeHealth(25);
-        if (finalPlayer.getHealth() > 100){
-            finalPlayer.changeHealth(-finalPlayer.getHealth() % 100);
-        }
+        finalPlayer.changeHealthBar(25);
+//        if (finalPlayer.getHealth() > 100){
+//            finalPlayer.changeHealthBar(-finalPlayer.getHealth() % 100);
+//        }
     }
 
     /*
@@ -302,8 +341,10 @@ public class BossView extends AdventureGameView{
      * a special attack on the enemy boss
      */
     private void playerSpec(){
-        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 15);
-        bossTroll.bossHealth -= damage;
+
+
+        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
+        bossTroll.changeHealthBar(-damage);
 
         this.strengthBar.initState();
 
@@ -319,6 +360,11 @@ public class BossView extends AdventureGameView{
         if (!specAttackButton.isDisabled()){
         specAttackButton.setDisable(false);
         }
+
+        for (Node button: objectsInInventory.getChildren()){
+            button.setDisable(false);
+        }
+
     }
 
     /*
@@ -328,6 +374,10 @@ public class BossView extends AdventureGameView{
         attackButton.setDisable(true);
         healButton.setDisable(true);
         specAttackButton.setDisable(true);
+
+        for (Node button: objectsInInventory.getChildren()){
+            button.setDisable(true);
+        }
     }
 
     /*
@@ -342,13 +392,23 @@ public class BossView extends AdventureGameView{
 
             // can only attack a non-invincible player
             if(!invincible){
-            boss_dmg = bossTroll.attack(finalPlayer);
+                boss_dmg = bossTroll.attack(finalPlayer);
             }
         }
         else{
             boss_dmg = 0;
             bossTroll.heal();
         }
+
+        // Keep track of how many rounds of invincibility
+        if (invRoundNum >= 3){
+            invincible = false; // after 3 the invincibility wears off
+            invRoundNum = 0;
+        }
+        else{
+            invRoundNum += 1;
+        }
+
         Alert round = new Alert(Alert.AlertType.INFORMATION);
         round.setHeaderText("ROUND " + round_num);
         round.setGraphic(round_img_v);
@@ -356,13 +416,6 @@ public class BossView extends AdventureGameView{
         round.getButtonTypes().clear();
         round.getButtonTypes().addAll(ButtonType.OK);
         round.showAndWait();
-
-        // Keep track of how many rounds of invincibility
-        roundNum += 1;
-        if (roundNum == 3){
-            invincible = false; // after 3 the invincibility wears off
-        }
-
         open_buttons();
     }
 
@@ -402,9 +455,114 @@ public class BossView extends AdventureGameView{
         return text;
     }
 
-    public void updateScene(String textToDisplay){
+    /**
+     * updateItems
+     * __________________________
+     *
+     * This method is partially completed, but you are asked to finish it off.
+     *
+     * The method should populate the objectsInInventory Vbox.
+     * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
+     * Each node represents a different object.
+     *
+     * Images of each object are in the assets
+     * folders of the given adventure game.
+     */
+    public void updateItems() {
+
+        //write some code here to add images of objects in a player's inventory room to the objectsInInventory Vbox
+        //please use setAccessibleText to add "alt" descriptions to your images!
+        //the path to the image of any is as follows:
+        //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
+
+        ScrollPane scO = new ScrollPane(objectsInRoom);
+        scO.setPadding(new Insets(10));
+        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        scO.setFitToWidth(true);
+        gridPane.add(scO,0,1);
+
+        ScrollPane scI = new ScrollPane(objectsInInventory);
+        scI.setFitToWidth(true);
+        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        gridPane.add(scI,2,1);
+
+        // Poppulate the onjectsInInventory
+        objectsInInventory.getChildren().clear();
+
+        addImageButtons(this.model.getPlayer().inventory, objectsInInventory);
 
     }
+
+    private void addImageButtons(ArrayList<AdventureObject> lst, VBox vbox){
+        for (AdventureObject object: lst) {
+            String objectName = object.getName();
+            String objectDesc = object.getDescription();
+            String objectHelp = object.getHelpTxt();
+            Image objectImage = new Image(this.model.getDirectoryName() + "/objectImages/" + objectName + ".png");
+            ImageView objectImageView = new ImageView(objectImage);
+            objectImageView.setPreserveRatio(true);
+            objectImageView.setFitWidth(100);
+            objectImageView.setFitHeight(100);
+
+            Button objectButton = new Button(objectName, objectImageView);
+            objectButton.setContentDisplay(ContentDisplay.TOP);
+            customizeButton(objectButton, 100, 100);
+            int othernNum = 0;
+
+            // Go through all the button nodes to find how many times this item is duplicated
+            for(Node node: vbox.getChildren()){
+                if(node instanceof Button){
+                    if(((Button) node).getText().startsWith(objectName.split("x")[0])){
+                        if(((Button) node).getText().split("x").length != 2){
+                            othernNum = 1;
+                        }
+                        else {
+                            othernNum = Integer.parseInt(((Button) node).getText().split("x")[1]);
+                        }
+                    }
+                }
+            }
+
+            // Add 1 to that count to account for this item
+            int count = 1 + othernNum;
+
+            // if there was no duplicates, put this item on screen
+            if (count == 1) {
+                makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
+                objectButton.setTooltip(new Tooltip(objectHelp));
+                objectButton.setFont(Font.font(14));
+                vbox.getChildren().add(objectButton);
+
+                EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+
+                        // Treat the click of a object as using it and continue the game
+                        if (objectsInInventory.getChildren().contains(objectButton)) {
+                            object.getState().execute();
+                            model.player.inventory.remove(object);
+                            if (object.getState() instanceof Token){
+                                finalPlayer.changeStrengthBar(2);
+                            }
+                            updateItems();
+                            boss_move();
+                            check_status();
+                        }
+                    }
+                };
+
+                objectButton.setOnMouseClicked(eventHandler);
+            }
+            // else update the button there to reflect how many duplicates of this item are there
+            else {
+                Button button = (Button) vbox.getChildren().stream().filter(node -> node instanceof Button && ((Button) node).getText().startsWith(objectName.split("x")[0])).findAny().get();
+                button.setText(button.getText().split("x")[0] + "x" + count);
+            }
+
+        }
+    }
+
 
     @Override
     public void addInstructionEvent() {
@@ -420,6 +578,9 @@ public class BossView extends AdventureGameView{
         // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
+
+        finalPlayer.setHealthBar(healthBar);
+        finalPlayer.setStrengthBar(strengthBar);
 
         EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
@@ -476,21 +637,16 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     public void gameOver() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(actionEvent -> Platform.exit());
         pause.play();
     }
 
     /**
-     * Set player stats toggle
-     * @param playerStatsToggle what to set playerStatsToggle to
+     * Halves the boss' health
      */
-    public void setPlayerStatsToggle(boolean playerStatsToggle){
-        this.playerStatsToggle = playerStatsToggle;
-        if(this.playerStatsToggle){
-            this.playerStatsToggle = !this.playerStatsToggle;
-            showPlayerStats();
-        }
+    public void halfDamage(){
+        bossTroll.changeHealthBar(-(bossTroll.getHealth()/2));
     }
 
 }
