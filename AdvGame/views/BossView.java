@@ -51,7 +51,8 @@ public class BossView extends AdventureGameView{
     ImageView round_img_v, heal_img, attack_img, spec_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
     boolean boss_helpToggle = false;
-    int damage, round_num = 1;
+    int p_damage;
+    double round_num = 1.0;
 
 
     boolean playerStatsToggle = false; //to know if health bar is on or off
@@ -245,8 +246,8 @@ public class BossView extends AdventureGameView{
             intro_alert.getButtonTypes().clear();
             intro_alert.getButtonTypes().addAll(ButtonType.OK);
             DialogPane dialogPane = intro_alert.getDialogPane();
-            dialogPane.setPrefWidth(600);
-            dialogPane.setPrefHeight(150);
+            dialogPane.setPrefWidth(500);
+            dialogPane.setPrefHeight(200);
             intro_alert.showAndWait();
             open_buttons();
         });
@@ -284,13 +285,17 @@ public class BossView extends AdventureGameView{
      * based on the player and boss's health
      */
     private void check_status(){
-        round_num += 1;
         if (finalPlayer.getHealth() <= 0) {
-            gameOver();
+            close_buttons();
+            bossHelp.setDisable(true);
+            defeat();
         }
         else if (bossTroll.bossHealth <= 0){
+            close_buttons();
+            bossHelp.setDisable(true);
             victory();
         }
+        round_num += 0.5;
     }
 
     /*
@@ -343,8 +348,8 @@ public class BossView extends AdventureGameView{
      * the enemy boss
      */
     private void playerAttack(){
-        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
-        bossTroll.changeHealthBar(-damage);
+        p_damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
+        bossTroll.changeHealthBar(-p_damage);
     }
 
     /*
@@ -362,10 +367,8 @@ public class BossView extends AdventureGameView{
      * a special attack on the enemy boss
      */
     private void playerSpec(){
-
-
-        damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
-        bossTroll.changeHealthBar(-damage);
+        p_damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() * 15);
+        bossTroll.changeHealthBar(-p_damage);
 
         this.strengthBar.initState();
 
@@ -417,7 +420,6 @@ public class BossView extends AdventureGameView{
             }
         }
         else{
-            boss_dmg = 0;
             bossTroll.heal();
         }
 
@@ -429,6 +431,7 @@ public class BossView extends AdventureGameView{
         else{
             invRoundNum += 1;
         }
+        check_status();
 
         round = new Alert(Alert.AlertType.INFORMATION);
         round.setHeaderText("ROUND " + round_num);
@@ -441,69 +444,95 @@ public class BossView extends AdventureGameView{
     }
 
     /*
-     * GameOver.
+     * This method is for when the player loses the battle
      * Window closes
      */
-    public void gameOver() {
-        PauseTransition def_pause = new PauseTransition(Duration.seconds(5));
-        def_pause.setOnFinished(event -> {
-            bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+    private void defeat() {
+        bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "defeatBoss.png"));
-            bossTroll.charImageview.setFitHeight(100);
-            bossTroll.charImageview.setPreserveRatio(true);
-            removeByCell(1, 1);
-            this.gridPane.add(bossTroll.charImageview, 1, 1);
+        bossTroll.charImageview.setFitHeight(500);
+        bossTroll.charImageview.setPreserveRatio(true);
+        removeByCell(1, 1);
+        this.gridPane.add(bossTroll.charImageview, 1, 1);
+        GridPane.setHalignment(bossTroll.charImageview, HPos.RIGHT);
+
+        //Pause for alert
+        PauseTransition def_pause = new PauseTransition(Duration.seconds(3));
+        def_pause.setOnFinished(event -> {
         });
         def_pause.play();
+
+        //Run the defeat message after the pause
         Platform.runLater(() -> {
                     defeat_alert = new Alert(Alert.AlertType.INFORMATION);
-                    ImageView intro_img = new ImageView(bossTroll.charImage);
-                    intro_img.setFitHeight(50);
-                    intro_img.setPreserveRatio(true);
-                    defeat_alert.setGraphic(intro_img);
+                    ImageView defeat_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                    "defeatBoss.png"));
+                    defeat_img.setFitHeight(50);
+                    defeat_img.setPreserveRatio(true);
+                    defeat_alert.setGraphic(defeat_img);
                     defeat_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-                    defeat_alert.setContentText("You... you have proven your strength, adventurer. I underestimated you. The lands " +
-                            "are now yours to protect. May your journey be filled with victories.");
+                    defeat_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
+                            "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
+                            "a warning to any who dare cross my path.");
                     defeat_alert.getButtonTypes().clear();
                     defeat_alert.getButtonTypes().addAll(ButtonType.OK);
                     DialogPane dialogPane = defeat_alert.getDialogPane();
-                    dialogPane.setPrefWidth(700);
-                    dialogPane.setPrefHeight(150);
+                    dialogPane.setPrefWidth(600);
+                    dialogPane.setPrefHeight(200);
                     defeat_alert.showAndWait();
                 });
-        Platform.exit();
+
+        //Exit the game after 10 seconds
+        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
+        end_pause.setOnFinished(event -> {
+            Platform.exit();
+        });
+        end_pause.play();
     }
 
+    /*
+     * This method is for when the player wins the battle
+     * Window closes
+     */
     private void victory(){
-        PauseTransition victory_pause = new PauseTransition(Duration.seconds(5));
-        victory_pause.setOnFinished(event -> {
-            bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+        bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "victoryBoss.png"));
-            bossTroll.charImageview.setFitHeight(100);
-            bossTroll.charImageview.setPreserveRatio(true);
-            removeByCell(1, 1);
-            this.gridPane.add(bossTroll.charImageview, 1, 1);
+        bossTroll.charImageview.setFitHeight(500);
+        bossTroll.charImageview.setPreserveRatio(true);
+        removeByCell(1, 1);
+        this.gridPane.add(bossTroll.charImageview, 1, 1);
+
+        //Pause for the alert
+        PauseTransition victory_pause = new PauseTransition(Duration.seconds(3));
+        victory_pause.setOnFinished(event -> {
         });
         victory_pause.play();
+
+        // Display victory message after the pause
         Platform.runLater(() -> {
                     victory_alert = new Alert(Alert.AlertType.INFORMATION);
-                    ImageView intro_img = new ImageView(bossTroll.charImage);
-                    intro_img.setFitHeight(50);
-                    intro_img.setPreserveRatio(true);
-                    victory_alert.setGraphic(intro_img);
+                    ImageView victory_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                            "victoryBoss.png"));
+                    victory_img.setFitHeight(50);
+                    victory_img.setPreserveRatio(true);
+                    victory_alert.setGraphic(victory_img);
                     victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-                    victory_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
-                            "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
-                            "a warning to any who dare cross my path.");
+                    victory_alert.setContentText("You... you have proven your strength, adventurer. I underestimated " +
+                            "you. The lands are now yours to protect. May your journey be filled with victories.");
                     victory_alert.getButtonTypes().clear();
                     victory_alert.getButtonTypes().addAll(ButtonType.OK);
                     DialogPane dialogPane = victory_alert.getDialogPane();
-                    dialogPane.setPrefWidth(700);
+                    dialogPane.setPrefWidth(600);
                     dialogPane.setPrefHeight(200);
                     victory_alert.showAndWait();
                 });
 
-        Platform.exit();
+        //Exit the game after 10 seconds
+        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
+        end_pause.setOnFinished(event -> {
+            Platform.exit();
+        });
+        end_pause.play();
     }
 
 
@@ -514,9 +543,9 @@ public class BossView extends AdventureGameView{
      * @param boss_dmg
      */
     private String round_text(int boss_dmg){
-        return "\nYou dealt " + damage + " damage\nThe troll dealt " + boss_dmg + "\n\n" +
-                "CURRENT STATS:\nPLAYER: \nHEALTH = " + finalPlayer.getHealth() + "\nSTRENGTH = " +
-                finalPlayer.getStrength() + "\nTROLL: \nHEALTH = " + bossTroll.bossHealth + "\nSTRENGTH = " +
+        return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + "DAMAGE!\n\n" +
+                "CURRENT STATS:\nPLAYER: \nHealth = " + finalPlayer.getHealth() + "\nStrength = " +
+                finalPlayer.getStrength() + "\nTROLL: \nHealth = " + bossTroll.bossHealth + "\nStrength = " +
                 bossTroll.bossStrength;
     }
 
@@ -614,7 +643,7 @@ public class BossView extends AdventureGameView{
             // Add 1 to that count to account for this item
             int count = 1 + othernNum;
 
-            // if there was no duplicates, put this item on screen
+            // if there were no duplicates, put this item on screen
             if (count == 1) {
                 makeButtonAccessible(objectButton, objectName, objectName, objectDesc);
                 objectButton.setTooltip(new Tooltip(objectHelp));
