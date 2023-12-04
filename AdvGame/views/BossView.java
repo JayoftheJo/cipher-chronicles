@@ -23,6 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -30,6 +32,7 @@ import javafx.util.Duration;
 import views.bars.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,12 +53,15 @@ public class BossView extends AdventureGameView{
     Player finalPlayer;
     ImageView round_img_v, heal_img, attack_img, spec_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
+    PauseTransition ability_pause;
+    private MediaPlayer mediaPlayer, abilityPlayer;
+    Media ability_sound;
     boolean boss_helpToggle = false;
     int p_damage;
     double round_num = 1.0;
 
 
-    boolean playerStatsToggle = true; //to know if health bar is on or off
+    boolean playerStatsToggle = false; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar; // to access the strength bar
 
@@ -255,6 +261,15 @@ public class BossView extends AdventureGameView{
         this.stage.setResizable(false);
         this.stage.show();
 
+        // creating a looped background music for the entirety of the battle
+        String bgrnd_music = this.model.getDirectoryName() + "/sounds/" + "bgrnd_music.mp3";
+        Media sound = new Media(new File(bgrnd_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
+        mediaPlayer.play();
+
+
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
             intro_alert = new Alert(Alert.AlertType.INFORMATION);
@@ -263,8 +278,8 @@ public class BossView extends AdventureGameView{
             intro_img.setPreserveRatio(true);
             intro_alert.setGraphic(intro_img);
             intro_alert.setHeaderText("HAHAHAHAHAHA!");
-            intro_alert.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO BE CRUSHED " +
-                    "BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
+            intro_alert.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO " +
+                    "BE CRUSHED BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
             intro_alert.getButtonTypes().clear();
             intro_alert.getButtonTypes().addAll(ButtonType.OK);
             DialogPane dialogPane = intro_alert.getDialogPane();
@@ -325,6 +340,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void heal_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerHeal();
         boss_move();
@@ -336,6 +357,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void attack_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerAttack();
         boss_move();
@@ -359,6 +386,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void specAttack_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerSpec();
         boss_move();
@@ -406,7 +439,6 @@ public class BossView extends AdventureGameView{
                 p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
                 bossTroll.changeHealthBar(-p_damage);
                 curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
-
                 luckySpec = false;
             }
             // luck loses out, no attack from user, and user get the failure indicated with a red flicker
@@ -415,7 +447,9 @@ public class BossView extends AdventureGameView{
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
                 pause.setOnFinished(actionEvent -> {
                     customizeButton(specAttackButton);
-                    makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack", "This button allows the user to use a special attack on the troll if they have attack tokens available");
+                    makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special " +
+                            "attack", "This button allows the user to use a special attack on the troll if " +
+                            "they have attack tokens available");
 
                 });
                 pause.play();
@@ -462,20 +496,20 @@ public class BossView extends AdventureGameView{
      */
     private void boss_move(){
         int move = rand.nextInt(0,50);
-        int boss_dmg = 0;
+        int boss_dmg;
         if (move > 10){
 
             // can only attack a non-invincible player
             if(!invincible){
                 boss_dmg = bossTroll.attack(finalPlayer);
-                curr_health = Math.max(finalPlayer.getHealth() - boss_dmg, 0);
+            } else {
+                boss_dmg = 0;
             }
         }
         else{
             boss_dmg = 0;
             bossTroll.heal();
             bossTroll.changeStrengthBar(5);
-            curr_boss_strength = Math.min(bossTroll.getStrength() + 5, 100);
         }
 
         // Keep track of how many rounds of invincibility
@@ -487,15 +521,16 @@ public class BossView extends AdventureGameView{
             invRoundNum += 1;
         }
         check_status();
-
-        round = new Alert(Alert.AlertType.INFORMATION);
-        round.setHeaderText("ROUND " + round_num);
-        round.setGraphic(round_img_v);
-        round.setContentText(round_text(boss_dmg));
-        round.getButtonTypes().clear();
-        round.getButtonTypes().addAll(ButtonType.OK);
-        round.showAndWait();
-        open_buttons();
+        Platform.runLater(() -> {
+            round = new Alert(Alert.AlertType.INFORMATION);
+            round.setHeaderText("ROUND " + round_num);
+            round.setGraphic(round_img_v);
+            round.setContentText(round_text(boss_dmg));
+            round.getButtonTypes().clear();
+            round.getButtonTypes().addAll(ButtonType.OK);
+            round.showAndWait();
+            open_buttons();
+        });
     }
 
     /*
@@ -503,6 +538,14 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     private void defeat() {
+        // stop the background music
+        mediaPlayer.stop();
+
+        //cue the victory music
+        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
+        Media sound = new Media(new File(defeat_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "defeatBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -550,6 +593,14 @@ public class BossView extends AdventureGameView{
      * Window closes
      */
     private void victory(){
+        //stop background music
+        mediaPlayer.stop();
+
+        //cue the victory music
+        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
+        Media sound = new Media(new File(defeat_music).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "victoryBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
