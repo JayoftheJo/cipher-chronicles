@@ -30,7 +30,7 @@ public abstract class Boss {
      * @param other
      */
     public int attack(Player other){
-        int damage = rand.nextInt(0, this.strength * 5);
+        int damage = rand.nextInt(0, this.strength * 50);
         other.changeHealthBar(-damage);
         return damage;
     }
