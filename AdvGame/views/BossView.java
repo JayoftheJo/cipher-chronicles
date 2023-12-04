@@ -48,7 +48,8 @@ public class BossView extends AdventureGameView{
     trollBoss bossTroll;
     Random rand;
     Player finalPlayer;
-    ImageView round_img_v;
+    ImageView round_img_v, heal_img, attack_img, spec_img;
+    Alert round, defeat_alert, victory_alert, intro_alert;
     boolean boss_helpToggle = false;
     int damage, round_num = 1;
 
@@ -124,25 +125,42 @@ public class BossView extends AdventureGameView{
         bossHelp = new Button("Instructions");
         bossHelp.setId("Instructions");
         customizeButton(bossHelp);
-        makeButtonAccessible(bossHelp, "Instruction Button", "Instructions for the player", "This button allows the player to view the instructions to defeat the troll");
+        makeButtonAccessible(bossHelp, "Instruction Button", "Instructions for the player",
+                "This button allows the player to view the instructions to defeat the troll");
         bossHelp.setOnAction(e -> {
             showInstructions();
         });
 
         healButton = new Button("Heal");
         healButton.setId("Heal");
+        heal_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" + "heal.png"));
+        heal_img.setFitHeight(75);
+        heal_img.setPreserveRatio(true);
+        healButton.setGraphic(heal_img);
         customizeButton(healButton);
-        makeButtonAccessible(healButton, "Heal Button", "Heals the player", "This button heals the player if they have health tokens available");
+        makeButtonAccessible(healButton, "Heal Button", "Heals the player", "This button " +
+                " the player if they have health tokens available");
 
         attackButton = new Button("Attack");
         attackButton.setId("Attack");
+        attack_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" + "attack.png"));
+        attack_img.setFitHeight(75);
+        attack_img.setPreserveRatio(true);
+        attackButton.setGraphic(attack_img);
         customizeButton(attackButton);
-        makeButtonAccessible(attackButton, "Attack Button", "Unleash a normal attack", "This button allows the user to use a normal attack on the troll");
+        makeButtonAccessible(attackButton, "Attack Button", "Unleash a normal attack", "This " +
+                "button allows the user to use a normal attack on the troll");
 
         specAttackButton = new Button("Special Attack");
         specAttackButton.setId("Special Attack");
+        spec_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" + "specattack.png"));
+        spec_img.setFitHeight(75);
+        spec_img.setPreserveRatio(true);
+        specAttackButton.setGraphic(spec_img);
         customizeButton(specAttackButton);
-        makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack", "This button allows the user to use a special attack on the troll if they have attack tokens available");
+        makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack",
+                "This button allows the user to use a special attack on the troll if they have attack tokens " +
+                        "available");
 
         HBox abilityButtons = new HBox();
         abilityButtons.getChildren().addAll(healButton, attackButton, specAttackButton);
@@ -216,20 +234,20 @@ public class BossView extends AdventureGameView{
 
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
-            Alert round = new Alert(Alert.AlertType.INFORMATION);
+            intro_alert = new Alert(Alert.AlertType.INFORMATION);
             ImageView intro_img = new ImageView(bossTroll.charImage);
-            intro_img.setFitHeight(35);
+            intro_img.setFitHeight(50);
             intro_img.setPreserveRatio(true);
-            round.setGraphic(intro_img);
-            round.setHeaderText("HAHAHAHAHAHA!");
-            round.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO BE CRUSHED " +
+            intro_alert.setGraphic(intro_img);
+            intro_alert.setHeaderText("HAHAHAHAHAHA!");
+            intro_alert.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO BE CRUSHED " +
                     "BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
-            round.getButtonTypes().clear();
-            round.getButtonTypes().addAll(ButtonType.OK);
-            DialogPane dialogPane = round.getDialogPane();
+            intro_alert.getButtonTypes().clear();
+            intro_alert.getButtonTypes().addAll(ButtonType.OK);
+            DialogPane dialogPane = intro_alert.getDialogPane();
             dialogPane.setPrefWidth(600);
-            dialogPane.setPrefHeight(200);
-            round.showAndWait();
+            dialogPane.setPrefHeight(150);
+            intro_alert.showAndWait();
             open_buttons();
         });
     }
@@ -267,8 +285,11 @@ public class BossView extends AdventureGameView{
      */
     private void check_status(){
         round_num += 1;
-        if (finalPlayer.getHealth() <= 0 || bossTroll.bossHealth <= 0) {
-            Platform.exit();
+        if (finalPlayer.getHealth() <= 0) {
+            gameOver();
+        }
+        else if (bossTroll.bossHealth <= 0){
+            victory();
         }
     }
 
@@ -296,7 +317,7 @@ public class BossView extends AdventureGameView{
 
 
     /*
-     * Makes this BossView thier view
+     * Makes this BossView their view
      */
     private void updateObjs(){
         objectsInRoom.getChildren().clear();
@@ -409,7 +430,7 @@ public class BossView extends AdventureGameView{
             invRoundNum += 1;
         }
 
-        Alert round = new Alert(Alert.AlertType.INFORMATION);
+        round = new Alert(Alert.AlertType.INFORMATION);
         round.setHeaderText("ROUND " + round_num);
         round.setGraphic(round_img_v);
         round.setContentText(round_text(boss_dmg));
@@ -418,6 +439,73 @@ public class BossView extends AdventureGameView{
         round.showAndWait();
         open_buttons();
     }
+
+    /*
+     * GameOver.
+     * Window closes
+     */
+    public void gameOver() {
+        PauseTransition def_pause = new PauseTransition(Duration.seconds(5));
+        def_pause.setOnFinished(event -> {
+            bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                    "defeatBoss.png"));
+            bossTroll.charImageview.setFitHeight(100);
+            bossTroll.charImageview.setPreserveRatio(true);
+            removeByCell(1, 1);
+            this.gridPane.add(bossTroll.charImageview, 1, 1);
+        });
+        def_pause.play();
+        Platform.runLater(() -> {
+                    defeat_alert = new Alert(Alert.AlertType.INFORMATION);
+                    ImageView intro_img = new ImageView(bossTroll.charImage);
+                    intro_img.setFitHeight(50);
+                    intro_img.setPreserveRatio(true);
+                    defeat_alert.setGraphic(intro_img);
+                    defeat_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
+                    defeat_alert.setContentText("You... you have proven your strength, adventurer. I underestimated you. The lands " +
+                            "are now yours to protect. May your journey be filled with victories.");
+                    defeat_alert.getButtonTypes().clear();
+                    defeat_alert.getButtonTypes().addAll(ButtonType.OK);
+                    DialogPane dialogPane = defeat_alert.getDialogPane();
+                    dialogPane.setPrefWidth(700);
+                    dialogPane.setPrefHeight(150);
+                    defeat_alert.showAndWait();
+                });
+        Platform.exit();
+    }
+
+    private void victory(){
+        PauseTransition victory_pause = new PauseTransition(Duration.seconds(5));
+        victory_pause.setOnFinished(event -> {
+            bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                    "victoryBoss.png"));
+            bossTroll.charImageview.setFitHeight(100);
+            bossTroll.charImageview.setPreserveRatio(true);
+            removeByCell(1, 1);
+            this.gridPane.add(bossTroll.charImageview, 1, 1);
+        });
+        victory_pause.play();
+        Platform.runLater(() -> {
+                    victory_alert = new Alert(Alert.AlertType.INFORMATION);
+                    ImageView intro_img = new ImageView(bossTroll.charImage);
+                    intro_img.setFitHeight(50);
+                    intro_img.setPreserveRatio(true);
+                    victory_alert.setGraphic(intro_img);
+                    victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
+                    victory_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
+                            "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
+                            "a warning to any who dare cross my path.");
+                    victory_alert.getButtonTypes().clear();
+                    victory_alert.getButtonTypes().addAll(ButtonType.OK);
+                    DialogPane dialogPane = victory_alert.getDialogPane();
+                    dialogPane.setPrefWidth(700);
+                    dialogPane.setPrefHeight(200);
+                    victory_alert.showAndWait();
+                });
+
+        Platform.exit();
+    }
+
 
     /*
      * This method returns the text needed for move
@@ -631,16 +719,6 @@ public class BossView extends AdventureGameView{
         this.invincible = true;
     }
 
-
-    /**
-     * GameOver.
-     * Window closes
-     */
-    public void gameOver() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(actionEvent -> Platform.exit());
-        pause.play();
-    }
 
     /**
      * Halves the boss' health
