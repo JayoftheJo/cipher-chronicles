@@ -2,14 +2,12 @@ package views;
 
 import AdventureModel.AdventureObject;
 import AdventureModel.Player;
-import BossFactory.Boss;
 import AdventureModel.State.Token;
 import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
 import BossFactory.trollBoss;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.css.Style;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -54,7 +52,9 @@ public class BossView extends AdventureGameView{
     Player finalPlayer;
     ImageView round_img_v, heal_img, attack_img, spec_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
-    private MediaPlayer mediaPlayer;
+    PauseTransition ability_pause;
+    private MediaPlayer mediaPlayer, abilityPlayer;
+    Media ability_sound;
     boolean boss_helpToggle = false;
     int p_damage;
     double round_num = 1.0;
@@ -249,6 +249,7 @@ public class BossView extends AdventureGameView{
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
         mediaPlayer.play();
 
+
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
             intro_alert = new Alert(Alert.AlertType.INFORMATION);
@@ -257,8 +258,8 @@ public class BossView extends AdventureGameView{
             intro_img.setPreserveRatio(true);
             intro_alert.setGraphic(intro_img);
             intro_alert.setHeaderText("HAHAHAHAHAHA!");
-            intro_alert.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO BE CRUSHED " +
-                    "BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
+            intro_alert.setContentText("YOU DARE TO CHALLENGE ME, PUNY ADVENTURER? YOUR JOURNEY ENDS HERE! PREPARE TO " +
+                    "BE CRUSHED BENEATH MY MIGHT, FOR I AM THE GUARDIAN OF THESE LANDS, AND NONE SHALL PASS!");
             intro_alert.getButtonTypes().clear();
             intro_alert.getButtonTypes().addAll(ButtonType.OK);
             DialogPane dialogPane = intro_alert.getDialogPane();
@@ -319,6 +320,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void heal_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerHeal();
         boss_move();
@@ -330,6 +337,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void attack_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerAttack();
         boss_move();
@@ -353,6 +366,12 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void specAttack_handle() {
+        //creating sound for each ability effect
+        String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
+        ability_sound = new Media(new File(attack_music).toURI().toString());
+        abilityPlayer = new MediaPlayer(ability_sound);
+        abilityPlayer.play();
+
         close_buttons();
         playerSpec();
         boss_move();
@@ -407,7 +426,9 @@ public class BossView extends AdventureGameView{
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
                 pause.setOnFinished(actionEvent -> {
                     customizeButton(specAttackButton);
-                    makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special attack", "This button allows the user to use a special attack on the troll if they have attack tokens available");
+                    makeButtonAccessible(specAttackButton, "Special Attack Button", "Unleash a special " +
+                            "attack", "This button allows the user to use a special attack on the troll if " +
+                            "they have attack tokens available");
 
                 });
                 pause.play();
@@ -454,12 +475,14 @@ public class BossView extends AdventureGameView{
      */
     private void boss_move(){
         int move = rand.nextInt(0,50);
-        int boss_dmg = 0;
+        int boss_dmg;
         if (move > 10){
 
             // can only attack a non-invincible player
             if(!invincible){
                 boss_dmg = bossTroll.attack(finalPlayer);
+            } else {
+                boss_dmg = 0;
             }
         }
         else{
@@ -477,15 +500,16 @@ public class BossView extends AdventureGameView{
             invRoundNum += 1;
         }
         check_status();
-
-        round = new Alert(Alert.AlertType.INFORMATION);
-        round.setHeaderText("ROUND " + round_num);
-        round.setGraphic(round_img_v);
-        round.setContentText(round_text(boss_dmg));
-        round.getButtonTypes().clear();
-        round.getButtonTypes().addAll(ButtonType.OK);
-        round.showAndWait();
-        open_buttons();
+        Platform.runLater(() -> {
+            round = new Alert(Alert.AlertType.INFORMATION);
+            round.setHeaderText("ROUND " + round_num);
+            round.setGraphic(round_img_v);
+            round.setContentText(round_text(boss_dmg));
+            round.getButtonTypes().clear();
+            round.getButtonTypes().addAll(ButtonType.OK);
+            round.showAndWait();
+            open_buttons();
+        });
     }
 
     /*
@@ -604,7 +628,7 @@ public class BossView extends AdventureGameView{
      * @param boss_dmg
      */
     private String round_text(int boss_dmg){
-        return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + "DAMAGE!\n\n" +
+        return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + " DAMAGE!\n\n" +
                 "CURRENT STATS:\nPLAYER: \nHealth = " + finalPlayer.getHealth() + "\nStrength = " +
                 finalPlayer.getStrength() + "\nTROLL: \nHealth = " + bossTroll.bossHealth + "\nStrength = " +
                 bossTroll.bossStrength;
