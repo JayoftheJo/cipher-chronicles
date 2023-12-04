@@ -55,7 +55,7 @@ public class BossView extends AdventureGameView{
     double round_num = 1.0;
 
 
-    boolean playerStatsToggle = false; //to know if health bar is on or off
+    boolean playerStatsToggle = true; //to know if health bar is on or off
     BarView healthBar; // to access the health bar
     BarView strengthBar; // to access the strength bar
 
@@ -67,6 +67,11 @@ public class BossView extends AdventureGameView{
     BarView bossStrengthBar;
 
     VBox bossStats;
+
+    int curr_boss_health = 150;
+    int curr_boss_strength = 10;
+    int curr_health = 100;
+    int curr_strength = 0;
 
     boolean invincible;    // for invincibility
 
@@ -238,7 +243,7 @@ public class BossView extends AdventureGameView{
         objInvEve.setSpacing(5);
         objInvEve.getChildren().addAll(invLabel, objInInvenVis);
 
-        gridPane.add( objInvEve, 2, 1, 1, 1 );  // Add obj in inven display
+        gridPane.add( objInvEve, 2, 1, 1, 1 );  // Add object in inventory display
 
 
         updateItems();
@@ -367,6 +372,7 @@ public class BossView extends AdventureGameView{
     private void playerAttack(){
         p_damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
         bossTroll.changeHealthBar(-p_damage);
+        curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
     }
 
     /*
@@ -374,9 +380,8 @@ public class BossView extends AdventureGameView{
      */
     private void playerHeal(){
         finalPlayer.changeHealthBar(25);
-//        if (finalPlayer.getHealth() > 100){
-//            finalPlayer.changeHealthBar(-finalPlayer.getHealth() % 100);
-//        }
+        p_damage = 0;
+        curr_health = Math.min(finalPlayer.getHealth() + 25, 100);
     }
 
     /*
@@ -385,10 +390,13 @@ public class BossView extends AdventureGameView{
      */
     private void playerSpec(){
 
-        // Special attack the noraml way
+        // Special attack the normal way
         if(!luckySpec) {
             p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
             bossTroll.changeHealthBar(-p_damage);
+            curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
+            curr_strength = 0;
+
         }
         // or in the lucky way
         else{
@@ -397,11 +405,12 @@ public class BossView extends AdventureGameView{
             if(output == 4){
                 p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
                 bossTroll.changeHealthBar(-p_damage);
+                curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
+
                 luckySpec = false;
             }
             // luck loses out, no attack from user, and user get the failure indicated with a red flicker
             else{
-                String prev = specAttackButton.getStyle();
                 specAttackButton.setStyle("-fx-background-colour: #8B0000;");
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
                 pause.setOnFinished(actionEvent -> {
@@ -459,12 +468,14 @@ public class BossView extends AdventureGameView{
             // can only attack a non-invincible player
             if(!invincible){
                 boss_dmg = bossTroll.attack(finalPlayer);
+                curr_health = Math.max(finalPlayer.getHealth() - boss_dmg, 0);
             }
         }
         else{
             boss_dmg = 0;
             bossTroll.heal();
             bossTroll.changeStrengthBar(5);
+            curr_boss_strength = Math.min(bossTroll.getStrength() + 5, 100);
         }
 
         // Keep track of how many rounds of invincibility
@@ -588,9 +599,9 @@ public class BossView extends AdventureGameView{
      */
     private String round_text(int boss_dmg){
         return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + "DAMAGE!\n\n" +
-                "CURRENT STATS:\nPLAYER: \nHealth = " + finalPlayer.getHealth() + "\nStrength = " +
-                finalPlayer.getStrength() + "\nTROLL: \nHealth = " + bossTroll.bossHealth + "\nStrength = " +
-                bossTroll.bossStrength;
+                "CURRENT STATS:\nPLAYER: \nHealth = " + curr_health + "\nStrength = " +
+                curr_strength + "\nTROLL: \nHealth = " + curr_boss_health + "\nStrength = " +
+                curr_boss_strength;
     }
 
     private void customizeButton(Button inputButton) {
@@ -691,10 +702,12 @@ public class BossView extends AdventureGameView{
                         if (event.getButton() == MouseButton.PRIMARY) {
                             // Treat the click of a object as using it and continue the game
                             if (objectsInInventory.getChildren().contains(objectButton)) {
+                                p_damage = 0;
                                 object.getState().execute();
                                 model.player.inventory.remove(object);
                                 if (object.getState() instanceof Token) {
                                     finalPlayer.changeStrengthBar(2);
+                                    curr_strength = Math.min(finalPlayer.getStrength() + 2, 6);
                                 }
                                 updateItems();
                                 boss_move();
@@ -806,7 +819,9 @@ public class BossView extends AdventureGameView{
      * Halves the boss' health
      */
     public void halfDamage(){
-        bossTroll.changeHealthBar(-(bossTroll.getHealth()/2));
+        p_damage = (bossTroll.getHealth()/2);
+        bossTroll.changeHealthBar(-p_damage);
+        curr_boss_health = Math.max(0, bossTroll.getHealth() - p_damage);
     }
 
     /**

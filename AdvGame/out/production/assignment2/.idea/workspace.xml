@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Games/TinyGame/objects.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Games/TinyGame/objects.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objects.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objects.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/HealthBarView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/bars/HealthBarView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/StrengthBarView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/bars/StrengthBarView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/BossView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/BossView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/bars/HealthBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/bars/HealthBarView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +50,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/4.7-inventory-display",
+    "git-widget-placeholder": "feature/4.7-displays",
     "jdk.selected.JAVA_MODULE": "openjdk-20",
     "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
     "onboarding.tips.debug.path": "C:/Users/zuhay/CSC207/group_57/assignment2/src/Main.java",
@@ -166,6 +173,140 @@
     <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>148</line>
+          <option name="timeStamp" value="216" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="218" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="220" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>160</line>
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>168</line>
+          <option name="timeStamp" value="233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>209</line>
+          <option name="timeStamp" value="237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>176</line>
+          <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="244" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>213</line>
+          <option name="timeStamp" value="245" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>217</line>
+          <option name="timeStamp" value="246" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>218</line>
+          <option name="timeStamp" value="247" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>219</line>
+          <option name="timeStamp" value="248" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>221</line>
+          <option name="timeStamp" value="249" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>222</line>
+          <option name="timeStamp" value="250" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/AdventureGameView.java</url>
+          <line>214</line>
+          <option name="timeStamp" value="258" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/StrengthBarView.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="267" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/StrengthBarView.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="268" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/StrengthBarView.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="269" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/StrengthBarView.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/HealthBarView.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="274" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/HealthBarView.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="276" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/HealthBarView.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="277" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/HealthBarView.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="278" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/bars/HealthBarView.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="279" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>600</line>
+          <option name="timeStamp" value="281" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="AdventureModel.Player" memberName="inventory" />
