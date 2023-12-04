@@ -2,6 +2,7 @@ package views;
 
 import AdventureModel.AdventureObject;
 import AdventureModel.Player;
+import BossFactory.Boss;
 import AdventureModel.State.Token;
 import BossFactory.concreteBossFactory;
 import AdventureModel.AdventureGame;
@@ -233,7 +234,6 @@ public class BossView extends AdventureGameView{
         });
     }
 
-    //Displays boss instructions
     @Override
     public void showInstructions() {
         if (boss_helpToggle == Boolean.FALSE) {
