@@ -314,6 +314,18 @@ public class AdventureGameView {
                 inputEnabled = false;
                 executeTransition();
                 pause.play();
+
+                if (currentRoom == 11) {
+                    PauseTransition pause2 = new PauseTransition(Duration.seconds(15));
+                    pause2.setOnFinished(event -> {
+                        try {
+                            create_BossView();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    pause2.play();
+                }
             }
 
             // Otherwise:
