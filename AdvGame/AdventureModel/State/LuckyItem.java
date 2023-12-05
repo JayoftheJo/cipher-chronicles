@@ -5,13 +5,13 @@ import views.BossView;
 /**
  * The Lucky Item state of AdventureObject
  */
-public class LuckyItem implements State{
+public class LuckyItem implements State {
     BossView view;
 
     /**
      * LuckyItem Constructor
      */
-    public LuckyItem(){
+    public LuckyItem() {
 
     }
 
@@ -26,6 +26,7 @@ public class LuckyItem implements State{
 
     /**
      * Set the view to delegate the execute task to
+     *
      * @param view the boss view for this game
      */
     @Override
