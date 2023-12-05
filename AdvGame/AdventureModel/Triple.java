@@ -24,7 +24,7 @@ public class Triple implements miniGame {
         System.out.println("\nUser chose " + userChoice + ", computer chose " + computerChoice + ".\n");
 
         if (userChoice.equals(computerChoice)) {
-            System.out.println("It's a tie! You must play again to move to the next room.");
+            System.out.println("It's a tie! You will still lose some health! You must play again to move to the next room.");
         } else if ((userChoice.equals("rock") && computerChoice.equals("scissors")) ||
                 (userChoice.equals("scissors") && computerChoice.equals("paper")) ||
                 (userChoice.equals("paper") && computerChoice.equals("rock"))) {
