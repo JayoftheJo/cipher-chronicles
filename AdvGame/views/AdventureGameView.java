@@ -878,7 +878,7 @@ public class AdventureGameView {
      */
     public void playerStatsAndObjEvent(){
         // Initialize them
-        healthBar = new HealthBarView(this.model.getPlayer(), this);
+        healthBar = new HealthBarView(this.model.getPlayer());
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
         this.model.getPlayer().setStrengthBar(strengthBar);
         this.model.getPlayer().setHealthBar(healthBar);
