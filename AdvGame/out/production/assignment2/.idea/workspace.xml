@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="">
+    <list default="true" id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="resolved merge conflicts">
+      <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
@@ -27,16 +29,15 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="develop" />
+        <entry key="$PROJECT_DIR$/.." value="battle_system/2.9-victory-defeat-scenario" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
+  &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="2YokH8o6fgOam0qN96UqPGHhGsK" />
+  <component name="ProjectId" id="2YBFCkvlBtuLJG245QePAWe9xZt" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -46,18 +47,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Merging feature/4.7-displays",
-    "jdk.selected.JAVA_MODULE": "openjdk-20",
-    "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
-    "onboarding.tips.debug.path": "C:/Users/zuhay/CSC207/group_57/assignment2/src/Main.java",
-    "project.structure.last.edited": "Global Libraries",
+    "git-widget-placeholder": "battle__system/2.11-accessibility-features",
+    "last_opened_file_path": "C:/Users/jaejo/Downloads/lib",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RunManager" selected="Application.AdventureGameApp">
-    <configuration name="AdventureGameApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="AdventureGameApp" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="AdventureGameApp" />
       <module name="assignment2" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-21\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.media" />
@@ -65,41 +64,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HealthBarTest.healthBoundedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InstructionTest.testInstructionsButton" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="assignment2" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="HealthBarTest" />
-      <option name="METHOD_NAME" value="healthBoundedTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlayerStatsTest.healthBoundedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="assignment2" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PlayerStatsTest" />
-      <option name="METHOD_NAME" value="healthBoundedTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StateTest.moveTokens" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="assignment2" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="StateTest" />
-      <option name="METHOD_NAME" value="moveTokens" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StateTest.multipleTokensInRooms" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="assignment2" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="StateTest" />
-      <option name="METHOD_NAME" value="multipleTokensInRooms" />
+      <option name="MAIN_CLASS_NAME" value="InstructionTest" />
+      <option name="METHOD_NAME" value="testInstructionsButton" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -107,30 +76,28 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.AdventureGameApp" />
-        <item itemvalue="JUnit.StateTest.multipleTokensInRooms" />
-        <item itemvalue="JUnit.StateTest.moveTokens" />
-        <item itemvalue="JUnit.PlayerStatsTest.healthBoundedTest" />
-        <item itemvalue="JUnit.HealthBarTest.healthBoundedTest" />
+        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
+        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
+        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="" />
-      <created>1701199229687</created>
+      <changelist id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="" />
+      <created>1699990940292</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1701199229687</updated>
+      <updated>1699990940292</updated>
     </task>
-    <task id="LOCAL-00001" summary="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84">
+    <task id="LOCAL-00001" summary="resolved merge conflicts">
       <option name="closed" value="true" />
-      <created>1701572423538</created>
+      <created>1701277169752</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1701572423538</updated>
+      <updated>1701277169752</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -140,40 +107,14 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="true" />
-                </map>
-              </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Revert &quot;[DEV-4.2] Finalized changes&quot;&#10;&#10;This reverts commit 1f2c6e84" />
-    <MESSAGE value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
-  </component>
-  <component name="XDebuggerManager">
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="AdventureModel.Player" memberName="inventory" />
-        <PinnedItemInfo parentTag="AdventureModel.Room" memberName="objectsInRoom" />
-      </pinned-members>
-    </pin-to-top-manager>
+    <MESSAGE value="resolved merge conflicts" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved merge conflicts" />
   </component>
 </project>
