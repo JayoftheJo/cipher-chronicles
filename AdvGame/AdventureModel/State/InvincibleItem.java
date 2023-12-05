@@ -14,7 +14,7 @@ public class InvincibleItem implements State {
     /**
      * Invincible Item Constructor.
      */
-    public InvincibleItem(){
+    public InvincibleItem() {
 
     }
 
@@ -28,9 +28,10 @@ public class InvincibleItem implements State {
 
     /**
      * Set the view to delegate the execute task to
+     *
      * @param view the boss view for this game
      */
-    public void setView(BossView view){
+    public void setView(BossView view) {
         this.view = view;
     }
 

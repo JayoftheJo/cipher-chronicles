@@ -11,7 +11,7 @@ public class HalfDamageItem implements State {
     /**
      * HalfDamageItem Constructor
      */
-    public HalfDamageItem(){
+    public HalfDamageItem() {
 
     }
 
@@ -26,6 +26,7 @@ public class HalfDamageItem implements State {
 
     /**
      * Set the view to delegate the execute task to
+     *
      * @param view the boss view for this game
      */
     public void setView(BossView view) {

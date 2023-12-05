@@ -1,4 +1,5 @@
 package views.bars;
+
 import AdventureModel.Player;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
@@ -8,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import views.BossView;
 
-public class StrengthBarView implements BarView{
+public class StrengthBarView implements BarView {
     private Rectangle background;
     private Rectangle onTop;
 
@@ -24,9 +25,10 @@ public class StrengthBarView implements BarView{
 
     /**
      * StrengthBarView Constructor
+     *
      * @param player the player playing the game
      */
-    public StrengthBarView(Player player, Object view){
+    public StrengthBarView(Player player, Object view) {
 
         this.usable = false;
         if (view instanceof BossView) {
@@ -75,38 +77,31 @@ public class StrengthBarView implements BarView{
     /**
      * Changes the player's strength
      * Precondition: howMuch >= 0
+     *
      * @param howMuch the value by which to increase the player strength
      */
     @Override
     public void change(int howMuch) {
         if (usable) {
-            // Makes the bar a darker red for 0.2 secs to show heal
-            onTop.setFill(Color.DARKRED);
-            PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
 
-            pause.setOnFinished(actionEvent -> {
 
-                // Change the strength bar according based on player's increased strength when within bounds
-                if (!(this.player.getStrength() + howMuch >= 5)) {
-                    if (player.getStrength() == 0){
-                        onTop.setWidth( ((double)howMuch /5) *B_WIDTH);
-                    }
-                    else {
-                        double percentage = ((double) (this.player.getStrength() + howMuch) / this.player.getStrength());
-                        onTop.setWidth(percentage * onTop.getWidth());
-                    }
-                    this.player.updateStrength(howMuch);
+            // Change the strength bar according based on player's increased strength when within bounds
+            if (!(this.player.getStrength() + howMuch >= 5)) {
+                if (player.getStrength() == 0) {
+                    onTop.setWidth(((double) howMuch / 5) * B_WIDTH);
+                } else {
+                    double percentage = ((double) (this.player.getStrength() + howMuch) / this.player.getStrength());
+                    onTop.setWidth(percentage * onTop.getWidth());
                 }
-                // If more than bounds, set the strength bar to max possible and update player strength accordingly
-                else {
-                    onTop.setWidth(B_WIDTH);
-                    this.player.updateStrength(player.FULL_STRENGTH - this.player.getStrength());
-                }
+                this.player.updateStrength(howMuch);
+            }
+            // If more than bounds, set the strength bar to max possible and update player strength accordingly
+            else {
+                onTop.setWidth(B_WIDTH);
+                this.player.updateStrength(player.FULL_STRENGTH - this.player.getStrength());
+            }
 
-                // to change colour back from the dark red after the pause
-                onTop.setFill(Color.RED);
-            });
-            pause.play();
+
         }
     }
 
@@ -115,19 +110,19 @@ public class StrengthBarView implements BarView{
      * - Normal colours in Boss Room
      * - Greyed out otherwise
      */
-    public void colour(){
-        if (usable){
+    public void colour() {
+        if (usable) {
             background.setFill(Color.WHITE);
             onTop.setFill(Color.RED);
-        }
-        else{
-            background.setFill(Color.rgb(119,119,119));
-            onTop.setFill(Color.rgb(119,119,119));
+        } else {
+            background.setFill(Color.rgb(119, 119, 119)); //#777777 in hex
+            onTop.setFill(Color.rgb(119, 119, 119));
         }
     }
 
     /**
      * Getter for the strength bar
+     *
      * @return Returns this strength bar
      */
     public StackPane get() {

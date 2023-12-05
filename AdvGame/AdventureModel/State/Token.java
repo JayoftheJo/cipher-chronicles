@@ -5,7 +5,7 @@ import views.BossView;
 /**
  * The Token state of AdventureObject
  */
-public class Token implements State{
+public class Token implements State {
     private int count; // to know how many user used
 
     BossView view; // to direct us to the appropriate action for using this object
@@ -13,7 +13,7 @@ public class Token implements State{
     /**
      * Token Constructor.
      */
-    public Token(){
+    public Token() {
         count = 0; // No objects of this type has been used yet
     }
 
@@ -24,7 +24,7 @@ public class Token implements State{
     @Override
     public void execute() {
         count++;
-        if (count == 3 || this.view.getModel().getPlayer().getStrength() == 5){
+        if (count == 3 || this.view.getModel().getPlayer().getStrength() == 5) {
             count = 0;
             this.view.activateStrengthButton();
 
@@ -33,9 +33,10 @@ public class Token implements State{
 
     /**
      * Set the view to delegate the execute task to
+     *
      * @param view the boss view for this game
      */
-    public void setView(BossView view){
+    public void setView(BossView view) {
         this.view = view;
     }
 }
