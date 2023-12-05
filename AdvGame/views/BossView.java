@@ -838,7 +838,7 @@ public class BossView extends AdventureGameView {
      */
     public void playerStatsAndObjEvent() {
         // Initialize them
-        healthBar = new HealthBarView(this.model.getPlayer());
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
 
         finalPlayer.setHealthBar(healthBar);

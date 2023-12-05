@@ -87,7 +87,6 @@ public class AdventureGameView {
      * Adventure Game View Constructor
      * __________________________
      * Initializes attributes
-     *
      * @param model the current AdventureGame model
      * @param stage the stage on which graphics are rendered
      */
@@ -127,18 +126,18 @@ public class AdventureGameView {
         ColumnConstraints column1 = new ColumnConstraints(150);
         ColumnConstraints column2 = new ColumnConstraints(650);
         ColumnConstraints column3 = new ColumnConstraints(150);
-        column3.setHgrow(Priority.SOMETIMES); //let some columns grow to take any extra space
-        column1.setHgrow(Priority.SOMETIMES);
+        column3.setHgrow( Priority.SOMETIMES ); //let some columns grow to take any extra space
+        column1.setHgrow( Priority.SOMETIMES );
 
         // Row constraints
         RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints(550);
+        RowConstraints row2 = new RowConstraints( 550 );
         RowConstraints row3 = new RowConstraints();
-        row1.setVgrow(Priority.SOMETIMES);
-        row3.setVgrow(Priority.SOMETIMES);
+        row1.setVgrow( Priority.SOMETIMES );
+        row3.setVgrow( Priority.SOMETIMES );
 
-        gridPane.getColumnConstraints().addAll(column1, column2, column1);
-        gridPane.getRowConstraints().addAll(row1, row2, row1);
+        gridPane.getColumnConstraints().addAll( column1 , column2 , column1 );
+        gridPane.getRowConstraints().addAll( row1 , row2 , row1 );
 
         // Buttons
         saveButton = new Button("Save");
@@ -175,12 +174,12 @@ public class AdventureGameView {
         addTextHandlingEvent(); //attach an event to this input field
 
         //labels for inventory and room items
-        Label objLabel = new Label("Objects in Room");
+        Label objLabel =  new Label("Objects in Room");
         objLabel.setAlignment(Pos.CENTER);
         objLabel.setStyle("-fx-text-fill: white;");
         objLabel.setFont(new Font("Arial", 16));
 
-        Label invLabel = new Label("Your Inventory");
+        Label invLabel =  new Label("Your Inventory");
         invLabel.setAlignment(Pos.CENTER);
         invLabel.setStyle("-fx-text-fill: white;");
         invLabel.setFont(new Font("Arial", 16));
@@ -210,9 +209,9 @@ public class AdventureGameView {
 
 
         //add all the widgets to the GridPane
-        gridPane.add(objRoomEve, 0, 1, 1, 1);  // Add obj in room display
-        gridPane.add(topButtons, 1, 0, 1, 1);  // Add buttons
-        gridPane.add(objInvEve, 2, 1, 1, 1);  // Add obj in inven display
+        gridPane.add( objRoomEve, 0, 1, 1, 1 );  // Add obj in room display
+        gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
+        gridPane.add( objInvEve, 2, 1, 1, 1 );  // Add obj in inven display
 
 
         Label commandLabel = new Label("What would you like to do?");
@@ -229,7 +228,7 @@ public class AdventureGameView {
         textEntry.getChildren().addAll(commandLabel, inputTextField);
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
-        gridPane.add(textEntry, 1, 2, 2, 1);
+        gridPane.add( textEntry, 1, 2, 2, 1 );
 
         this.playerStatsToggle = false;
         playerStats = new VBox();
@@ -241,7 +240,7 @@ public class AdventureGameView {
         CompassView compassView = new CompassView(compass);
 
         // Render everything
-        var scene = new Scene(gridPane, 1000, 800);
+        var scene = new Scene( gridPane ,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
@@ -349,9 +348,7 @@ public class AdventureGameView {
         }
 
         // Otherwise, execute the command as is.
-        else {
-            commandCenter.execute();
-        }
+        else { commandCenter.execute(); }
 
     }
 
@@ -475,14 +472,16 @@ public class AdventureGameView {
     /**
      * addTextHandlingEvent
      * __________________________
-     * Add an event handler to the myTextField attribute
-     * Your event handler should respond when users
-     * hits the ENTER or TAB KEY. If the user hits
+     * Add an event handler to the myTextField attribute 
+     *
+     * Your event handler should respond when users 
+     * hits the ENTER or TAB KEY. If the user hits 
      * the ENTER Key, strip white space from the
-     * input to myTextField and pass the stripped
+     * input to myTextField and pass the stripped 
      * string to submitEvent for processing.
-     * If the user hits the TAB key, move the focus
-     * of the scene onto any other node in the scene
+     *
+     * If the user hits the TAB key, move the focus 
+     * of the scene onto any other node in the scene 
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
@@ -878,7 +877,7 @@ public class AdventureGameView {
      */
     public void playerStatsAndObjEvent(){
         // Initialize them
-        healthBar = new HealthBarView(this.model.getPlayer());
+        healthBar = new HealthBarView(this.model.getPlayer(), this);
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
         this.model.getPlayer().setStrengthBar(strengthBar);
         this.model.getPlayer().setHealthBar(healthBar);
@@ -1003,8 +1002,22 @@ public class AdventureGameView {
         return model;
     }
 
-
+    /**
+     * This is a gameOver method. It will close the game when the user dies.
+     */
     public void gameOver(){
-
-}
+        PauseTransition pause  = new PauseTransition(Duration.seconds(10));
+        pause.setOnFinished(actionEvent -> Platform.exit());
+        pause.play();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                removeByCell(i,j);
+            }
+        }
+        VBox gameEnd = new VBox(roomDescLabel);
+        gameEnd.setAlignment(Pos.CENTER);
+        gridPane.add(gameEnd, 1, 1);
+        roomDescLabel.setText("YOU LOST ALL YOUR HEALTH! GAME OVER!");
+        roomDescLabel.setAlignment(Pos.CENTER);
+    }
 }
