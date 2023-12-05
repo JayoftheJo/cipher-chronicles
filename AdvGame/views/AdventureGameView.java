@@ -312,6 +312,18 @@ public class AdventureGameView {
                 inputEnabled = false;
                 executeTransition();
                 pause.play();
+
+                if (currentRoom == 1) {
+                    PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
+                    pause.setOnFinished(e -> {
+                        try {
+                            create_BossView();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                    pause2.play();
+                }
             }
 
             // Otherwise:
@@ -527,7 +539,7 @@ public class AdventureGameView {
         } else if (output.equals("GAME OVER")) {
             updateScene("");
             updateItems();
-            PauseTransition pause = new PauseTransition(Duration.seconds(10));
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(event -> {
                 try {
                     create_BossView();

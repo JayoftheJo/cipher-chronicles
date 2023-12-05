@@ -27,9 +27,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import views.bars.*;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,23 +42,22 @@ import java.util.Random;
 
 /**
  * Class BossView.
- * <p>
+ *
  * This is the Class that will visualize the battle system
  * It follows the similar structure of AdventureView except
  * for a few GUI changes
  */
 public class BossView extends AdventureGameView {
 
-    Button bossHelp, healButton, attackButton, specAttackButton;
+    Button bossHelp, healButton, attackButton, specAttackButton, music_button;
     trollBoss bossTroll;
     Random rand;
     Player finalPlayer;
-    ImageView round_img_v, heal_img, attack_img, spec_img;
+    ImageView round_img_v, heal_img, attack_img, spec_img, instruct_img, music_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
-    PauseTransition ability_pause;
-    private MediaPlayer mediaPlayer, abilityPlayer;
+    private MediaPlayer mediaPlayer, abilityPlayer, messagePlayer;
     Media ability_sound;
-    boolean boss_helpToggle = false;
+    boolean boss_helpToggle = false, play_music = true;
     int p_damage;
     double round_num = 1.0;
 
@@ -107,13 +108,13 @@ public class BossView extends AdventureGameView {
         // setting up the stage
         this.stage.setTitle("mejiadal's Adventure Game");
 
-        //Inventory + Room items
+        //Inventory
         objectsInInventory.setSpacing(10);
         objectsInInventory.setAlignment(Pos.TOP_CENTER);
         objectsInRoom.setSpacing(10);
         objectsInRoom.setAlignment(Pos.TOP_CENTER);
 
-        // GridPane, anyone?
+        // GridPane
         this.gridPane.setPadding(new Insets(20));
         this.gridPane.setBackground(new Background(new BackgroundFill(
                 Color.valueOf("#000000"),
@@ -139,9 +140,27 @@ public class BossView extends AdventureGameView {
         this.gridPane.getColumnConstraints().addAll(column1, column2, column1);
         this.gridPane.getRowConstraints().addAll(row1, row2, row1);
 
+        music_button = new Button("Music");
+        music_button.setId("Music");
+        music_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "music.png"));
+        music_img.setFitHeight(50);
+        music_img.setPreserveRatio(true);
+        music_button.setGraphic(music_img);
+        customizeButton(music_button);
+        makeButtonAccessible(music_button, "Instruction Button", "Instructions for the player",
+                "This button allows the player to view the instructions to defeat the troll");
+
+
         bossHelp = new Button("Instructions");
         bossHelp.setId("Instructions");
+        instruct_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "instruct_img.png"));
+        instruct_img.setFitHeight(50);
+        instruct_img.setPreserveRatio(true);
+        bossHelp.setGraphic(instruct_img);
         customizeButton(bossHelp);
+        bossHelp.setPrefSize(400, 50);
         makeButtonAccessible(bossHelp, "Instruction Button", "Instructions for the player",
                 "This button allows the player to view the instructions to defeat the troll");
         bossHelp.setOnAction(e -> {
@@ -235,6 +254,7 @@ public class BossView extends AdventureGameView {
 
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
+        this.gridPane.add(music_button, 0, 1);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
         GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
@@ -268,10 +288,17 @@ public class BossView extends AdventureGameView {
         String bgrnd_music = this.model.getDirectoryName() + "/sounds/" + "bgrnd_music.mp3";
         Media sound = new Media(new File(bgrnd_music).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setVolume(0.2);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
         mediaPlayer.play();
 
+        String intro_msg = this.model.getDirectoryName() + "/sounds/" + "intro_msg.wav";
+        Media msg = new Media(new File(intro_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
+
+
+        close_buttons();
 
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
@@ -289,7 +316,13 @@ public class BossView extends AdventureGameView {
             dialogPane.setPrefWidth(500);
             dialogPane.setPrefHeight(200);
             intro_alert.showAndWait();
-            open_buttons();
+            if (intro_alert.getResult() == ButtonType.OK || intro_alert.getResult() == null){
+                open_buttons();
+            }
+        });
+
+        music_button.setOnAction(e -> {
+            playMusic();
         });
     }
 
@@ -319,6 +352,16 @@ public class BossView extends AdventureGameView {
         }
     }
 
+    public void playMusic(){
+        if (play_music){
+            mediaPlayer.stop();
+            play_music = false;
+        }
+        else{
+            mediaPlayer.play();
+        }
+    }
+
     /*
      * This method checks whether the battle has ended
      * based on the player and boss's health
@@ -341,11 +384,13 @@ public class BossView extends AdventureGameView {
      * button has been clicked
      */
     private void heal_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerHeal();
@@ -359,11 +404,13 @@ public class BossView extends AdventureGameView {
      * button has been clicked
      */
     private void attack_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerAttack();
@@ -388,11 +435,13 @@ public class BossView extends AdventureGameView {
      * button has been clicked
      */
     private void specAttack_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerSpec();
@@ -464,6 +513,7 @@ public class BossView extends AdventureGameView {
     private void open_buttons() {
         attackButton.setDisable(false);
         healButton.setDisable(false);
+        bossHelp.setDisable(false);
 
         if (specialAttackNormal) {
             specAttackButton.setDisable(false);
@@ -482,6 +532,7 @@ public class BossView extends AdventureGameView {
         attackButton.setDisable(true);
         healButton.setDisable(true);
         specAttackButton.setDisable(true);
+        bossHelp.setDisable(true);
 
         for (Node button : objectsInInventory.getChildren()) {
             button.setDisable(true);
@@ -542,10 +593,18 @@ public class BossView extends AdventureGameView {
         mediaPlayer.stop();
 
         //cue the victory music
-        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
-        Media sound = new Media(new File(defeat_music).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        if (play_music){
+            String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
+            Media sound = new Media(new File(defeat_music).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.2);
+            mediaPlayer.play();
+        }
+
+        String defeat_msg = this.model.getDirectoryName() + "/sounds/" + "defeat_msg.wav";
+        Media msg = new Media(new File(defeat_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                 "defeatBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -554,38 +613,29 @@ public class BossView extends AdventureGameView {
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.RIGHT);
 
-        //Pause for alert
-        PauseTransition def_pause = new PauseTransition(Duration.seconds(3));
-        def_pause.setOnFinished(event -> {
-        });
-        def_pause.play();
-
         //Run the defeat message after the pause
-        Platform.runLater(() -> {
-            defeat_alert = new Alert(Alert.AlertType.INFORMATION);
-            ImageView defeat_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
-                    "defeatBoss.png"));
-            defeat_img.setFitHeight(50);
-            defeat_img.setPreserveRatio(true);
-            defeat_alert.setGraphic(defeat_img);
-            defeat_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-            defeat_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
-                    "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
-                    "a warning to any who dare cross my path.");
-            defeat_alert.getButtonTypes().clear();
-            defeat_alert.getButtonTypes().addAll(ButtonType.OK);
-            DialogPane dialogPane = defeat_alert.getDialogPane();
-            dialogPane.setPrefWidth(600);
-            dialogPane.setPrefHeight(200);
-            defeat_alert.showAndWait();
-        });
 
-        //Exit the game after 10 seconds
-        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
-        end_pause.setOnFinished(event -> {
+        defeat_alert = new Alert(Alert.AlertType.INFORMATION);
+        ImageView defeat_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "defeatBoss.png"));
+        defeat_img.setFitHeight(50);
+        defeat_img.setPreserveRatio(true);
+        defeat_alert.setGraphic(defeat_img);
+        defeat_alert.setHeaderText("YOU WERE NO MATCH FOR ME!");
+        defeat_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
+                "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
+                "a warning to any who dare cross my path.");
+        defeat_alert.getButtonTypes().clear();
+        defeat_alert.getButtonTypes().addAll(ButtonType.OK);
+        DialogPane dialogPane = defeat_alert.getDialogPane();
+        dialogPane.setPrefWidth(600);
+        dialogPane.setPrefHeight(200);
+        defeat_alert.showAndWait();
+        if (defeat_alert.getResult() == ButtonType.OK || defeat_alert.getResult() == null){
+            mediaPlayer.stop();
+            messagePlayer.stop();
             Platform.exit();
-        });
-        end_pause.play();
+        }
     }
 
     /*
@@ -597,10 +647,19 @@ public class BossView extends AdventureGameView {
         mediaPlayer.stop();
 
         //cue the victory music
-        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
-        Media sound = new Media(new File(defeat_music).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        if (play_music){
+            String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
+            Media sound = new Media(new File(defeat_music).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.2);
+            mediaPlayer.play();
+        }
+
+        String victory_msg = this.model.getDirectoryName() + "/sounds/" + "victory_msg.wav";
+        Media msg = new Media(new File(victory_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
+
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                 "victoryBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -608,37 +667,27 @@ public class BossView extends AdventureGameView {
         removeByCell(1, 1);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
 
-        //Pause for the alert
-        PauseTransition victory_pause = new PauseTransition(Duration.seconds(3));
-        victory_pause.setOnFinished(event -> {
-        });
-        victory_pause.play();
-
         // Display victory message after the pause
-        Platform.runLater(() -> {
-            victory_alert = new Alert(Alert.AlertType.INFORMATION);
-            ImageView victory_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
-                    "victoryBoss.png"));
-            victory_img.setFitHeight(50);
-            victory_img.setPreserveRatio(true);
-            victory_alert.setGraphic(victory_img);
-            victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-            victory_alert.setContentText("You... you have proven your strength, adventurer. I underestimated " +
-                    "you. The lands are now yours to protect. May your journey be filled with victories.");
-            victory_alert.getButtonTypes().clear();
-            victory_alert.getButtonTypes().addAll(ButtonType.OK);
-            DialogPane dialogPane = victory_alert.getDialogPane();
-            dialogPane.setPrefWidth(600);
-            dialogPane.setPrefHeight(200);
-            victory_alert.showAndWait();
-        });
-
-        //Exit the game after 10 seconds
-        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
-        end_pause.setOnFinished(event -> {
+        victory_alert = new Alert(Alert.AlertType.INFORMATION);
+        ImageView victory_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "victoryBoss.png"));
+        victory_img.setFitHeight(50);
+        victory_img.setPreserveRatio(true);
+        victory_alert.setGraphic(victory_img);
+        victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
+        victory_alert.setContentText("You... you have proven your strength, adventurer. I underestimated " +
+                "you. The lands are now yours to protect. May your journey be filled with victories.");
+        victory_alert.getButtonTypes().clear();
+        victory_alert.getButtonTypes().addAll(ButtonType.OK);
+        DialogPane dialogPane = victory_alert.getDialogPane();
+        dialogPane.setPrefWidth(600);
+        dialogPane.setPrefHeight(200);
+        victory_alert.showAndWait();
+        if (victory_alert.getResult() == ButtonType.OK || victory_alert.getResult() == null) {
+            mediaPlayer.stop();
+            messagePlayer.stop();
             Platform.exit();
-        });
-        end_pause.play();
+        }
     }
 
 
@@ -657,7 +706,7 @@ public class BossView extends AdventureGameView {
 
     private void customizeButton(Button inputButton) {
         inputButton.setPrefSize(200, 50);
-        inputButton.setFont(new Font("Arial", 16));
+        inputButton.setFont(new Font("Arial", 20));
         inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
     }
 
@@ -681,13 +730,13 @@ public class BossView extends AdventureGameView {
     /**
      * updateItems
      * __________________________
-     * <p>
+     *
      * This method is partially completed, but you are asked to finish it off.
-     * <p>
+     *
      * The method should populate the objectsInInventory Vbox.
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
-     * <p>
+     *
      * Images of each object are in the assets
      * folders of the given adventure game.
      */
