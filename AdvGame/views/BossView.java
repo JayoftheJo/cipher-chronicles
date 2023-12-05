@@ -47,16 +47,16 @@ import java.util.Random;
  */
 public class BossView extends AdventureGameView{
 
-    Button bossHelp, healButton, attackButton, specAttackButton;
+    Button bossHelp, healButton, attackButton, specAttackButton, music_button;
     trollBoss bossTroll;
     Random rand;
     Player finalPlayer;
-    ImageView round_img_v, heal_img, attack_img, spec_img;
+    ImageView round_img_v, heal_img, attack_img, spec_img, instruct_img, music_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
     PauseTransition ability_pause;
     private MediaPlayer mediaPlayer, abilityPlayer;
     Media ability_sound;
-    boolean boss_helpToggle = false;
+    boolean boss_helpToggle = false, play_music = true;
     int p_damage;
     double round_num = 1.0;
 
@@ -104,13 +104,13 @@ public class BossView extends AdventureGameView{
         // setting up the stage
         this.stage.setTitle("mejiadal's Adventure Game");
 
-        //Inventory + Room items
+        //Inventory
         objectsInInventory.setSpacing(10);
         objectsInInventory.setAlignment(Pos.TOP_CENTER);
         objectsInRoom.setSpacing(10);
         objectsInRoom.setAlignment(Pos.TOP_CENTER);
 
-        // GridPane, anyone?
+        // GridPane
         this.gridPane.setPadding(new Insets(20));
         this.gridPane.setBackground(new Background(new BackgroundFill(
                 Color.valueOf("#000000"),
@@ -136,9 +136,27 @@ public class BossView extends AdventureGameView{
         this.gridPane.getColumnConstraints().addAll( column1 , column2 , column1 );
         this.gridPane.getRowConstraints().addAll( row1 , row2 , row1 );
 
+        music_button = new Button("Music");
+        music_button.setId("Music");
+        music_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "music.png"));
+        music_img.setFitHeight(50);
+        music_img.setPreserveRatio(true);
+        music_button.setGraphic(music_img);
+        customizeButton(music_button);
+        makeButtonAccessible(music_button, "Instruction Button", "Instructions for the player",
+                "This button allows the player to view the instructions to defeat the troll");
+
+
         bossHelp = new Button("Instructions");
         bossHelp.setId("Instructions");
+        instruct_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "instruct_img.png"));
+        instruct_img.setFitHeight(50);
+        instruct_img.setPreserveRatio(true);
+        bossHelp.setGraphic(instruct_img);
         customizeButton(bossHelp);
+        bossHelp.setPrefSize(400, 50);
         makeButtonAccessible(bossHelp, "Instruction Button", "Instructions for the player",
                 "This button allows the player to view the instructions to defeat the troll");
         bossHelp.setOnAction(e -> {
@@ -232,6 +250,7 @@ public class BossView extends AdventureGameView{
 
         this.gridPane.add(abilityButtons, 1, 2, 1, 2); //add ability buttons
         this.gridPane.add(bossHelp, 0, 0);
+        this.gridPane.add(music_button, 0, 1);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.CENTER);
         GridPane.setValignment(bossTroll.charImageview, VPos.CENTER);
@@ -269,6 +288,7 @@ public class BossView extends AdventureGameView{
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
         mediaPlayer.play();
 
+        close_buttons();
 
         // Alerting the intro message to the boss room
         Platform.runLater(() -> {
@@ -286,7 +306,13 @@ public class BossView extends AdventureGameView{
             dialogPane.setPrefWidth(500);
             dialogPane.setPrefHeight(200);
             intro_alert.showAndWait();
-            open_buttons();
+            if (intro_alert.getResult() == ButtonType.OK || intro_alert.getResult() == null){
+                open_buttons();
+            }
+        });
+
+        music_button.setOnAction(e -> {
+            playMusic();
         });
     }
 
@@ -317,6 +343,16 @@ public class BossView extends AdventureGameView{
         }
     }
 
+    public void playMusic(){
+        if (play_music){
+            mediaPlayer.stop();
+            play_music = false;
+        }
+        else{
+            mediaPlayer.play();
+        }
+    }
+
     /*
      * This method checks whether the battle has ended
      * based on the player and boss's health
@@ -340,11 +376,13 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void heal_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "heal.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerHeal();
@@ -357,11 +395,13 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void attack_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "attack.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerAttack();
@@ -386,11 +426,13 @@ public class BossView extends AdventureGameView{
      * button has been clicked
      */
     private void specAttack_handle() {
-        //creating sound for each ability effect
-        String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
-        ability_sound = new Media(new File(attack_music).toURI().toString());
-        abilityPlayer = new MediaPlayer(ability_sound);
-        abilityPlayer.play();
+        if (play_music){
+            //creating sound for each ability effect
+            String attack_music = this.model.getDirectoryName() + "/sounds/" + "specAttack.mp3";
+            ability_sound = new Media(new File(attack_music).toURI().toString());
+            abilityPlayer = new MediaPlayer(ability_sound);
+            abilityPlayer.play();
+        }
 
         close_buttons();
         playerSpec();
@@ -465,6 +507,7 @@ public class BossView extends AdventureGameView{
     private void open_buttons(){
         attackButton.setDisable(false);
         healButton.setDisable(false);
+        bossHelp.setDisable(false);
 
         if (!specAttackButton.isDisabled()){
         specAttackButton.setDisable(false);
@@ -483,6 +526,7 @@ public class BossView extends AdventureGameView{
         attackButton.setDisable(true);
         healButton.setDisable(true);
         specAttackButton.setDisable(true);
+        bossHelp.setDisable(true);
 
         for (Node button: objectsInInventory.getChildren()){
             button.setDisable(true);
@@ -583,12 +627,9 @@ public class BossView extends AdventureGameView{
                     defeat_alert.showAndWait();
                 });
 
-        //Exit the game after 10 seconds
-        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
-        end_pause.setOnFinished(event -> {
+        if (defeat_alert.getResult() == ButtonType.OK || defeat_alert.getResult() == null){
             Platform.exit();
-        });
-        end_pause.play();
+        }
     }
 
     /*
@@ -636,12 +677,9 @@ public class BossView extends AdventureGameView{
                     victory_alert.showAndWait();
                 });
 
-        //Exit the game after 10 seconds
-        PauseTransition end_pause = new PauseTransition(Duration.seconds(10));
-        end_pause.setOnFinished(event -> {
+        if (victory_alert.getResult() == ButtonType.OK || victory_alert.getResult() == null){
             Platform.exit();
-        });
-        end_pause.play();
+        }
     }
 
 
@@ -652,9 +690,9 @@ public class BossView extends AdventureGameView{
      * @param boss_dmg
      */
     private String round_text(int boss_dmg){
-        return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + "DAMAGE!\n\n" +
+        return "YOU DEALT " + p_damage + " DAMAGE!\nTHE TROLL DEALT " + boss_dmg + " DAMAGE!\n\n" +
                 "CURRENT STATS:\nPLAYER: \nHealth = " + curr_health + "\nStrength = " +
-                curr_strength + "\nTROLL: \nHealth = " + curr_boss_health + "\nStrength = " +
+                curr_strength + "\n\nTROLL: \nHealth = " + curr_boss_health + "\nStrength = " +
                 curr_boss_strength;
     }
 
