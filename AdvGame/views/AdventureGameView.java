@@ -1,12 +1,11 @@
 package views;
 
-import AdventureModel.AdventureGame;
-import AdventureModel.AdventureObject;
+import AdventureModel.*;
 import RoomCompass.Compass;
-import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,6 +34,7 @@ import views.bars.StrengthBarView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -515,6 +515,64 @@ public class AdventureGameView {
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
             return;
+        } else if (text.equalsIgnoreCase("Triple") || text.equalsIgnoreCase("T")) {
+            if (model.player.getCurrentRoom().getRoomNumber() % 2 == 0){
+                Triple tripleGame = new Triple();
+                tripleGame.playminiGame();
+                if (tripleGame.Won()){
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    model.player.changeHealthBar(-10);
+                }
+
+            } else {
+                System.out.println("You cannot play Triple in this Room!.");
+            }
+            return;
+        } else if (text.equalsIgnoreCase("Flip") || text.equalsIgnoreCase("F")) {
+            if (model.player.getCurrentRoom().getRoomNumber() % 3 == 0) {
+                coinFlip coinflipGame = new coinFlip();
+                coinflipGame.playminiGame();
+                if (coinflipGame.Won()) {
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    healthBar.change(-20);
+                }
+
+            } else {
+                System.out.println("You cannot play Flip in this Room!.");
+            }
+            return;
+        } else if (text.equalsIgnoreCase("Dice") || text.equalsIgnoreCase("D")) {
+            if (model.player.getCurrentRoom().getRoomNumber() == 1 || model.player.
+                    getCurrentRoom().getRoomNumber() == 5 || model.player.getCurrentRoom().getRoomNumber() == 7) {
+                Dice diceGame = new Dice();
+                diceGame.playminiGame();
+                if (diceGame.Won()) {
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    healthBar.change(-5);
+                }
+
+            } else {
+                System.out.println("You cannot play Dice in this Room!.");
+            }
+            return;
         }
 
         //try to move!
@@ -948,5 +1006,5 @@ public class AdventureGameView {
 
     public void gameOver(){
 
-    }
+}
 }
