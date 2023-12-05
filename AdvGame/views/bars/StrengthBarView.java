@@ -121,8 +121,8 @@ public class StrengthBarView implements BarView{
             onTop.setFill(Color.RED);
         }
         else{
-            background.setFill(Color.gray(.2));
-            onTop.setFill(Color.gray(.2));
+            background.setFill(Color.rgb(119,119,119));
+            onTop.setFill(Color.rgb(119,119,119));
         }
     }
 

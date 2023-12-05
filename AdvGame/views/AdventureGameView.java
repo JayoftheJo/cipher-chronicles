@@ -446,6 +446,20 @@ public class AdventureGameView {
     }
 
     /**
+     * customizeButton
+     * __________________________
+     *
+     * @param inputButton the button to make stylish, with contrast ratio in mind :)
+     * @param w width
+     * @param h height
+     */
+    protected void customizeObjectButton(Button inputButton, int w, int h) {
+        inputButton.setPrefSize(w, h);
+        inputButton.setFont(new Font("Arial", 16));
+        inputButton.setStyle("-fx-background-color: #b55c21; -fx-text-fill: #ffffff;");
+    }
+
+    /**
      * addTextHandlingEvent
      * __________________________
      * Add an event handler to the myTextField attribute 
@@ -677,7 +691,7 @@ public class AdventureGameView {
 
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
-            customizeButton(objectButton, 100, 100);
+            customizeObjectButton(objectButton, 100, 100);
             int othernNum = 0;
 
             // Go through all the button nodes to find how many times this item is duplicated

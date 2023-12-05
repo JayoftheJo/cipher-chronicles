@@ -322,12 +322,12 @@ public class BossView extends AdventureGameView{
      * based on the player and boss's health
      */
     private void check_status(){
-        if (finalPlayer.getHealth() <= 0) {
+        if (curr_health <= 0) {
             close_buttons();
             bossHelp.setDisable(true);
             defeat();
         }
-        else if (bossTroll.bossHealth <= 0){
+        else if (curr_boss_health <= 0){
             close_buttons();
             bossHelp.setDisable(true);
             victory();
@@ -348,8 +348,9 @@ public class BossView extends AdventureGameView{
 
         close_buttons();
         playerHeal();
-        boss_move();
         check_status();
+
+        boss_move();
     }
 
     /*
@@ -365,8 +366,8 @@ public class BossView extends AdventureGameView{
 
         close_buttons();
         playerAttack();
-        boss_move();
         check_status();
+        boss_move();
     }
 
 
@@ -394,8 +395,9 @@ public class BossView extends AdventureGameView{
 
         close_buttons();
         playerSpec();
-        boss_move();
         check_status();
+
+        boss_move();
     }
 
     /*
@@ -404,17 +406,17 @@ public class BossView extends AdventureGameView{
      */
     private void playerAttack(){
         p_damage = rand.nextInt(finalPlayer.getStrength(), finalPlayer.getStrength() + 50);
-        bossTroll.changeHealthBar(-p_damage);
         curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
+        bossTroll.changeHealthBar(-p_damage);
     }
 
     /*
      * This method lets the player heal themselves
      */
     private void playerHeal(){
+        curr_health = Math.min(finalPlayer.getHealth() + 25, 100);
         finalPlayer.changeHealthBar(25);
         p_damage = 0;
-        curr_health = Math.min(finalPlayer.getHealth() + 25, 100);
     }
 
     /*
@@ -425,9 +427,9 @@ public class BossView extends AdventureGameView{
 
         // Special attack the normal way
         if(!luckySpec) {
-            p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
-            bossTroll.changeHealthBar(-p_damage);
+            p_damage = rand.nextInt(finalPlayer.getStrength() + 35, (finalPlayer.getStrength()+35) * 15);
             curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
+            bossTroll.changeHealthBar(-p_damage);
             curr_strength = 0;
 
         }
@@ -436,9 +438,9 @@ public class BossView extends AdventureGameView{
             int output = rand.nextInt(0, 5);
             // luck wins out then user causes a potentially big damage
             if(output == 4){
-                p_damage = rand.nextInt(finalPlayer.getStrength(), (finalPlayer.getStrength()+1) * 15);
-                bossTroll.changeHealthBar(-p_damage);
+                p_damage = rand.nextInt(finalPlayer.getStrength() + 35, (finalPlayer.getStrength()+35) * 15);
                 curr_boss_health = Math.max(bossTroll.getHealth() - p_damage, 0);
+                bossTroll.changeHealthBar(-p_damage);
                 luckySpec = false;
             }
             // luck loses out, no attack from user, and user get the failure indicated with a red flicker
@@ -501,18 +503,30 @@ public class BossView extends AdventureGameView{
 
             // can only attack a non-invincible player
             if(!invincible){
+                int before = finalPlayer.getHealth();
                 boss_dmg = bossTroll.attack(finalPlayer);
-                curr_health = Math.max(finalPlayer.getHealth() - boss_dmg, 0);
+                if (before == finalPlayer.getHealth()) {
+                    curr_health = Math.max(finalPlayer.getHealth() - boss_dmg, 0);
+                }
+                else{
+                    curr_health = finalPlayer.getHealth();
+                }
             } else {
                 boss_dmg = 0;
             }
         }
         else{
             boss_dmg = 0;
+            int before = bossTroll.getHealth();
             int heal = bossTroll.heal();
-            curr_boss_health = Math.min(bossTroll.getHealth() + heal, 150);
-            bossTroll.changeStrengthBar(5);
+            if (before == bossTroll.getHealth()) {
+                curr_boss_health = Math.min(bossTroll.getHealth() + heal, 150);
+            }
+            else{
+                curr_boss_health = bossTroll.getHealth();
+            }
             curr_boss_strength = Math.min(bossTroll.getStrength() + 5, 100);
+            bossTroll.changeStrengthBar(5);
         }
 
         // Keep track of how many rounds of invincibility
@@ -721,7 +735,7 @@ public class BossView extends AdventureGameView{
 
             Button objectButton = new Button(objectName, objectImageView);
             objectButton.setContentDisplay(ContentDisplay.TOP);
-            customizeButton(objectButton, 100, 100);
+            customizeObjectButton(objectButton, 100, 100);
             int othernNum = 0;
 
             // Go through all the button nodes to find how many times this item is duplicated
@@ -760,12 +774,12 @@ public class BossView extends AdventureGameView{
                                 object.getState().execute();
                                 model.player.inventory.remove(object);
                                 if (object.getState() instanceof Token) {
-                                    finalPlayer.changeStrengthBar(2);
                                     curr_strength = Math.min(finalPlayer.getStrength() + 2, 6);
+                                    finalPlayer.changeStrengthBar(2);
                                 }
                                 updateItems();
-                                boss_move();
                                 check_status();
+                                boss_move();
                             }
                         }
                         else if(event.getButton() == MouseButton.SECONDARY){
@@ -866,6 +880,7 @@ public class BossView extends AdventureGameView{
      */
     public void invincible(){
         this.invincible = true;
+        invRoundNum = 0;
     }
 
 
@@ -874,8 +889,8 @@ public class BossView extends AdventureGameView{
      */
     public void halfDamage(){
         p_damage = (bossTroll.getHealth()/2);
-        bossTroll.changeHealthBar(-p_damage);
         curr_boss_health = Math.max(0, bossTroll.getHealth() - p_damage);
+        bossTroll.changeHealthBar(-p_damage);
     }
 
     /**
