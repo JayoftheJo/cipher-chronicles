@@ -1,12 +1,12 @@
 package views;
 
-import AdventureModel.AdventureGame;
-import AdventureModel.AdventureObject;
+import AdventureModel.*;
 import RoomCompass.Compass;
 import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,15 +35,16 @@ import views.bars.StrengthBarView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
  * Class AdventureGameView.
- * <p>
+ *
  * This is the Class that will visualize your model.
  * You are asked to demo your visualization via a Zoom
  * recording. Place a link to your recording below.
- * <p>
+ *
  * ZOOM LINK: <a href="https://utoronto-my.sharepoint.com/:v:/r/personal/dale_mejia_mail_utoronto_ca/Documents/a2doc.mp4?csf=1&web=1&e=z9dafu&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19">...</a>
  * PASSWORD: N/A
  */
@@ -475,13 +476,11 @@ public class AdventureGameView {
      * addTextHandlingEvent
      * __________________________
      * Add an event handler to the myTextField attribute
-     * <p>
      * Your event handler should respond when users
      * hits the ENTER or TAB KEY. If the user hits
      * the ENTER Key, strip white space from the
      * input to myTextField and pass the stripped
      * string to submitEvent for processing.
-     * <p>
      * If the user hits the TAB key, move the focus
      * of the scene onto any other node in the scene
      * graph by invoking requestFocus method.
@@ -528,6 +527,64 @@ public class AdventureGameView {
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
             showCommands(); //this is new!  We did not have this command in A1
             return;
+        } else if (text.equalsIgnoreCase("Triple") || text.equalsIgnoreCase("T")) {
+            if (model.player.getCurrentRoom().getRoomNumber() % 2 == 0){
+                Triple tripleGame = new Triple();
+                tripleGame.playminiGame();
+                if (tripleGame.Won()){
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    model.player.changeHealthBar(-10);
+                }
+
+            } else {
+                System.out.println("You cannot play Triple in this Room!.");
+            }
+            return;
+        } else if (text.equalsIgnoreCase("Flip") || text.equalsIgnoreCase("F")) {
+            if (model.player.getCurrentRoom().getRoomNumber() % 3 == 0) {
+                coinFlip coinflipGame = new coinFlip();
+                coinflipGame.playminiGame();
+                if (coinflipGame.Won()) {
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    healthBar.change(-20);
+                }
+
+            } else {
+                System.out.println("You cannot play Flip in this Room!.");
+            }
+            return;
+        } else if (text.equalsIgnoreCase("Dice") || text.equalsIgnoreCase("D")) {
+            if (model.player.getCurrentRoom().getRoomNumber() == 1 || model.player.
+                    getCurrentRoom().getRoomNumber() == 5 || model.player.getCurrentRoom().getRoomNumber() == 7) {
+                Dice diceGame = new Dice();
+                diceGame.playminiGame();
+                if (diceGame.Won()) {
+                    ArrayList<Passage> passages = (ArrayList<Passage>) model.player.getCurrentRoom().getMotionTable().passageTable;
+                    Random rand = new Random();
+                    Passage randomPassage = passages.get(rand.nextInt(passages.size()));
+                    String direction = randomPassage.getDirection();
+                    System.out.println("You won! You are now moved to a random room.");
+                    submitEvent(direction);
+                } else {
+                    healthBar.change(-5);
+                }
+
+            } else {
+                System.out.println("You cannot play Dice in this Room!.");
+            }
+            return;
         }
 
         //try to move!
@@ -573,7 +630,6 @@ public class AdventureGameView {
     /**
      * showCommands
      * __________________________
-     * <p>
      * update the text in the GUI (within roomDescLabel)
      * to show all the moves that are possible from the
      * current room.
@@ -586,7 +642,7 @@ public class AdventureGameView {
     /**
      * updateScene
      * __________________________
-     * <p>
+     *
      * Show the current room, and print some text below it.
      * If the input parameter is not null, it will be displayed
      * below the image.
@@ -603,7 +659,7 @@ public class AdventureGameView {
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
         roomDescLabel.setWrapText(true);
-        VBox roomPane = new VBox(roomImageView, roomDescLabel);
+        VBox roomPane = new VBox(roomImageView,roomDescLabel);
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
@@ -620,7 +676,7 @@ public class AdventureGameView {
     /**
      * formatText
      * __________________________
-     * <p>
+     *
      * Format text for display.
      *
      * @param textToDisplay the text to be formatted for display.
@@ -629,8 +685,7 @@ public class AdventureGameView {
         if (textToDisplay == null || textToDisplay.isBlank()) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty())
-                roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
             else roomDescLabel.setText(roomDesc);
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
@@ -641,9 +696,9 @@ public class AdventureGameView {
     /**
      * getRoomImage
      * __________________________
-     * <p>
-     * Get the image for the current room and place
-     * it in the roomImageView
+     *
+     * Get the image for the current room and place 
+     * it in the roomImageView 
      */
     private void getRoomImage() {
 
@@ -665,14 +720,14 @@ public class AdventureGameView {
     /**
      * updateItems
      * __________________________
-     * <p>
+     *
      * This method is partially completed, but you are asked to finish it off.
-     * <p>
+     *
      * The method should populate the objectsInRoom and objectsInInventory Vboxes.
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
-     * <p>
-     * Images of each object are in the assets
+     * 
+     * Images of each object are in the assets 
      * folders of the given adventure game.
      */
     public void updateItems() {
@@ -821,27 +876,28 @@ public class AdventureGameView {
     /**
      * Responds to a 'H' click by showing the or closing the player's stats
      */
-    public void playerStatsAndObjEvent() {
+    public void playerStatsAndObjEvent(){
         // Initialize them
         healthBar = new HealthBarView(this.model.getPlayer());
         strengthBar = new StrengthBarView(this.model.getPlayer(), this);
         this.model.getPlayer().setStrengthBar(strengthBar);
         this.model.getPlayer().setHealthBar(healthBar);
 
-        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>() {
+        EventHandler<KeyEvent> keyBindClick = new EventHandler<KeyEvent>(){
 
             @Override
-            public void handle(KeyEvent event) {
+            public void handle(KeyEvent event){
                 // close or open health bar
-                if (event.getCode().equals(KeyCode.H)) {
+                if (event.getCode().equals(KeyCode.H)){
                     showPlayerStats();
                 }
                 // close or open objects in room display
-                else if (event.getCode().equals(KeyCode.R)) {
-                    if (objRoomToggle) {
+                else if(event.getCode().equals(KeyCode.R)){
+                    if(objRoomToggle) {
                         removeByCell(1, 0);
                         objRoomToggle = false;
-                    } else {
+                    }
+                    else{
                         removeByCell(1, 0);
                         gridPane.add(objRoomEve, 0, 1, 1, 1);
                         objRoomToggle = true;
@@ -849,11 +905,12 @@ public class AdventureGameView {
 
                 }
                 // close or open inventory display
-                else if (event.getCode().equals(KeyCode.I)) {
-                    if (objInvToggle) {
+                else if(event.getCode().equals(KeyCode.I)){
+                    if(objInvToggle) {
                         removeByCell(1, 2);
                         objInvToggle = false;
-                    } else {
+                    }
+                    else{
                         removeByCell(1, 2);
                         gridPane.add(objInvEve, 2, 1, 1, 1);
                         objInvToggle = true;
@@ -867,7 +924,7 @@ public class AdventureGameView {
 
     }
 
-    public void showPlayerStats() {
+    public void showPlayerStats(){
         // if player stats is off
         if (!this.playerStatsToggle) {
 
@@ -945,4 +1002,9 @@ public class AdventureGameView {
     public AdventureGame getModel() {
         return model;
     }
+
+
+    public void gameOver(){
+
+}
 }
