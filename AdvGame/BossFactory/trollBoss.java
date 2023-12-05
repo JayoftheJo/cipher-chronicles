@@ -6,7 +6,7 @@ import views.bars.BarView;
 
 /**
  * Class trollBoss.
- *
+ * <p>
  * This class is used initialize a troll boss
  * in the battle system
  */
@@ -32,11 +32,11 @@ public class trollBoss extends Boss {
      * @param other
      */
     @Override
-    public int attack(Player other){
+    public int attack(Player other) {
         int damage = rand.nextInt(0, this.bossStrength * 5);
 
         // boss' special attack
-        if (bossStrength == 100){
+        if (this.bossStrength == 100) {
             damage *= 2;
             strengthBar.initState();
         }
@@ -49,42 +49,42 @@ public class trollBoss extends Boss {
      * make this boss heal themselves
      */
     @Override
-    public int heal(){
+    public int heal() {
         int heal = rand.nextInt(0, this.bossHealth);
         changeHealthBar(heal);
         return heal;
     }
 
-    public void setHealthBar(BarView healthbar){
+    public void setHealthBar(BarView healthbar) {
         this.healthBar = healthbar;
     }
 
     // Setters and getters of health and strength attributes
-    public int getHealth(){
+    public int getHealth() {
         return this.bossHealth;
     }
 
-    public int getStrength(){
+    public int getStrength() {
         return this.bossStrength;
     }
 
-    public void changeHealthBar(int health){
+    public void changeHealthBar(int health) {
         this.healthBar.change(health);
     }
 
-    public void updateHealth(int health){
+    public void updateHealth(int health) {
         this.bossHealth += health;
     }
 
-    public void setStrengthBar(BarView strengthBar){
+    public void setStrengthBar(BarView strengthBar) {
         this.strengthBar = strengthBar;
     }
 
-    public void changeStrengthBar(int strength){
+    public void changeStrengthBar(int strength) {
         this.strengthBar.change(strength);
     }
 
-    public void updateStrength(int strength){
+    public void updateStrength(int strength) {
         this.bossStrength += strength;
     }
 

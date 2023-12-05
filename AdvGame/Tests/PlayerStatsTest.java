@@ -12,7 +12,7 @@ public class PlayerStatsTest {
     @Test
     void PlayerStatsBoundedTest(){
         AdventureGame game = new AdventureGame("TinyGame");
-        HealthBarView healthBar = new HealthBarView(game.getPlayer(), this);
+        HealthBarView healthBar = new HealthBarView(game.getPlayer());
         StrengthBarView strengthBar = new StrengthBarView(game.getPlayer(), game);
 
         healthBar.change(5);
@@ -32,7 +32,7 @@ public class PlayerStatsTest {
     @Test
     void getPlayerStatsTest(){
         AdventureGame game = new AdventureGame("TinyGame");
-        HealthBarView healthBar = new HealthBarView(game.getPlayer(), game);
+        HealthBarView healthBar = new HealthBarView(game.getPlayer());
         StrengthBarView strengthBar = new StrengthBarView(game.getPlayer(), game);
         assert healthBar.get() != null;
         assert strengthBar.get() != null;

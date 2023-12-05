@@ -13,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feature/3.9-All-Logic-For-MiniGame" />
+        <entry key="$PROJECT_DIR$/.." value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -35,7 +35,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/3.10-Game-Over",
+    "git-widget-placeholder": "feature/3.9-All-Logic-For-MiniGame",
     "last_opened_file_path": "C:/Users/armye/Downloads/openjfx-21_windows-x64_bin-sdk/javafx-sdk-21/lib/javafx.web.jar",
     "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",

@@ -36,11 +36,11 @@ public class AdventureObject implements Serializable {
      * ___________________________
      * This constructor sets the name, description, and location of the object.
      *
-     * @param name The name of the Object in the game.
+     * @param name        The name of the Object in the game.
      * @param description One line description of the Object.
-     * @param location The location of the Object in the game.
+     * @param location    The location of the Object in the game.
      */
-    public AdventureObject(String name, String description, ArrayList<Room> location, String helpTxt){
+    public AdventureObject(String name, String description, ArrayList<Room> location, String helpTxt) {
         this.objectName = name;
         this.description = description;
         this.location = location;
@@ -50,9 +50,10 @@ public class AdventureObject implements Serializable {
 
     /**
      * Switch to or set a different state for this object
+     *
      * @param state the state to switch to
      */
-    public void changeState(State state){
+    public void changeState(State state) {
         this.state = state;
     }
 
@@ -61,7 +62,7 @@ public class AdventureObject implements Serializable {
      *
      * @return name of the object
      */
-    public String getName(){
+    public String getName() {
         return this.objectName;
     }
 
@@ -70,7 +71,7 @@ public class AdventureObject implements Serializable {
      *
      * @return description of the game
      */
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
@@ -81,12 +82,13 @@ public class AdventureObject implements Serializable {
      * @return returns the location of the object if the objects is still in
      * the room otherwise, returns null.
      */
-    public ArrayList<Room> getLocation(){
+    public ArrayList<Room> getLocation() {
         return this.location;
     }
 
     /**
      * Returns what state this object is at
+     *
      * @return state of this object
      */
     public State getState() {
@@ -95,6 +97,7 @@ public class AdventureObject implements Serializable {
 
     /**
      * Returns the use of this object
+     *
      * @return the purpose of this object
      */
     public String getHelpTxt() {
