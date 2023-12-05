@@ -7,6 +7,7 @@ import AdventureModel.Passage;
 import Commands.*;
 import Commands.MovementCommands.*;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -945,8 +946,22 @@ public class AdventureGameView {
         return model;
     }
 
-
+    /**
+     * This is a gameOver method. It will close the game when the user dies.
+     */
     public void gameOver(){
-
+        PauseTransition pause  = new PauseTransition(Duration.seconds(10));
+        pause.setOnFinished(actionEvent -> Platform.exit());
+        pause.play();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                removeByCell(i,j);
+            }
+        }
+        VBox gameEnd = new VBox(roomDescLabel);
+        gameEnd.setAlignment(Pos.CENTER);
+        gridPane.add(gameEnd, 1, 1);
+        roomDescLabel.setText("YOU LOST ALL YOUR HEALTH! GAME OVER!");
+        roomDescLabel.setAlignment(Pos.CENTER);
     }
 }

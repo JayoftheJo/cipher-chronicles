@@ -4,117 +4,84 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="resolved merge conflicts">
-      <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/BossView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/BossView.java" afterDir="false" />
-    </list>
+    <list default="true" id="d10cc1b5-de97-40b5-8605-44ab81ddf36d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="battle_system/2.9-victory-defeat-scenario" />
+        <entry key="$PROJECT_DIR$/.." value="feature/3.9-All-Logic-For-MiniGame" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2YBFCkvlBtuLJG245QePAWe9xZt" />
+  <component name="ProjectId" id="2Z0LXO10fJq3AXkVz8JLJE5XB3P" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "battle__system/2.11-accessibility-features",
-    "last_opened_file_path": "C:/Users/jaejo/Downloads/lib",
-    "project.structure.last.edited": "Libraries",
+    "git-widget-placeholder": "feature/3.10-Game-Over",
+    "last_opened_file_path": "C:/Users/armye/Downloads/openjfx-21_windows-x64_bin-sdk/javafx-sdk-21/lib/javafx.web.jar",
+    "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.AdventureGameApp">
-    <configuration name="AdventureGameApp" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Unnamed">
+    <configuration name="AdventureGameApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="AdventureGameApp" />
       <module name="assignment2" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-21\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.media" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\armye\Downloads\openjfx-21_windows-x64_bin-sdk\javafx-sdk-21\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.media" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InstructionTest.testInstructionsButton" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AdventureGameApp" />
       <module name="assignment2" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InstructionTest" />
-      <option name="METHOD_NAME" value="testInstructionsButton" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\armye\Downloads\openjfx-21_windows-x64_bin-sdk\javafx-sdk-21\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.media " />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.AdventureGameApp" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
+        <item itemvalue="Application.AdventureGameApp" />
+        <item itemvalue="Application.AdventureGameApp" />
+        <item itemvalue="Application.AdventureGameApp" />
+        <item itemvalue="Application.AdventureGameApp" />
+        <item itemvalue="Application.AdventureGameApp" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="" />
-      <created>1699990940292</created>
+      <changelist id="d10cc1b5-de97-40b5-8605-44ab81ddf36d" name="Changes" comment="" />
+      <created>1701554089149</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1699990940292</updated>
+      <updated>1701554089149</updated>
     </task>
-    <task id="LOCAL-00001" summary="resolved merge conflicts">
-      <option name="closed" value="true" />
-      <created>1701277169752</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1701277169752</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="resolved merge conflicts" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolved merge conflicts" />
   </component>
 </project>
