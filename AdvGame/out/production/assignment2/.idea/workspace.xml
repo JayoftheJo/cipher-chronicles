@@ -4,14 +4,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="resolved merge conflicts">
+    <list default="true" id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/BossView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/BossView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/AdventureGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/AdventureLoader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/AdventureObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Dice.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Passage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/PassageTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/State/HalfDamageItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/State/InvincibleItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/State/LuckyItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/State/State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/State/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/Triple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/coinFlip.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/AdventureModel/miniGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BossFactory/Boss.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BossFactory/bossFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BossFactory/concreteBossFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/BossFactory/trollBoss.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objects.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/Games/TinyGame/objects.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Tests/BasicAdventureTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Tests/PlayerStatsTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/Tests/StateTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/AdventureGameView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/CompassView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/LoadView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/SaveView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/BarView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/BossHealthBarView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/BossStrengthBarView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/HealthBarView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/bars/StrengthBarView.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,15 +65,16 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="battle_system/2.9-victory-defeat-scenario" />
+        <entry key="$PROJECT_DIR$/.." value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2YBFCkvlBtuLJG245QePAWe9xZt" />
+  <component name="ProjectId" id="2YokH8o6fgOam0qN96UqPGHhGsK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -47,16 +84,18 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "battle__system/2.11-accessibility-features",
-    "last_opened_file_path": "C:/Users/jaejo/Downloads/lib",
-    "project.structure.last.edited": "Libraries",
+    "git-widget-placeholder": "feature/4.9-accessibility",
+    "jdk.selected.JAVA_MODULE": "openjdk-20",
+    "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
+    "onboarding.tips.debug.path": "C:/Users/zuhay/CSC207/group_57/assignment2/src/Main.java",
+    "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "vcs.Git"
   }
 }]]></component>
   <component name="RunManager" selected="Application.AdventureGameApp">
-    <configuration name="AdventureGameApp" type="Application" factoryName="Application">
+    <configuration name="AdventureGameApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="AdventureGameApp" />
       <module name="assignment2" />
       <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-21\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.media" />
@@ -64,11 +103,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InstructionTest.testInstructionsButton" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HealthBarTest.healthBoundedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="assignment2" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InstructionTest" />
-      <option name="METHOD_NAME" value="testInstructionsButton" />
+      <option name="MAIN_CLASS_NAME" value="HealthBarTest" />
+      <option name="METHOD_NAME" value="healthBoundedTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerStatsTest.healthBoundedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlayerStatsTest" />
+      <option name="METHOD_NAME" value="healthBoundedTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StateTest.moveTokens" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="StateTest" />
+      <option name="METHOD_NAME" value="moveTokens" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StateTest.multipleTokensInRooms" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="StateTest" />
+      <option name="METHOD_NAME" value="multipleTokensInRooms" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -76,28 +145,30 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
-        <item itemvalue="JUnit.InstructionTest.testInstructionsButton" />
+        <item itemvalue="Application.AdventureGameApp" />
+        <item itemvalue="JUnit.StateTest.multipleTokensInRooms" />
+        <item itemvalue="JUnit.StateTest.moveTokens" />
+        <item itemvalue="JUnit.PlayerStatsTest.healthBoundedTest" />
+        <item itemvalue="JUnit.HealthBarTest.healthBoundedTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="" />
-      <created>1699990940292</created>
+      <changelist id="586aa8fe-07af-48f9-9515-f06b78b5af24" name="Changes" comment="" />
+      <created>1701199229687</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1699990940292</updated>
+      <updated>1701199229687</updated>
     </task>
-    <task id="LOCAL-00001" summary="resolved merge conflicts">
+    <task id="LOCAL-00001" summary="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84">
       <option name="closed" value="true" />
-      <created>1701277169752</created>
+      <created>1701572423538</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1701277169752</updated>
+      <updated>1701572423538</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -107,14 +178,204 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="resolved merge conflicts" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolved merge conflicts" />
+    <MESSAGE value="Revert &quot;[DEV-4.2] Finalized changes&quot;&#10;&#10;This reverts commit 1f2c6e84" />
+    <MESSAGE value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Slowly reverting back&quot;&#10;&#10;This reverts commit 1f2c6e84" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>913</line>
+          <option name="timeStamp" value="301" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>477</line>
+          <option name="timeStamp" value="302" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>478</line>
+          <option name="timeStamp" value="303" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>483</line>
+          <option name="timeStamp" value="306" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>486</line>
+          <option name="timeStamp" value="307" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>488</line>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>904</line>
+          <option name="timeStamp" value="311" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>552</line>
+          <option name="timeStamp" value="313" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>555</line>
+          <option name="timeStamp" value="314" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>559</line>
+          <option name="timeStamp" value="316" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>563</line>
+          <option name="timeStamp" value="318" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>568</line>
+          <option name="timeStamp" value="319" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>571</line>
+          <option name="timeStamp" value="320" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>569</line>
+          <option name="timeStamp" value="321" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>567</line>
+          <option name="timeStamp" value="322" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>811</line>
+          <option name="timeStamp" value="324" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>395</line>
+          <option name="timeStamp" value="332" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>394</line>
+          <option name="timeStamp" value="333" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>457</line>
+          <option name="timeStamp" value="336" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>458</line>
+          <option name="timeStamp" value="337" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>465</line>
+          <option name="timeStamp" value="339" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>466</line>
+          <option name="timeStamp" value="340" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BossFactory/trollBoss.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="349" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BossFactory/trollBoss.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="350" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BossFactory/trollBoss.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="351" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/BossFactory/trollBoss.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="352" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>82</line>
+          <properties field="invincible" class="views.BossView" />
+          <option name="timeStamp" value="312" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>61</line>
+          <properties field="round_num" class="views.BossView" />
+          <option name="timeStamp" value="326" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>546</line>
+          <properties class="views.BossView" method="boss_move">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="323" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/views/BossView.java</url>
+          <line>385</line>
+          <properties class="views.BossView" method="heal_handle">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="328" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="AdventureModel.Player" memberName="inventory" />
+        <PinnedItemInfo parentTag="AdventureModel.Room" memberName="objectsInRoom" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
