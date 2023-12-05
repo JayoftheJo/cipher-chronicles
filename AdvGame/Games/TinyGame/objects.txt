@@ -1,11 +1,19 @@
-BIRD
-a water bird
-1
+MIGHTORBS
+a strengthener
+During the boss fight, use this to build up to a potentially great attack.
+2,5,7,9,10
 
-CHEST
-a pirate chest
-2
+UNBREAKORBS
+an invincibility item
+During the boss fight, use this to be invincible for 3 rounds
+10
 
-BOOK
-a copy of an illuminated manuscript
-3
+HALVER
+a half damage item
+During the boss fight, use this to half the enemy health
+5
+
+LUCK
+a lucky item
+During the boss fight, use this to get a 20% shot at doing a big attack. A flicker means fail.
+4

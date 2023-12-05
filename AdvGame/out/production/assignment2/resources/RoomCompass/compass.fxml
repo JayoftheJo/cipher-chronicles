@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+
+<fx:root type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+      <Rectangle fx:id="background" arcHeight="5.0" arcWidth="5.0" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
+      <Rectangle fx:id="center" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="125.0" layoutY="125.0" stroke="WHITE" strokeType="INSIDE" width="50.0" />
+      <Polygon fx:id="up" fill="WHITE" layoutX="149.0" layoutY="74.0" points="-25.0, 40.0, 27.0, 40.0, 0.0, -60.0" stroke="WHITE" strokeType="INSIDE" />
+      <Polygon fx:id="down" fill="WHITE" layoutX="149.0" layoutY="246.0" points="-25.0, 40.0, 27.0, 40.0, 0.0, -60.0" rotate="180.0" stroke="WHITE" strokeType="INSIDE" />
+      <Polygon fx:id="left" fill="WHITE" layoutX="63.0" layoutY="160.0" points="-25.0, 40.0, 27.0, 40.0, 0.0, -60.0" rotate="270.0" stroke="WHITE" strokeType="INSIDE" />
+      <Polygon fx:id="right" fill="WHITE" layoutX="235.0" layoutY="160.0" points="-25.0, 40.0, 27.0, 40.0, 0.0, -60.0" rotate="90.0" stroke="WHITE" strokeType="INSIDE" />
+</fx:root>

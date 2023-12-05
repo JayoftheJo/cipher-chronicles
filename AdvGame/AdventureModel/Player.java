@@ -1,7 +1,10 @@
 package AdventureModel;
 
+import views.bars.BarView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class keeps track of the progress
@@ -17,7 +20,11 @@ public class Player implements Serializable {
     public final int TOTAL_HEALTH = 100;
     private int strength;
 
-    public final int FULL_STRENGTH = 5;
+    private BarView healthBar;
+
+    private BarView strengthBar;
+
+    public final int FULL_STRENGTH = 6;
 
     /**
      * The list of items that the player is carrying at the moment.
@@ -26,6 +33,7 @@ public class Player implements Serializable {
 
     /**
      * Adventure Game Player Constructor
+     *
      * @param currentRoom the current room the player is in
      */
     public Player(Room currentRoom) {
@@ -39,13 +47,12 @@ public class Player implements Serializable {
      * This method adds an object into players inventory if the object is present in
      * the room and returns true. If the object is not present in the room, the method
      * returns false.
-
      *
      * @param object name of the object to pick up
      * @return true if picked up, false otherwise
      */
-    public boolean takeObject(String object){
-        if(this.currentRoom.checkIfObjectInRoom(object)){
+    public boolean takeObject(String object) {
+        if (this.currentRoom.checkIfObjectInRoom(object)) {
             AdventureObject object1 = this.currentRoom.getObject(object);
             this.currentRoom.removeGameObject(object1);
             this.addToInventory(object1);
@@ -65,8 +72,8 @@ public class Player implements Serializable {
      * @return true if object is in inventory, false otherwise
      */
     public boolean checkIfObjectInInventory(String s) {
-        for(int i = 0; i<this.inventory.size();i++){
-            if(this.inventory.get(i).getName().equals(s)) return true;
+        for (int i = 0; i < this.inventory.size(); i++) {
+            if (this.inventory.get(i).getName().equals(s)) return true;
         }
         return false;
     }
@@ -79,10 +86,11 @@ public class Player implements Serializable {
      * @param s name of the object to drop
      */
     public void dropObject(String s) {
-        for(int i = 0; i<this.inventory.size();i++){
-            if(this.inventory.get(i).getName().equals(s)) {
+        for (int i = 0; i < this.inventory.size(); i++) {
+            if (this.inventory.get(i).getName().equals(s)) {
                 this.currentRoom.addGameObject(this.inventory.get(i));
                 this.inventory.remove(i);
+                break; // since this version supports duplications, we have to stop at 1 removal
             }
         }
     }
@@ -122,26 +130,57 @@ public class Player implements Serializable {
      */
     public ArrayList<String> getInventory() {
         ArrayList<String> objects = new ArrayList<>();
-        for(int i=0;i<this.inventory.size();i++){
-            objects.add(this.inventory.get(i).getName());
+        HashMap<String, Integer> count = new HashMap<>();
+        for (int i = 0; i < this.inventory.size(); i++) {
+            if (count.get(this.inventory.get(i).getName()) == null) {
+                count.put(this.inventory.get(i).getName(), 1);
+            } else {
+                count.put(this.inventory.get(i).getName(), count.get(this.inventory.get(i).getName()) + 1);
+            }
         }
+
+        for (String str : count.keySet()) {
+            if (count.get(str) > 1) {
+                objects.add(str + " x " + count.get(str));
+            } else {
+                objects.add(str);
+            }
+        }
+
         return objects;
     }
 
+
+    public void setHealthBar(BarView healthbar) {
+        this.healthBar = healthbar;
+    }
+
     // Setters and getters of health and strength attributes
-    public int getHealth(){
+    public int getHealth() {
         return this.currHealth;
     }
 
-    public int getStrength(){
+    public int getStrength() {
         return this.strength;
     }
 
-    public void changeHealth(int health){
+    public void changeHealthBar(int health) {
+        this.healthBar.change(health);
+    }
+
+    public void updateHealth(int health) {
         this.currHealth += health;
     }
 
-    public void changeStrength(int strength){
+    public void setStrengthBar(BarView strengthBar) {
+        this.strengthBar = strengthBar;
+    }
+
+    public void changeStrengthBar(int strength) {
+        this.strengthBar.change(strength);
+    }
+
+    public void updateStrength(int strength) {
         this.strength += strength;
     }
 

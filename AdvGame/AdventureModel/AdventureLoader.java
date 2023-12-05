@@ -1,8 +1,11 @@
 package AdventureModel;
 
+import AdventureModel.State.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Class AdventureLoader. Loads an adventure from files.
@@ -16,7 +19,8 @@ public class AdventureLoader {
      * Adventure Loader Constructor
      * __________________________
      * Initializes attributes
-     * @param game the game that is loaded
+     *
+     * @param game          the game that is loaded
      * @param directoryName the directory in which game files live
      */
     public AdventureLoader(AdventureGame game, String directoryName) {
@@ -24,9 +28,10 @@ public class AdventureLoader {
         this.adventureName = directoryName;
     }
 
-     /**
+    /**
      * Load game from directory
-      * @throws IOException if input or output exception has occurred.
+     *
+     * @throws IOException if input or output exception has occurred.
      */
     public void loadGame() throws IOException {
         parseRooms();
@@ -35,9 +40,10 @@ public class AdventureLoader {
         this.game.setHelpText(parseOtherFile("help"));
     }
 
-     /**
+    /**
      * Parse Rooms File
-      * @throws IOException if input or output exception has occured.
+     *
+     * @throws IOException if input or output exception has occured.
      */
     private void parseRooms() throws IOException {
 
@@ -89,42 +95,68 @@ public class AdventureLoader {
 
     }
 
-     /**
+    /**
      * Parse Objects File
      */
     public void parseObjects() throws IOException {
-
+        State token = new Token();
+        State invem = new InvincibleItem();
+        State halfem = new HalfDamageItem();
+        State luck = new LuckyItem();
         String objectFileName = this.adventureName + "/objects.txt";
         BufferedReader buff = new BufferedReader(new FileReader(objectFileName));
 
         while (buff.ready()) {
             String objectName = buff.readLine();
             String objectDescription = buff.readLine();
-            String objectLocation = buff.readLine();
+            String helptxt = buff.readLine();
+            String[] objectLocation = buff.readLine().split(","); // all locations
             String separator = buff.readLine();
             if (separator != null && !separator.isEmpty())
                 System.out.println("Formatting Error!");
-            int i = Integer.parseInt(objectLocation);
-            Room location = this.game.getRooms().get(i);
-            AdventureObject object = new AdventureObject(objectName, objectDescription, location);
-            location.addGameObject(object);
+            ArrayList<Room> locations = new ArrayList<>();
+
+            // Set rooms to objects and vice versa
+            AdventureObject object = new AdventureObject(objectName, objectDescription, locations, helptxt);
+            for (String str : objectLocation) {
+                int i = Integer.parseInt(str);
+                Room location = this.game.getRooms().get(i);
+                location.addGameObject(object);
+                locations.add(location);
+            }
+            if (objectLocation.length > 1) {
+                object.changeState(token);
+            }
+            // has half damage in description then half damage item
+            else if (objectDescription.contains("half damage")) {
+                object.changeState(halfem);
+            }
+            // is LUCK, then is the luck item
+            else if (objectName.equals("LUCK")) {
+                object.changeState(luck);
+            }
+            // Single then a invincible item
+            else {
+                object.changeState(invem);
+            }
         }
 
     }
 
-     /**
+    /**
      * Parse Synonyms File
-      * @throws IOException if input or output exception has occurred
+     *
+     * @throws IOException if input or output exception has occurred
      */
     public void parseSynonyms() throws IOException {
         String synonymsFileName = this.adventureName + "/synonyms.txt";
         BufferedReader buff = new BufferedReader(new FileReader(synonymsFileName));
         String line = buff.readLine();
-        while(line != null){
+        while (line != null) {
             String[] commandAndSynonym = line.split("=");
             String command1 = commandAndSynonym[0];
             String command2 = commandAndSynonym[1];
-            this.game.getSynonyms().put(command1,command2);
+            this.game.getSynonyms().put(command1, command2);
             line = buff.readLine();
         }
 
@@ -143,7 +175,7 @@ public class AdventureLoader {
         BufferedReader buff = new BufferedReader(new FileReader(fileName));
         String line = buff.readLine();
         while (line != null) { // while not EOF
-            text += line+"\n";
+            text += line + "\n";
             line = buff.readLine();
         }
         return text;
