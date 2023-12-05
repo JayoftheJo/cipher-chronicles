@@ -26,5 +26,6 @@
     </orderEntry>
     <orderEntry type="library" name="javafx" level="application" />
     <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

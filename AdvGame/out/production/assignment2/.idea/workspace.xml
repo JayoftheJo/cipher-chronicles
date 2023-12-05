@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c1152b2e-7e14-42a5-b774-b266a3b712a7" name="Changes" comment="resolved merge conflicts">
       <change beforePath="$PROJECT_DIR$/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/assignment2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment2/views/BossView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/BossView.java" beforeDir="false" afterPath="$PROJECT_DIR$/views/BossView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,8 +47,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "battle__system/2.11-accessbility-features",
-    "last_opened_file_path": "C:/Program Files/Java/javafx-sdk-21/lib/javafx.web.jar",
+    "git-widget-placeholder": "battle__system/2.11-accessibility-features",
+    "last_opened_file_path": "C:/Users/jaejo/Downloads/lib",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",

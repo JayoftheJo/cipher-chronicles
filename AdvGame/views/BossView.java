@@ -27,9 +27,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import views.bars.*;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,8 +55,7 @@ public class BossView extends AdventureGameView{
     Player finalPlayer;
     ImageView round_img_v, heal_img, attack_img, spec_img, instruct_img, music_img;
     Alert round, defeat_alert, victory_alert, intro_alert;
-    PauseTransition ability_pause;
-    private MediaPlayer mediaPlayer, abilityPlayer;
+    private MediaPlayer mediaPlayer, abilityPlayer, messagePlayer;
     Media ability_sound;
     boolean boss_helpToggle = false, play_music = true;
     int p_damage;
@@ -284,9 +285,15 @@ public class BossView extends AdventureGameView{
         String bgrnd_music = this.model.getDirectoryName() + "/sounds/" + "bgrnd_music.mp3";
         Media sound = new Media(new File(bgrnd_music).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setVolume(0.2);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the music to loop continuously
         mediaPlayer.play();
+
+        String intro_msg = this.model.getDirectoryName() + "/sounds/" + "intro_msg.wav";
+        Media msg = new Media(new File(intro_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
+
 
         close_buttons();
 
@@ -589,10 +596,18 @@ public class BossView extends AdventureGameView{
         mediaPlayer.stop();
 
         //cue the victory music
-        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
-        Media sound = new Media(new File(defeat_music).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        if (play_music){
+            String defeat_music = this.model.getDirectoryName() + "/sounds/" + "defeat_music.mp3";
+            Media sound = new Media(new File(defeat_music).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.2);
+            mediaPlayer.play();
+        }
+
+        String defeat_msg = this.model.getDirectoryName() + "/sounds/" + "defeat_msg.wav";
+        Media msg = new Media(new File(defeat_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "defeatBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -601,33 +616,27 @@ public class BossView extends AdventureGameView{
         this.gridPane.add(bossTroll.charImageview, 1, 1);
         GridPane.setHalignment(bossTroll.charImageview, HPos.RIGHT);
 
-        //Pause for alert
-        PauseTransition def_pause = new PauseTransition(Duration.seconds(3));
-        def_pause.setOnFinished(event -> {
-        });
-        def_pause.play();
-
         //Run the defeat message after the pause
-        Platform.runLater(() -> {
-                    defeat_alert = new Alert(Alert.AlertType.INFORMATION);
-                    ImageView defeat_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
-                    "defeatBoss.png"));
-                    defeat_img.setFitHeight(50);
-                    defeat_img.setPreserveRatio(true);
-                    defeat_alert.setGraphic(defeat_img);
-                    defeat_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-                    defeat_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
-                            "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
-                            "a warning to any who dare cross my path.");
-                    defeat_alert.getButtonTypes().clear();
-                    defeat_alert.getButtonTypes().addAll(ButtonType.OK);
-                    DialogPane dialogPane = defeat_alert.getDialogPane();
-                    dialogPane.setPrefWidth(600);
-                    dialogPane.setPrefHeight(200);
-                    defeat_alert.showAndWait();
-                });
 
+        defeat_alert = new Alert(Alert.AlertType.INFORMATION);
+        ImageView defeat_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "defeatBoss.png"));
+        defeat_img.setFitHeight(50);
+        defeat_img.setPreserveRatio(true);
+        defeat_alert.setGraphic(defeat_img);
+        defeat_alert.setHeaderText("YOU WERE NO MATCH FOR ME!");
+        defeat_alert.setContentText("Pathetic adventurer, you were no match for my strength. Your feeble attempts to " +
+                "challenge me have come to an end. This land shall remain under my dominion, and your defeat serves as " +
+                "a warning to any who dare cross my path.");
+        defeat_alert.getButtonTypes().clear();
+        defeat_alert.getButtonTypes().addAll(ButtonType.OK);
+        DialogPane dialogPane = defeat_alert.getDialogPane();
+        dialogPane.setPrefWidth(600);
+        dialogPane.setPrefHeight(200);
+        defeat_alert.showAndWait();
         if (defeat_alert.getResult() == ButtonType.OK || defeat_alert.getResult() == null){
+            mediaPlayer.stop();
+            messagePlayer.stop();
             Platform.exit();
         }
     }
@@ -641,10 +650,19 @@ public class BossView extends AdventureGameView{
         mediaPlayer.stop();
 
         //cue the victory music
-        String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
-        Media sound = new Media(new File(defeat_music).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        if (play_music){
+            String defeat_music = this.model.getDirectoryName() + "/sounds/" + "victory_music.mp3";
+            Media sound = new Media(new File(defeat_music).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.2);
+            mediaPlayer.play();
+        }
+
+        String victory_msg = this.model.getDirectoryName() + "/sounds/" + "victory_msg.wav";
+        Media msg = new Media(new File(victory_msg).toURI().toString());
+        messagePlayer = new MediaPlayer(msg);
+        messagePlayer.play();
+
         bossTroll.charImageview = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
                     "victoryBoss.png"));
         bossTroll.charImageview.setFitHeight(500);
@@ -652,32 +670,25 @@ public class BossView extends AdventureGameView{
         removeByCell(1, 1);
         this.gridPane.add(bossTroll.charImageview, 1, 1);
 
-        //Pause for the alert
-        PauseTransition victory_pause = new PauseTransition(Duration.seconds(3));
-        victory_pause.setOnFinished(event -> {
-        });
-        victory_pause.play();
-
         // Display victory message after the pause
-        Platform.runLater(() -> {
-                    victory_alert = new Alert(Alert.AlertType.INFORMATION);
-                    ImageView victory_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
-                            "victoryBoss.png"));
-                    victory_img.setFitHeight(50);
-                    victory_img.setPreserveRatio(true);
-                    victory_alert.setGraphic(victory_img);
-                    victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
-                    victory_alert.setContentText("You... you have proven your strength, adventurer. I underestimated " +
-                            "you. The lands are now yours to protect. May your journey be filled with victories.");
-                    victory_alert.getButtonTypes().clear();
-                    victory_alert.getButtonTypes().addAll(ButtonType.OK);
-                    DialogPane dialogPane = victory_alert.getDialogPane();
-                    dialogPane.setPrefWidth(600);
-                    dialogPane.setPrefHeight(200);
-                    victory_alert.showAndWait();
-                });
-
-        if (victory_alert.getResult() == ButtonType.OK || victory_alert.getResult() == null){
+        victory_alert = new Alert(Alert.AlertType.INFORMATION);
+        ImageView victory_img = new ImageView(new Image(this.model.getDirectoryName() + "/battleImages/" +
+                "victoryBoss.png"));
+        victory_img.setFitHeight(50);
+        victory_img.setPreserveRatio(true);
+        victory_alert.setGraphic(victory_img);
+        victory_alert.setHeaderText("I WILL GET YOU NEXT TIME!");
+        victory_alert.setContentText("You... you have proven your strength, adventurer. I underestimated " +
+                "you. The lands are now yours to protect. May your journey be filled with victories.");
+        victory_alert.getButtonTypes().clear();
+        victory_alert.getButtonTypes().addAll(ButtonType.OK);
+        DialogPane dialogPane = victory_alert.getDialogPane();
+        dialogPane.setPrefWidth(600);
+        dialogPane.setPrefHeight(200);
+        victory_alert.showAndWait();
+        if (victory_alert.getResult() == ButtonType.OK || victory_alert.getResult() == null) {
+            mediaPlayer.stop();
+            messagePlayer.stop();
             Platform.exit();
         }
     }
@@ -698,7 +709,7 @@ public class BossView extends AdventureGameView{
 
     private void customizeButton(Button inputButton) {
         inputButton.setPrefSize(200, 50);
-        inputButton.setFont(new Font("Arial", 16));
+        inputButton.setFont(new Font("Arial", 20));
         inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
     }
 
