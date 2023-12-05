@@ -27,16 +27,21 @@ public class HealthBarView implements BarView {
 
     private StackPane healthBar;
 
+    private Object view;
+
 
     /**
      * HealthBarView Constructor
      *
      * @param player the player playing the game
      */
-    public HealthBarView(Player player) {
+    public HealthBarView(Player player, Object view) {
 
         // set the player to access health and totalHealth from
         this.player = player;
+
+        // set the view
+        this.view = view;
 
         // Set the parts of the health bar
         // the back layer of the health bar gets the whole width
@@ -93,7 +98,9 @@ public class HealthBarView implements BarView {
             if (this.player.getHealth() + howMuch <= 0) {
                 onTop.setWidth(0);
                 this.player.updateHealth(-this.player.getHealth());
-
+                if (this.view instanceof AdventureGameView) {
+                    ((AdventureGameView) this.view).gameOver();
+                }
             }
             // Change the health bar according based on player's decreased health when within bounds
             else {
