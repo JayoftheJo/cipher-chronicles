@@ -24,3 +24,6 @@
 
    ```bash
    git clone https://github.com/yourusername/cipher-chronicles.git
+
+### Video Demo
+[![Cipher Chronicles Demo](https://img.youtube.com/vi/sNbbMTXhpOA/0.jpg)](https://www.youtube.com/watch?v=sNbbMTXhpOA)
